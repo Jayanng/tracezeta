@@ -1,0 +1,111 @@
+{
+  "name": "breaker-missing-params-after-fix",
+  "at": "2026-10-10T23:05:24.043Z",
+  "ok": true,
+  "trace": {
+    "traceId": "5e1562ef8ff85b0e221ee836adcc2fd9",
+    "spans": 6
+  },
+  "task": {
+    "name": "breaker-missing-params-after-fix",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD"
+        }
+      },
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "days": 7,
+          "startDate": "2026-10-11"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "missingparams",
+          "payload": {
+            "case": 3
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892383,
+        "fetchedAt": "2026-10-10T23:05:23.826Z"
+      },
+      "status": "OK",
+      "duration_ms": 19
+    },
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892383,
+        "fetchedAt": "2026-10-10T23:05:23.844Z"
+      },
+      "status": "OK",
+      "duration_ms": 18
+    },
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "days": 7,
+        "startDate": "2026-10-11"
+      },
+      "output": {
+        "startDate": "2026-10-11",
+        "days": 7,
+        "endDate": "2026-10-18"
+      },
+      "status": "OK",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "missingparams",
+        "payload": {
+          "case": 3
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-missingparams.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 1
+    }
+  ]
+}

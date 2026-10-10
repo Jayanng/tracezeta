@@ -1,0 +1,17 @@
+{
+  "startedAt": "2026-10-10T23:03:24.477Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": []
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 0,
+    "resolved": 0,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-10T23:03:25.940Z"
+}

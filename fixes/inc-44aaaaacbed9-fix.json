@@ -1,0 +1,29 @@
+{
+  "incidentId": "inc-44aaaaacbed9",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-44aaaaacbed9-diagnosis.json",
+  "proposedAt": "2026-10-10T23:05:25.507Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "read_record",
+      "original": {
+        "name": "doesnotexist"
+      },
+      "repaired": {
+        "name": "doesnotexist"
+      },
+      "notes": [
+        "no record named 'doesnotexist': step removed from the task (referenced state does not exist; no name invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}

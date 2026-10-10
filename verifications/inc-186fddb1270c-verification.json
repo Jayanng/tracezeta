@@ -1,0 +1,36 @@
+{
+  "incidentId": "inc-186fddb1270c",
+  "fixFile": null,
+  "verifiedAt": "2026-10-10T23:05:24.043Z",
+  "accepted": true,
+  "before": {
+    "traceId": "186fddb1270c36894a293312b71782c3",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-01-20-627Z-breaker-missing-params.json",
+    "failingSteps": [
+      "tool:compute_schedule"
+    ],
+    "passingSteps": [
+      "tool:get_exchange_rate",
+      "tool:get_exchange_rate",
+      "tool:save_record"
+    ]
+  },
+  "after": {
+    "traceId": "5e1562ef8ff85b0e221ee836adcc2fd9",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-05-24-043Z-breaker-missing-params-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": [
+      "tool:get_exchange_rate",
+      "tool:get_exchange_rate",
+      "tool:save_record"
+    ]
+  },
+  "verdict": "FIX_VERIFIED"
+}

@@ -32,36 +32,83 @@ function saveSeen(seen) {
 
 /**
  * One watch cycle: list recent traces, open incidents for new failures.
+ * Sources, deduped by traceId:
+ *   A. neatlogs traces list (live platform view — can lag or stall platform-side)
+ *   B. local run records (written by the target at run time, each linked to
+ *      its neatlogs trace by traceId) — covers platform list staleness
  * Returns { opened, skipped, errors }.
  */
 export async function watch() {
   const seen = loadSeen();
-  const list = await listTraces({ limit: 20 });
-  if (!list.ok) return { opened: [], errors: [`traces list failed: ${list.error}`] };
+  const list = await listTraces({ limit: 50 });
+  const platformTraces = list.ok ? list.traces : [];
+  if (!list.ok) {
+    // platform list unavailable: run records alone still drive the loop
+  }
+
+  // Index run records by traceId for enrichment
+  const runByTrace = new Map();
+  for (const r of listRuns()) {
+    if (r.run?.trace?.traceId) runByTrace.set(r.run.trace.traceId, r);
+  }
+
+  // Source B: run records with failures not yet seen (covers platform lag)
+  const candidates = [];
+  const seenIds = new Set(Object.keys(seen));
+  for (const [traceId, entry] of runByTrace) {
+    if (seenIds.has(traceId)) continue;
+    if (entry.run.ok === false) {
+      candidates.push({
+        traceId,
+        traceName: entry.run.name,
+        workflowName: entry.run.name,
+        ingestedAt: entry.run.at,
+        status: 'ERROR',
+        finalizationStatus: 'unknown (platform list not consulted for this trace)',
+      });
+    }
+  }
+  // Source A: platform traces (authoritative metadata when present)
+  for (const t of platformTraces) {
+    if (seenIds.has(t.traceId)) continue;
+    if (String(t.status).toUpperCase() === 'ERROR') {
+      if (!candidates.some((c) => c.traceId === t.traceId)) {
+        candidates.push({
+          traceId: t.traceId,
+          traceName: t.traceName,
+          workflowName: t.workflowName,
+          ingestedAt: t.ingestedAt,
+          status: t.status,
+          finalizationStatus: t.finalizationStatus,
+        });
+      }
+    }
+  }
 
   const opened = [];
   const skipped = [];
-  const errors = [];
+  const errors = list.ok ? [] : [`traces list failed: ${list.error}`];
 
-  for (const t of list.traces) {
-    const id = t.traceId;
-    if (seen[id]) continue;
+  for (const t of candidates) {
+    const runEntry = runByTrace.get(t.traceId) || null;
+    const run = runEntry ? runEntry.run : null;
+    opened.push(await openIncident(t, run, run ? 'run-record-failure' : 'trace-status-error'));
+    seen[t.traceId] = { at: new Date().toISOString(), status: t.status };
+  }
 
-    // A trace is a failure if its status is an error status or its run
-    // record says a step failed. Trace list 'status' is OK/ERROR-ish; the
-    // run record is authoritative for run outcome.
-    const runEntry = listRuns().find((r) => r.run?.trace?.traceId === id);
-    const runFailed = runEntry ? runEntry.run.ok === false : null;
-
-    if (t.status && String(t.status).toUpperCase() === 'ERROR') {
-      opened.push(await openIncident(t, runEntry?.run || null, 'trace-status-error'));
-    } else if (runFailed === true) {
-      opened.push(await openIncident(t, runEntry?.run || null, 'run-record-failure'));
-    } else {
-      // healthy (or unknown without a run record): mark seen, no incident
-      skipped.push(id);
+  // mark healthy platform traces seen too (no incident)
+  for (const t of platformTraces) {
+    if (!seen[t.traceId]) {
+      seen[t.traceId] = { at: new Date().toISOString(), status: t.status };
+      skipped.push(t.traceId);
     }
-    seen[id] = { at: new Date().toISOString(), status: t.status };
+  }
+  // mark healthy run records seen (no incident)
+  for (const [traceId, entry] of runByTrace) {
+    if (!seen[traceId] && entry.run.ok !== false) {
+      seen[traceId] = { at: new Date().toISOString(), status: 'OK' };
+      skipped.push(traceId);
+    }
   }
 
   saveSeen(seen);

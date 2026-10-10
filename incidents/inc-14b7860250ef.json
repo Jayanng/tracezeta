@@ -1,0 +1,41 @@
+{
+  "id": "inc-14b7860250ef",
+  "openedAt": "2026-10-10T23:05:20.173Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "14b7860250ef3940aecd023f52b924f7",
+    "traceName": "target-broken-run-1-after-fix",
+    "workflowName": "target-broken-run-1-after-fix",
+    "ingestedAt": "2026-10-10T22:57:23.570Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "startDate": "2026-13-45",
+        "days": 14
+      },
+      "error": "compute_schedule: invalid date",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:read_record",
+      "input": {
+        "name": "doesnotexist"
+      },
+      "error": "read_record: no record named 'doesnotexist'",
+      "duration_ms": 0
+    }
+  ],
+  "status": "resolved",
+  "resolvedAt": "2026-10-10T23:05:22.323Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-14b7860250ef-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-14b7860250ef-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-14b7860250ef-verification.json",
+    "afterTraceId": "130b4201eecfa52d442c6dae4225fe2b"
+  }
+}

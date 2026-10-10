@@ -1,0 +1,30 @@
+{
+  "incidentId": "inc-186fddb1270c",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-186fddb1270c-diagnosis.json",
+  "proposedAt": "2026-10-10T23:05:23.807Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "days": 7
+      },
+      "repaired": {
+        "days": 7,
+        "startDate": "2026-10-11"
+      },
+      "notes": [
+        "startDate 'undefined' -> '2026-10-11' (normalize to valid YYYY-MM-DD)"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}

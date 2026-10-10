@@ -1,0 +1,45 @@
+{
+  "incidentId": "inc-14b7860250ef",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-14b7860250ef-diagnosis.json",
+  "proposedAt": "2026-10-10T23:05:21.655Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "startDate": "2026-13-45",
+        "days": 14
+      },
+      "repaired": {
+        "startDate": "2026-12-31",
+        "days": 14
+      },
+      "notes": [
+        "startDate '2026-13-45' -> '2026-12-31' (normalize to valid YYYY-MM-DD)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "read_record",
+      "original": {
+        "name": "doesnotexist"
+      },
+      "repaired": {
+        "name": "doesnotexist"
+      },
+      "notes": [
+        "no record named 'doesnotexist': step removed from the task (referenced state does not exist; no name invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}
