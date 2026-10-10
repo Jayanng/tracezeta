@@ -11,51 +11,11 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { postTrace, recordRun } from '../neatlogs.js';
 
-const ROOT = dirname(fileURLToPath(import.meta.url));
-const RUNTIME = join(ROOT, '..', 'runtime');
+const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const RUNTIME = join(ROOT, 'runtime');
 if (!existsSync(RUNTIME)) mkdirSync(RUNTIME, { recursive: true });
-
-// ---------------------------------------------------------------------------
-// Tracing: the documented HTTP contract. One nested JSON trace per run.
-// ---------------------------------------------------------------------------
-
-const TRACE_ENDPOINT = 'https://ingest.neatlogs.com/v1/trace';
-
-function loadEnv() {
-  const envPath = join(ROOT, '..', '..', '.env');
-  if (!existsSync(envPath)) return {};
-  const out = {};
-  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
-    const m = line.match(/^([A-Z_]+)=(.*)$/);
-    if (m) out[m[1]] = m[2];
-  }
-  return out;
-}
-const ENV = loadEnv();
-
-async function sendTrace(trace) {
-  const body = JSON.stringify(trace);
-  try {
-    const res = await fetch(TRACE_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${ENV.NEATLOGS_WRITE_KEY}`,
-      },
-      body,
-    });
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || json.success !== true) {
-      console.error(`[trace] ingest failed: ${res.status}`, JSON.stringify(json));
-      return null;
-    }
-    return json.trace_id;
-  } catch (e) {
-    console.error('[trace] ingest error:', e.message);
-    return null;
-  }
-}
 
 // ---------------------------------------------------------------------------
 // REAL tools. Each does genuine work; each can genuinely fail.
@@ -158,11 +118,14 @@ const TOOL_SCHEMAS = {
  * The Breaker corrupts the spec (or the router) and watches the run fail.
  */
 async function runTask(task) {
+  const t0 = Date.now();
   const traceChildren = [];
+  const spans = [];
   let ok = true;
   const results = [];
 
   for (const step of task.steps || []) {
+    const s0 = Date.now();
     const child = {
       name: `tool:${step.tool}`,
       kind: 'TOOL',
@@ -182,20 +145,41 @@ async function runTask(task) {
       ok = false;
       results.push({ step: step.tool, ok: false, error: e.message });
     }
+    child.duration_ms = Date.now() - s0;
     traceChildren.push(child);
+    spans.push(child);
   }
 
+  // 1. Live monitoring: the neatlogs trace (root becomes WORKFLOW, children TOOL).
   const trace = {
     name: task.name || 'target-run',
     project: 'tracezeta',
     children: traceChildren,
   };
-  const traceId = await sendTrace(trace);
+  const t = await postTrace(trace);
 
-  return { ok, results, traceId };
+  // 2. Deep evidence: the run record, linked by traceId.
+  const run = {
+    name: task.name || 'target-run',
+    at: new Date().toISOString(),
+    ok,
+    trace: t.ok ? { traceId: t.traceId, spans: t.spans } : { error: t.error },
+    task,
+    spans,
+  };
+  const runFile = recordRun(run);
+
+  return {
+    ok,
+    results,
+    traceId: t.ok ? t.traceId : null,
+    traceError: t.ok ? null : t.error,
+    runFile,
+    durationMs: Date.now() - t0,
+  };
 }
 
-export { runTask, TOOLS, TOOL_SCHEMAS, ToolError, sendTrace };
+export { runTask, TOOLS, TOOL_SCHEMAS, ToolError };
 
 // Direct execution: node src/target/index.js <taskfile.json>
 if (process.argv[1] && process.argv[1].endsWith('index.js')) {

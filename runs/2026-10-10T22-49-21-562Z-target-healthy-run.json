@@ -1,0 +1,91 @@
+{
+  "name": "target-healthy-run",
+  "at": "2026-10-10T22:49:21.562Z",
+  "ok": true,
+  "trace": {
+    "traceId": "5cab00520255a48b3b5ed2b0234b0af6",
+    "spans": 5
+  },
+  "task": {
+    "name": "target-healthy-run",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "startDate": "2026-10-11",
+          "days": 14
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "healthy",
+          "payload": {
+            "note": "baseline",
+            "ts": "phase1"
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892383,
+        "fetchedAt": "2026-10-10T22:49:21.007Z"
+      },
+      "status": "OK",
+      "duration_ms": 105
+    },
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "startDate": "2026-10-11",
+        "days": 14
+      },
+      "output": {
+        "startDate": "2026-10-11",
+        "days": 14,
+        "endDate": "2026-10-25"
+      },
+      "status": "OK",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "healthy",
+        "payload": {
+          "note": "baseline",
+          "ts": "phase1"
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-healthy.json",
+        "bytes": 33
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}
