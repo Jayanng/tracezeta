@@ -42,5 +42,12 @@
       "duration_ms": 0
     }
   ],
-  "status": "open"
+  "status": "resolved",
+  "resolvedAt": "2026-10-10T23:00:54.230Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-6b4262f73c42-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-6b4262f73c42-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-6b4262f73c42-verification.json",
+    "afterTraceId": "8b5b0b221d490f1109a0299b204a5163"
+  }
 }

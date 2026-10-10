@@ -1,0 +1,35 @@
+{
+  "incidentId": "inc-9ee49d4ab3f1",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-9ee49d4ab3f1-diagnosis.json",
+  "proposedAt": "2026-10-10T23:00:55.752Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "save_record",
+      "original": {
+        "name": "bad name!",
+        "payload": {
+          "x": 1
+        }
+      },
+      "repaired": {
+        "name": "bad_name",
+        "payload": {
+          "x": 1
+        }
+      },
+      "notes": [
+        "name 'bad name!' -> 'bad_name' (sanitize to allowed charset)"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}

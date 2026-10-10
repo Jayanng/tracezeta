@@ -1,0 +1,89 @@
+{
+  "name": "target-broken-run-1-after-fix",
+  "at": "2026-10-10T23:00:54.228Z",
+  "ok": true,
+  "trace": {
+    "traceId": "8b5b0b221d490f1109a0299b204a5163",
+    "spans": 5
+  },
+  "task": {
+    "name": "target-broken-run-1-after-fix",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "startDate": "2026-12-31",
+          "days": 14
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "bad_name",
+          "payload": {
+            "x": 1
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892383,
+        "fetchedAt": "2026-10-10T23:00:53.659Z"
+      },
+      "status": "OK",
+      "duration_ms": 83
+    },
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "startDate": "2026-12-31",
+        "days": 14
+      },
+      "output": {
+        "startDate": "2026-12-31",
+        "days": 14,
+        "endDate": "2027-01-14"
+      },
+      "status": "OK",
+      "duration_ms": 1
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "bad_name",
+        "payload": {
+          "x": 1
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-bad_name.json",
+        "bytes": 7
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

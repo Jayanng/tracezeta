@@ -1,0 +1,51 @@
+{
+  "startedAt": "2026-10-10T23:00:50.349Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 1,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-6b4262f73c42",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-6b4262f73c42",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 3,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-9ee49d4ab3f1",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-9ee49d4ab3f1",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 2,
+    "resolved": 2,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-10T23:00:55.979Z"
+}
