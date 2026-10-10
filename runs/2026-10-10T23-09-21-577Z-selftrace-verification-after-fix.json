@@ -1,0 +1,39 @@
+{
+  "name": "selftrace-verification-after-fix",
+  "at": "2026-10-10T23:09:21.577Z",
+  "ok": true,
+  "trace": {
+    "traceId": "7592f2bc1e245b1cde9da51ac0905081",
+    "spans": 3
+  },
+  "task": {
+    "name": "selftrace-verification-after-fix",
+    "steps": [
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "startDate": "2026-10-11",
+          "days": 5
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "startDate": "2026-10-11",
+        "days": 5
+      },
+      "output": {
+        "startDate": "2026-10-11",
+        "days": 5,
+        "endDate": "2026-10-16"
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import { watch } from './sentinel.js';
 import { investigate } from './investigator.js';
 import { proposeFix } from './fixer.js';
 import { verify } from './verifier.js';
+import { traceStage, sentinelStage, investigatorStage, fixerStage, verifierStage } from './selftrace.js';
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const LOOP_DIR = join(ROOT, 'loop-runs');
@@ -47,6 +48,7 @@ export async function runLoop({ maxRounds = 2 } = {}) {
   // Stage 1: Sentinel watch
   const w = await watch();
   report.stages.push({ agent: 'sentinel', opened: w.opened.length, errors: w.errors });
+  await traceStage('sentinel-watch', sentinelStage(w));
 
   // Stage 2: for each open incident, Investigator -> Fixer -> Verifier
   const openIncidents = listIncidents('open');
@@ -69,6 +71,7 @@ export async function runLoop({ maxRounds = 2 } = {}) {
         verdict: diagnosis.verdict,
         rootCauses: diagnosis.rootCauses?.map((r) => r.id) || [],
       });
+      await traceStage(`investigate-${incident.id}`, investigatorStage(incident.id, diagnosis));
       if (diagnosis.verdict !== 'ROOT_CAUSE_IDENTIFIED') {
         escalations.push({ incident: incident.id, reason: `investigation ${diagnosis.verdict}` });
         unresolved++;
@@ -77,6 +80,7 @@ export async function runLoop({ maxRounds = 2 } = {}) {
 
       // Propose fix
       const fixResult = proposeFix(incident, diagnosis);
+      await traceStage(`propose-fix-${incident.id}`, fixerStage(fixResult));
       if (!fixResult.proposed) {
         escalations.push({ incident: incident.id, reason: `fixer refused: ${fixResult.reason}` });
         unresolved++;
@@ -92,6 +96,7 @@ export async function runLoop({ maxRounds = 2 } = {}) {
         beforeFailing: verification.before.failingSteps.length,
         afterFailing: verification.after.failingSteps.length,
       });
+      await traceStage(`verify-${incident.id}`, verifierStage(verification));
 
       if (verification.accepted) {
         accepted = true;

@@ -1,0 +1,28 @@
+{
+  "incidentId": "inc-0baf62493f95",
+  "fixFile": null,
+  "verifiedAt": "2026-10-10T23:09:21.578Z",
+  "accepted": true,
+  "before": {
+    "traceId": "0baf62493f9534e450833b463a53819a",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-09-06-463Z-selftrace-verification.json",
+    "failingSteps": [
+      "tool:compute_schedule"
+    ],
+    "passingSteps": []
+  },
+  "after": {
+    "traceId": "7592f2bc1e245b1cde9da51ac0905081",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-09-21-577Z-selftrace-verification-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": []
+  },
+  "verdict": "FIX_VERIFIED"
+}

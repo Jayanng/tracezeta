@@ -1,0 +1,35 @@
+{
+  "name": "selftrace-verification",
+  "at": "2026-10-10T23:09:06.462Z",
+  "ok": false,
+  "trace": {
+    "traceId": "0baf62493f9534e450833b463a53819a",
+    "spans": 3
+  },
+  "task": {
+    "name": "selftrace-verification",
+    "steps": [
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "startDate": "not-a-date",
+          "days": 5
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "startDate": "not-a-date",
+        "days": 5
+      },
+      "status": "ERROR",
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 1
+    }
+  ]
+}
