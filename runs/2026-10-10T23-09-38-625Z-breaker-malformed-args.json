@@ -1,0 +1,85 @@
+{
+  "name": "breaker-malformed-args",
+  "at": "2026-10-10T23:09:38.625Z",
+  "ok": false,
+  "trace": {
+    "traceId": "5da282cc1ddbf8f1e99fe174ad9f49a6",
+    "spans": 5
+  },
+  "task": {
+    "name": "breaker-malformed-args",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "startDate": "11/10/2026",
+          "days": "fourteen"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "malformed",
+          "payload": {
+            "case": 2
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892383,
+        "fetchedAt": "2026-10-10T23:09:38.428Z"
+      },
+      "status": "OK",
+      "duration_ms": 22
+    },
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "status": "ERROR",
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "malformed",
+        "payload": {
+          "case": 2
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-malformed.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 1
+    }
+  ]
+}

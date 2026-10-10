@@ -1,0 +1,70 @@
+{
+  "incidentId": "inc-9060af755ff9",
+  "at": "2026-10-10T23:12:46.558Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'fetch_currency_price' failed with a validation error on its input: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "fetch_currency_price"
+      ]
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "evidence": [
+        "span 'fetch_currency_price' called a tool that does not exist: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "fetch_currency_price"
+      ]
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "evidence": [
+        "span 'fetch_currency_price' failed against an external service: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "fetch_currency_price"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "fetch_currency_price",
+      "tool": "fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "error": "unknown tool 'fetch_currency_price'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-09-38-405Z-breaker-wrong-tool.json",
+    "traceMetadata": {
+      "traceId": "9060af755ff9ee8c55179b069305771f",
+      "traceName": "breaker-wrong-tool",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

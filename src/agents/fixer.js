@@ -182,11 +182,12 @@ export function proposeFix(incident, diagnosis) {
   for (const rc of diagnosis.rootCauses) {
     const strategy = STRATEGIES[rc.id];
     if (!strategy) continue;
-    const failingSpans = new Set(rc.spans || []);
+    // Span names arrive bare (projection) or 'tool:'-prefixed (run records);
+    // normalize to the step's tool name for matching.
+    const failingTools = new Set((rc.spans || []).map((s) => s.replace(/^tool:/, '')));
     for (const step of run.task?.steps || []) {
-      const spanName = `tool:${step.tool}`;
-      if (!failingSpans.has(spanName)) continue;
-      const spanError = (run.spans || []).find((s) => s.name === spanName)?.error;
+      if (!failingTools.has(step.tool)) continue;
+      const spanError = (run.spans || []).find((s) => s.name === `tool:${step.tool}` || s.name === step.tool)?.error;
       const r = strategy.repairStep(step, spanError, TOOL_SCHEMAS);
       if (r.fixes.length) {
         const repair = { tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable, remove: r.remove === true };

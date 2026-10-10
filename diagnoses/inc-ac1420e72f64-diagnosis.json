@@ -1,0 +1,60 @@
+{
+  "incidentId": "inc-ac1420e72f64",
+  "at": "2026-10-10T23:13:08.070Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:compute_schedule' failed with a validation error on its input: compute_schedule: startDate must be YYYY-MM-DD"
+      ],
+      "spans": [
+        "tool:compute_schedule"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "tool:compute_schedule",
+      "tool": "compute_schedule",
+      "input": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-12-57-577Z-breaker-malformed-args.json",
+    "traceMetadata": {
+      "traceId": "ac1420e72f64c3772ac8255670255ad9",
+      "traceName": "breaker-malformed-args",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

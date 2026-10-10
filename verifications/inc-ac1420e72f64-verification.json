@@ -1,0 +1,34 @@
+{
+  "incidentId": "inc-ac1420e72f64",
+  "fixFile": null,
+  "verifiedAt": "2026-10-10T23:13:08.675Z",
+  "accepted": true,
+  "before": {
+    "traceId": "ac1420e72f64c3772ac8255670255ad9",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-12-57-577Z-breaker-malformed-args.json",
+    "failingSteps": [
+      "tool:compute_schedule"
+    ],
+    "passingSteps": [
+      "tool:get_exchange_rate",
+      "tool:save_record"
+    ]
+  },
+  "after": {
+    "traceId": "844db6fbcc8758415760ca625301ddb2",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-13-08-674Z-breaker-malformed-args-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": [
+      "tool:get_exchange_rate",
+      "tool:save_record"
+    ]
+  },
+  "verdict": "FIX_VERIFIED"
+}

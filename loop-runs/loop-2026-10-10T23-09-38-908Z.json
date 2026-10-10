@@ -1,0 +1,63 @@
+{
+  "startedAt": "2026-10-10T23:09:38.908Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 3,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-23f651386305",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-23f651386305",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-5da282cc1ddb",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-5da282cc1ddb",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-9060af755ff9",
+      "round": 1,
+      "verdict": "INCONCLUSIVE",
+      "rootCauses": []
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 3,
+    "resolved": 2,
+    "unresolved": 1,
+    "escalations": [
+      {
+        "incident": "inc-9060af755ff9",
+        "reason": "investigation INCONCLUSIVE"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-10T23:09:48.174Z"
+}

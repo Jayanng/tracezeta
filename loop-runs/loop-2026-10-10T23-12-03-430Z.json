@@ -1,0 +1,33 @@
+{
+  "startedAt": "2026-10-10T23:12:03.430Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-9060af755ff9",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected",
+        "external-service-failure"
+      ]
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "escalations": [
+      {
+        "incident": "inc-9060af755ff9",
+        "reason": "fixer refused: no repair strategy matched the failing steps"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-10T23:12:09.432Z"
+}

@@ -108,6 +108,32 @@ export async function getTraceSpans(traceId) {
 // Run records: the deep evidence layer, linked to neatlogs by trace ID.
 // ---------------------------------------------------------------------------
 
+/** Raw spans (pre-projection previews: error text, input/output previews). */
+export async function getTraceRawSpans(traceId) {
+  const { execFile } = await import('node:child_process');
+  const env = { ...process.env };
+  delete env.NEATLOGS_API_KEY; delete env.NEATLOGS_TOKEN;
+  return new Promise((resolve) => {
+    execFile('neatlogs', [
+      '--host', 'https://app.neatlogs.com',
+      '--profile', 'setup-https---app-neatlogs-com',
+      '--credential-source', 'profile',
+      '--project', ENV.NEATLOGS_PROJECT_ID,
+      'api', 'get_api_v1_public_traces_traceId_raw_spans',
+      '--param', `traceId=${traceId}`,
+    ], { env, maxBuffer: 16 * 1024 * 1024 }, (err, stdout) => {
+      if (err) {
+        const raw = String(err.stdout || err.message || '');
+        return resolve({ ok: false, code: 'ERROR', error: raw.slice(0, 200) });
+      }
+      try {
+        const data = JSON.parse(stdout).data;
+        resolve({ ok: true, spans: data.rawSpans || data.spans || [] });
+      } catch (e) { resolve({ ok: false, code: 'ERROR', error: e.message }); }
+    });
+  });
+}
+
 export function recordRun(run) {
   if (!existsSync(RUNS_DIR)) mkdirSync(RUNS_DIR, { recursive: true });
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');

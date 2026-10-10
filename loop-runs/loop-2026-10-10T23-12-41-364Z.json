@@ -1,0 +1,36 @@
+{
+  "startedAt": "2026-10-10T23:12:41.364Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-9060af755ff9",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected",
+        "external-service-failure"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-9060af755ff9",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 1,
+    "resolved": 1,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-10T23:12:47.858Z"
+}

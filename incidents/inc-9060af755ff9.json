@@ -1,0 +1,33 @@
+{
+  "id": "inc-9060af755ff9",
+  "openedAt": "2026-10-10T23:09:40.700Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "9060af755ff9ee8c55179b069305771f",
+    "traceName": "breaker-wrong-tool",
+    "workflowName": "breaker-wrong-tool",
+    "ingestedAt": "2026-10-10T23:09:38.405Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "error": "unknown tool 'fetch_currency_price'",
+      "duration_ms": 0
+    }
+  ],
+  "status": "resolved",
+  "resolvedAt": "2026-10-10T23:12:47.858Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-9060af755ff9-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-9060af755ff9-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-9060af755ff9-verification.json",
+    "afterTraceId": "74ac2dc6ed00c31d0f44c2a5105b4334"
+  }
+}

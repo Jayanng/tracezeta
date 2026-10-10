@@ -13,7 +13,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getTraceSpans, RUNS_DIR } from '../neatlogs.js';
+import { getTraceSpans, getTraceRawSpans, RUNS_DIR } from '../neatlogs.js';
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const DIAGNOSES_DIR = join(ROOT, 'diagnoses');
@@ -28,6 +28,15 @@ function findRunRecord(traceId) {
     } catch { /* skip corrupt */ }
   }
   return null;
+}
+
+function findRunRecordValue(traceId) {
+  return findRunRecord(traceId)?.run || null;
+}
+
+function safeParse(preview) {
+  if (typeof preview !== 'string') return preview;
+  try { return JSON.parse(preview); } catch { return preview; }
 }
 
 /** Cite evidence precisely: source + what it shows. */
@@ -88,14 +97,38 @@ export async function investigate(incident) {
   const traceId = incident.trace.traceId;
   const citations = [];
 
-  // Evidence source 1: span projection (may be unavailable)
+  // Evidence source 1: span projection (may be unavailable) — structure only.
+  // The projection strips error text; raw-spans previews carry it. Merge both.
   const spansResult = await getTraceSpans(traceId);
   let projectionUsed = false;
-  if (spansResult.ok && Array.isArray(spansResult.spans)) {
+  if (spansResult.ok && Array.isArray(spansResult.spans) && spansResult.spans.length) {
     projectionUsed = true;
+    // Fetch raw previews for the error text / input output the projection omits.
+    // NOTE: projected spans use bare names, raw spans use 'tool:'-prefixed names —
+    // match on both keys.
+    const rawResult = await getTraceRawSpans(traceId);
+    const rawBySpan = new Map();
+    if (rawResult.ok) {
+      for (const rs of rawResult.spans) {
+        const key = rs.spanName || '';
+        rawBySpan.set(key, rs);
+        if (key.startsWith('tool:')) rawBySpan.set(key.slice(5), rs);
+      }
+    }
     for (const s of spansResult.spans) {
       if (String(s.status).toUpperCase() === 'ERROR') {
-        citations.push(cite({ ...s, name: s.spanName, tool_name: null, error: s.error || s.errorMessage, input: s.input }, 'neatlogs-span-projection'));
+        const raw = rawBySpan.get(s.spanName) || {};
+        const rawErr = raw?.error?.messagePreview ? String(raw.error.messagePreview) : '';
+        const rawInput = raw?.input?.preview ? safeParse(raw.input.preview) : undefined;
+        const runRecord = findRunRecordValue(traceId);
+        const runSpanError = runRecord ? (runRecord.spans || []).find((rs) => rs.name === s.spanName)?.error : undefined;
+        citations.push(cite({
+          ...s,
+          name: s.spanName,
+          tool_name: null,
+          error: rawErr || runSpanError || s.error || s.errorMessage || '(span marked ERROR; no error text available)',
+          input: rawInput ?? s.input,
+        }, rawErr ? 'neatlogs-raw-spans' : 'neatlogs-span-projection'));
       }
     }
   }

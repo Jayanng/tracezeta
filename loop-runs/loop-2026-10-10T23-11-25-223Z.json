@@ -1,0 +1,29 @@
+{
+  "startedAt": "2026-10-10T23:11:25.223Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-9060af755ff9",
+      "round": 1,
+      "verdict": "INCONCLUSIVE",
+      "rootCauses": []
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "escalations": [
+      {
+        "incident": "inc-9060af755ff9",
+        "reason": "investigation INCONCLUSIVE"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-10T23:11:30.689Z"
+}
