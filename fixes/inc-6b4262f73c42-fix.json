@@ -1,10 +1,26 @@
 {
   "incidentId": "inc-6b4262f73c42",
-  "proposedAt": "2026-10-10T22:56:49.629Z",
+  "proposedAt": "2026-10-10T22:59:13.749Z",
   "strategy": [
     "invalid-argument-value"
   ],
   "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "startDate": "2026-13-45",
+        "days": 14
+      },
+      "repaired": {
+        "startDate": "2026-12-31",
+        "days": 14
+      },
+      "notes": [
+        "startDate '2026-13-45' -> '2026-12-31' (normalize to valid YYYY-MM-DD)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
     {
       "tool": "read_record",
       "original": {
@@ -14,9 +30,10 @@
         "name": "doesnotexist"
       },
       "notes": [
-        "no record named 'doesnotexist': step requires manual review or removal (nothing invented)"
+        "no record named 'doesnotexist': step removed from the task (referenced state does not exist; no name invented)"
       ],
-      "actionable": true
+      "actionable": true,
+      "remove": true
     },
     {
       "tool": "save_record",
@@ -35,7 +52,8 @@
       "notes": [
         "name 'bad name!' -> 'bad_name' (sanitize to allowed charset)"
       ],
-      "actionable": true
+      "actionable": true,
+      "remove": false
     }
   ],
   "checkpoint": {

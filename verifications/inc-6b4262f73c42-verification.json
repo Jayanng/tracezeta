@@ -1,0 +1,34 @@
+{
+  "incidentId": "inc-6b4262f73c42",
+  "fixFile": null,
+  "verifiedAt": "2026-10-10T22:59:54.971Z",
+  "accepted": true,
+  "before": {
+    "traceId": "6b4262f73c421993ed4b28f12f29fcea",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T22-49-22-365Z-target-broken-run-1.json",
+    "failingSteps": [
+      "tool:compute_schedule",
+      "tool:read_record",
+      "tool:save_record"
+    ],
+    "passingSteps": [
+      "tool:get_exchange_rate"
+    ]
+  },
+  "after": {
+    "traceId": "1e113883d932b4fba0c846a94ec55bd7",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T22-59-54-970Z-target-broken-run-1-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": [
+      "tool:get_exchange_rate"
+    ]
+  },
+  "verdict": "FIX_VERIFIED"
+}

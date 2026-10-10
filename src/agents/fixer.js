@@ -65,11 +65,27 @@ const STRATEGIES = {
       const tool = step.tool;
       const args = { ...(step.args || {}) };
       const fixes = [];
+      let removed = false;
       if (tool === 'compute_schedule') {
-        // invalid date: normalize to a valid ISO date
-        if (typeof args.startDate === 'string' && !/^\d{4}-\d{2}-\d{2}$/.test(args.startDate)) {
-          const valid = '2026-10-11';
-          fixes.push(`startDate '${args.startDate}' -> '${valid}' (normalize to valid YYYY-MM-DD)`);
+        // invalid date: normalize to a valid ISO date. Two failure modes:
+        // (a) format fails the regex; (b) format passes but the date is
+        // semantically invalid (month 13, day 45) — both must be repaired.
+        const raw = args.startDate;
+        const looksIso = typeof raw === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw);
+        const parses = looksIso && !Number.isNaN(new Date(`${raw}T00:00:00Z`).getTime());
+        if (!parses) {
+          let valid;
+          if (looksIso) {
+            // clamp month to 1-12, day to the month's end
+            const [y, m, d] = raw.split('-').map(Number);
+            const mm = Math.min(12, Math.max(1, m));
+            const dim = new Date(Date.UTC(y, mm, 0)).getUTCDate();
+            const dd = Math.min(dim, Math.max(1, d));
+            valid = `${String(y).padStart(4, '0')}-${String(mm).padStart(2, '0')}-${String(dd).padStart(2, '0')}`;
+          } else {
+            valid = '2026-10-11';
+          }
+          fixes.push(`startDate '${raw}' -> '${valid}' (normalize to valid YYYY-MM-DD)`);
           args.startDate = valid;
         }
         if (!Number.isInteger(args.days) || args.days < 1 || args.days > 365) {
@@ -90,11 +106,15 @@ const STRATEGIES = {
         }
       }
       if (tool === 'read_record') {
-        // record does not exist: propose the step be dropped or the name
-        // corrected — needs the diagnosis context; conservative default:
-        fixes.push(`no record named '${args?.name}': step requires manual review or removal (nothing invented)`);
+        // record does not exist: the step references state that was never
+        // created. The evidence cannot determine a correct name — inventing
+        // one would be fabrication. The repair marks the step for removal
+        // from the task (the agent asked for data that does not exist).
+        const missing = args?.name;
+        fixes.push(`no record named '${missing}': step removed from the task (referenced state does not exist; no name invented)`);
+        removed = true;
       }
-      return { args, fixes, actionable: fixes.length > 0 };
+      return { args, fixes, actionable: fixes.length > 0, remove: removed };
     },
   },
   'missing-required-argument': {
@@ -139,7 +159,7 @@ export function proposeFix(incident, diagnosis) {
       const spanError = (run.spans || []).find((s) => s.name === spanName)?.error;
       const r = strategy.repairStep(step, spanError);
       if (r.fixes.length) {
-        repairs.push({ tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable });
+        repairs.push({ tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable, remove: r.remove === true });
       }
     }
   }
