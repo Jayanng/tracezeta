@@ -1,0 +1,46 @@
+{
+  "incidentId": "inc-6b4262f73c42",
+  "proposedAt": "2026-10-10T22:56:49.629Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "read_record",
+      "original": {
+        "name": "doesnotexist"
+      },
+      "repaired": {
+        "name": "doesnotexist"
+      },
+      "notes": [
+        "no record named 'doesnotexist': step requires manual review or removal (nothing invented)"
+      ],
+      "actionable": true
+    },
+    {
+      "tool": "save_record",
+      "original": {
+        "name": "bad name!",
+        "payload": {
+          "x": 1
+        }
+      },
+      "repaired": {
+        "name": "bad_name",
+        "payload": {
+          "x": 1
+        }
+      },
+      "notes": [
+        "name 'bad name!' -> 'bad_name' (sanitize to allowed charset)"
+      ],
+      "actionable": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": false
+}
