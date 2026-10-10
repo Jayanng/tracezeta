@@ -1,0 +1,11 @@
+{
+  "name": "tracezeta",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Agent team that finds why other agents failed, fixes them, and proves the fix",
+  "scripts": {
+    "start": "node src/target/index.js"
+  },
+  "engines": { "node": ">=22" }
+}
