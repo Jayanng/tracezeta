@@ -1,0 +1,89 @@
+{
+  "incidentId": "inc-6b4262f73c42",
+  "at": "2026-10-10T22:53:46.722Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:compute_schedule' failed with a validation error on its input: compute_schedule: invalid date",
+        "span 'tool:read_record' failed with a validation error on its input: read_record: no record named 'doesnotexist'",
+        "span 'tool:save_record' failed with a validation error on its input: save_record: name must be alphanumeric/underscore"
+      ],
+      "spans": [
+        "tool:compute_schedule",
+        "tool:read_record",
+        "tool:save_record"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "tool:compute_schedule",
+      "tool": "compute_schedule",
+      "input": {
+        "startDate": "2026-13-45",
+        "days": 14
+      },
+      "error": "compute_schedule: invalid date",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    },
+    {
+      "span": "tool:read_record",
+      "tool": "read_record",
+      "input": {
+        "name": "doesnotexist"
+      },
+      "error": "read_record: no record named 'doesnotexist'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    },
+    {
+      "span": "tool:save_record",
+      "tool": "save_record",
+      "input": {
+        "name": "bad name!",
+        "payload": {
+          "x": 1
+        }
+      },
+      "error": "save_record: name must be alphanumeric/underscore",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T22-49-22-365Z-target-broken-run-1.json",
+    "traceMetadata": {
+      "traceId": "6b4262f73c421993ed4b28f12f29fcea",
+      "traceName": "target-broken-run-1",
+      "status": "ERROR",
+      "finalizationStatus": "pending",
+      "source": "trace-metadata"
+    }
+  }
+}

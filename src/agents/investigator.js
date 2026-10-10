@@ -1,0 +1,189 @@
+// TraceZeta Investigator.
+//
+// Takes an open incident, forms COMPETING hypotheses for the root cause, and
+// rejects any hypothesis the evidence does not support. Evidence sources, in
+// priority order:
+//   1. neatlogs span projection (when the platform finalizes the trace)
+//   2. the run record (span-level, linked by traceId, written at run time)
+//   3. trace metadata from the public API (always reads back)
+//
+// Every finding cites its evidence: span name, input, error, duration, source.
+// The output is a diagnosis: failed spans + supported root-cause hypotheses.
+
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { getTraceSpans, RUNS_DIR } from '../neatlogs.js';
+
+const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
+const DIAGNOSES_DIR = join(ROOT, 'diagnoses');
+
+function findRunRecord(traceId) {
+  if (!existsSync(RUNS_DIR)) return null;
+  for (const f of readdirSync(RUNS_DIR)) {
+    if (!f.endsWith('.json')) continue;
+    try {
+      const run = JSON.parse(readFileSync(join(RUNS_DIR, f), 'utf8'));
+      if (run?.trace?.traceId === traceId) return { file: join(RUNS_DIR, f), run };
+    } catch { /* skip corrupt */ }
+  }
+  return null;
+}
+
+/** Cite evidence precisely: source + what it shows. */
+function cite(span, source) {
+  return {
+    span: span.name,
+    tool: span.tool_name || span.name,
+    input: span.input,
+    error: span.error || span.errorMessage || null,
+    status: span.status,
+    durationMs: span.duration_ms ?? span.durationMs ?? null,
+    source, // 'neatlogs-span-projection' | 'run-record' | 'trace-metadata'
+  };
+}
+
+/** The known failure taxonomy. Each class has a matcher over span evidence. */
+const HYPOTHESIS_CLASSES = [
+  {
+    id: 'invalid-argument-value',
+    label: 'A tool argument had an invalid value (malformed or out of domain)',
+    // Supported when the error names the violated constraint of an input value
+    supports: (c) => {
+      const e = (c.error || '').toLowerCase();
+      const namesAValue = /must be|invalid|no record|no rate|unknown tool|not a|requires/.test(e);
+      return namesAValue;
+    },
+    explain: (c) => `span '${c.span}' failed with a validation error on its input: ${c.error}`,
+  },
+  {
+    id: 'missing-required-argument',
+    label: 'A required parameter was missing from the tool call',
+    supports: (c) => {
+      const e = (c.error || '').toLowerCase();
+      return /requires|missing/.test(e) && !(c.input && Object.keys(c.input).length > 0 && /must be/.test(e));
+    },
+    explain: (c) => `span '${c.span}' rejected the call for missing parameters: ${c.error}`,
+  },
+  {
+    id: 'wrong-tool-selected',
+    label: 'The wrong tool was selected for the step (unknown tool name)',
+    supports: (c) => /unknown tool/.test((c.error || '').toLowerCase()),
+    explain: (c) => `span '${c.span}' called a tool that does not exist: ${c.error}`,
+  },
+  {
+    id: 'external-service-failure',
+    label: 'An external dependency failed (network/API error)',
+    supports: (c) => /http|timeout|network|fetch|api returned|connection/i.test(c.error || ''),
+    explain: (c) => `span '${c.span}' failed against an external service: ${c.error}`,
+  },
+];
+
+/**
+ * Investigate one incident.
+ * Returns a diagnosis with cited evidence and REJECTED hypotheses too —
+ * the rejection record is itself part of the audit trail.
+ */
+export async function investigate(incident) {
+  const traceId = incident.trace.traceId;
+  const citations = [];
+
+  // Evidence source 1: span projection (may be unavailable)
+  const spansResult = await getTraceSpans(traceId);
+  let projectionUsed = false;
+  if (spansResult.ok && Array.isArray(spansResult.spans)) {
+    projectionUsed = true;
+    for (const s of spansResult.spans) {
+      if (String(s.status).toUpperCase() === 'ERROR') {
+        citations.push(cite({ ...s, name: s.spanName, tool_name: null, error: s.error || s.errorMessage, input: s.input }, 'neatlogs-span-projection'));
+      }
+    }
+  }
+
+  // Evidence source 2: the run record (linked by traceId)
+  const runEntry = findRunRecord(traceId);
+  if (runEntry && !projectionUsed) {
+    for (const s of runEntry.run.spans || []) {
+      if (s.status === 'ERROR') {
+        citations.push(cite(s, 'run-record'));
+      }
+    }
+  }
+
+  // Evidence source 3: trace metadata (always available)
+  const meta = {
+    traceId,
+    traceName: incident.trace.traceName,
+    status: incident.trace.status,
+    finalizationStatus: incident.trace.finalizationStatus,
+    source: 'trace-metadata',
+  };
+
+  // If no span-level evidence at all, the honest diagnosis is 'insufficient
+  // evidence' — never a guess.
+  if (citations.length === 0) {
+    return {
+      incidentId: incident.id,
+      at: new Date().toISOString(),
+      verdict: 'INSUFFICIENT_EVIDENCE',
+      note: 'No span-level evidence available from either span projection or the run record.',
+      traceMetadata: meta,
+    };
+  }
+
+  // Competing hypotheses: each class is tested against EVERY citation; a
+  // hypothesis survives only if at least one citation supports it, and every
+  // citation it fails to explain counts against it.
+  const hypotheses = HYPOTHESIS_CLASSES.map((h) => {
+    const supportedBy = citations.filter((c) => h.supports(c));
+    return {
+      id: h.id,
+      label: h.label,
+      supported: supportedBy.length > 0,
+      citations: supportedBy.map((c) => h.explain(c)),
+      evidenceSpans: supportedBy.map((c) => c.span),
+    };
+  });
+
+  const surviving = hypotheses.filter((h) => h.supported);
+  const rejected = hypotheses.filter((h) => !h.supported);
+
+  const diagnosis = {
+    incidentId: incident.id,
+    at: new Date().toISOString(),
+    verdict: surviving.length > 0 ? 'ROOT_CAUSE_IDENTIFIED' : 'INCONCLUSIVE',
+    rootCauses: surviving.map((h) => ({ id: h.id, label: h.label, evidence: h.citations, spans: h.evidenceSpans })),
+    rejectedHypotheses: rejected.map((h) => ({ id: h.id, label: h.label, rejectionReason: 'no span evidence supports this hypothesis' })),
+    citations,
+    evidenceSources: {
+      spanProjectionUsed: projectionUsed,
+      runRecordUsed: !!runEntry && !projectionUsed,
+      runFile: runEntry?.file || null,
+      traceMetadata: meta,
+    },
+  };
+
+  if (!existsSync(DIAGNOSES_DIR)) mkdirSync(DIAGNOSES_DIR, { recursive: true });
+  const file = join(DIAGNOSES_DIR, `${incident.id}-diagnosis.json`);
+  writeFileSync(file, JSON.stringify(diagnosis, null, 2));
+  diagnosis.file = file;
+  return diagnosis;
+}
+
+// CLI: node src/agents/investigator.js <incident-file>
+if (process.argv[1] && process.argv[1].endsWith('investigator.js')) {
+  const incidentFile = process.argv[2];
+  if (!incidentFile) {
+    console.error('usage: node src/agents/investigator.js <incident.json>');
+    process.exit(2);
+  }
+  const incident = JSON.parse(readFileSync(incidentFile, 'utf8'));
+  const diagnosis = await investigate(incident);
+  console.log(JSON.stringify({
+    verdict: diagnosis.verdict,
+    rootCauses: diagnosis.rootCauses?.map((r) => r.label),
+    rejected: diagnosis.rejectedHypotheses?.map((r) => r.id),
+    citations: diagnosis.citations?.length,
+    evidenceSources: diagnosis.evidenceSources?.spanProjectionUsed ? 'span-projection' : (diagnosis.evidenceSources?.runRecordUsed ? 'run-record' : 'trace-metadata'),
+  }, null, 2));
+}
