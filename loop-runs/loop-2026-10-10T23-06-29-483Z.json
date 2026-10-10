@@ -1,0 +1,70 @@
+{
+  "startedAt": "2026-10-10T23:06:29.483Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 3,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-3a8aaa6367cc",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-3a8aaa6367cc",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-d63085c26609",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-d63085c26609",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-f35c5957f5b9",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected",
+        "external-service-failure"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-f35c5957f5b9",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 3,
+    "resolved": 3,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-10T23:06:36.665Z"
+}
