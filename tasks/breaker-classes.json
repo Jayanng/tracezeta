@@ -1,0 +1,43 @@
+{
+  "suite": "breaker-failure-classes",
+  "description": "Three real failure classes, engineered into otherwise-valid tasks",
+  "classes": [
+    {
+      "id": "wrong-tool-selected",
+      "description": "A step calls a tool that does not exist in the registry",
+      "task": {
+        "name": "breaker-wrong-tool",
+        "steps": [
+          {"tool": "get_exchange_rate", "args": {"base": "USD", "quote": "EUR"}},
+          {"tool": "fetch_currency_price", "args": {"base": "USD", "quote": "EUR"}},
+          {"tool": "save_record", "args": {"name": "wrongtool", "payload": {"case": 1}}}
+        ]
+      }
+    },
+    {
+      "id": "malformed-arguments",
+      "description": "A step passes arguments of the wrong type/shape",
+      "task": {
+        "name": "breaker-malformed-args",
+        "steps": [
+          {"tool": "get_exchange_rate", "args": {"base": "USD", "quote": "EUR"}},
+          {"tool": "compute_schedule", "args": {"startDate": "11/10/2026", "days": "fourteen"}},
+          {"tool": "save_record", "args": {"name": "malformed", "payload": {"case": 2}}}
+        ]
+      }
+    },
+    {
+      "id": "missing-required-parameters",
+      "description": "A step omits parameters the tool requires",
+      "task": {
+        "name": "breaker-missing-params",
+        "steps": [
+          {"tool": "get_exchange_rate", "args": {"base": "USD", "quote": "EUR"}},
+          {"tool": "get_exchange_rate", "args": {"base": "USD"}},
+          {"tool": "compute_schedule", "args": {"days": 7}},
+          {"tool": "save_record", "args": {"name": "missingparams", "payload": {"case": 3}}}
+        ]
+      }
+    }
+  ]
+}

@@ -61,6 +61,7 @@ export async function verify(incident, diagnosis, fixRecord) {
     if (repair.remove === true) {
       fixedTask.steps.splice(fixedTask.steps.indexOf(step), 1);
     } else {
+      if (repair.replaceToolWith) step.tool = repair.replaceToolWith; // wrong-tool fix
       step.args = repair.repaired;
     }
   }

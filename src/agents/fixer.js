@@ -13,6 +13,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { TOOL_SCHEMAS } from '../target/index.js';
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const FIXES_DIR = join(ROOT, 'fixes');
@@ -57,6 +58,35 @@ function entireCheckpoint(label) {
 // --- Fix strategies, keyed by root cause -----------------------------------
 
 const STRATEGIES = {
+  'wrong-tool-selected': {
+    describe: 'Replace the unknown tool with the registered tool matching the input shape',
+    repairStep: (step, spanError, tools) => {
+      const fixes = [];
+      const args = { ...(step.args || {}) };
+      let repairedTool = step.tool;
+      // Match the failed step's args against the registry's known schemas:
+      // exact key-set match wins; else the tool whose required params are all
+      // present. Never invents a tool; refuses when ambiguous.
+      const candidates = Object.entries(tools || {}).filter(([name]) => name !== step.tool);
+      const argKeys = Object.keys(args).sort().join(',');
+      const exact = candidates.filter(([name, schema]) => Object.keys(schema.params || {}).sort().join(',') === argKeys);
+      if (exact.length === 1) {
+        repairedTool = exact[0][0];
+        fixes.push(`tool '${step.tool}' -> '${repairedTool}' (exact argument-shape match in the registry)`);
+      } else if (exact.length === 0) {
+        const subset = candidates.filter(([name, schema]) => (schema.required || []).every((r) => r in args));
+        if (subset.length === 1) {
+          repairedTool = subset[0][0];
+          fixes.push(`tool '${step.tool}' -> '${repairedTool}' (required params satisfied; unique match)`);
+        } else {
+          fixes.push(`tool '${step.tool}': no unique registry match for its arguments; flagged for review (no tool invented)`);
+        }
+      } else {
+        fixes.push(`tool '${step.tool}': ambiguous matches (${exact.map((e) => e[0]).join(', ')}); flagged for review`);
+      }
+      return { tool: repairedTool, args, fixes, actionable: exact.length === 1 || exact.length === 0 };
+    },
+  },
   'invalid-argument-value': {
     describe: 'Repair the invalid argument values on the failing steps',
     repairStep: (step, spanError) => {
@@ -157,9 +187,11 @@ export function proposeFix(incident, diagnosis) {
       const spanName = `tool:${step.tool}`;
       if (!failingSpans.has(spanName)) continue;
       const spanError = (run.spans || []).find((s) => s.name === spanName)?.error;
-      const r = strategy.repairStep(step, spanError);
+      const r = strategy.repairStep(step, spanError, TOOL_SCHEMAS);
       if (r.fixes.length) {
-        repairs.push({ tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable, remove: r.remove === true });
+        const repair = { tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable, remove: r.remove === true };
+        if (r.tool && r.tool !== step.tool) repair.replaceToolWith = r.tool; // wrong-tool fix
+        repairs.push(repair);
       }
     }
   }

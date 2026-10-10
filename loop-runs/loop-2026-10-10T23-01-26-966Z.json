@@ -1,0 +1,33 @@
+{
+  "startedAt": "2026-10-10T23:01:26.966Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 1,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-e687aef12d0e",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected",
+        "external-service-failure"
+      ]
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 1,
+    "resolved": 0,
+    "unresolved": 1,
+    "escalations": [
+      {
+        "incident": "inc-e687aef12d0e",
+        "reason": "fixer refused: no repair strategy matched the failing steps"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-10T23:01:29.939Z"
+}
