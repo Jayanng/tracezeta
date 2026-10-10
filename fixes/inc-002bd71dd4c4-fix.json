@@ -1,0 +1,32 @@
+{
+  "incidentId": "inc-002bd71dd4c4",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-002bd71dd4c4-diagnosis.json",
+  "proposedAt": "2026-10-10T23:07:31.466Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "repaired": {
+        "startDate": "2026-10-11",
+        "days": 14
+      },
+      "notes": [
+        "startDate '11/10/2026' -> '2026-10-11' (normalize to valid YYYY-MM-DD)",
+        "days 'fourteen' -> 14 (clamp to integer 1-365)"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}

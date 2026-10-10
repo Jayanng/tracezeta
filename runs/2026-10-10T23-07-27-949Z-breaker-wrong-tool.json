@@ -1,0 +1,85 @@
+{
+  "name": "breaker-wrong-tool",
+  "at": "2026-10-10T23:07:27.949Z",
+  "ok": false,
+  "trace": {
+    "traceId": "f56d035ea57bee76042b3e735f7c0b97",
+    "spans": 5
+  },
+  "task": {
+    "name": "breaker-wrong-tool",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "fetch_currency_price",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "wrongtool",
+          "payload": {
+            "case": 1
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892383,
+        "fetchedAt": "2026-10-10T23:07:27.394Z"
+      },
+      "status": "OK",
+      "duration_ms": 118
+    },
+    {
+      "name": "tool:fetch_currency_price",
+      "kind": "TOOL",
+      "tool_name": "fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "status": "ERROR",
+      "error": "unknown tool 'fetch_currency_price'",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "wrongtool",
+        "payload": {
+          "case": 1
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-wrongtool.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

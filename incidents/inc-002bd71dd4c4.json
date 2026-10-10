@@ -1,0 +1,33 @@
+{
+  "id": "inc-002bd71dd4c4",
+  "openedAt": "2026-10-10T23:07:29.985Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "002bd71dd4c47cb90fbee684b260d408",
+    "traceName": "breaker-malformed-args",
+    "workflowName": "breaker-malformed-args",
+    "ingestedAt": "2026-10-10T23:07:28.176Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 0
+    }
+  ],
+  "status": "resolved",
+  "resolvedAt": "2026-10-10T23:07:32.136Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-002bd71dd4c4-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-002bd71dd4c4-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-002bd71dd4c4-verification.json",
+    "afterTraceId": "19c24ebde0e9a6d8b0c2fc9e787cef1f"
+  }
+}

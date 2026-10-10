@@ -1,0 +1,59 @@
+{
+  "incidentId": "inc-74d1f1ac95e0",
+  "at": "2026-10-10T23:07:33.661Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:compute_schedule' failed with a validation error on its input: compute_schedule: startDate must be YYYY-MM-DD"
+      ],
+      "spans": [
+        "tool:compute_schedule"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "tool:compute_schedule",
+      "tool": "compute_schedule",
+      "input": {
+        "days": 7
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "status": "ERROR",
+      "durationMs": 1,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-10T23-07-28-424Z-breaker-missing-params.json",
+    "traceMetadata": {
+      "traceId": "74d1f1ac95e068e8f41cc410cf5c0867",
+      "traceName": "breaker-missing-params",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

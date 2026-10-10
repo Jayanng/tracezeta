@@ -1,0 +1,34 @@
+{
+  "incidentId": "inc-f56d035ea57b",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-f56d035ea57b-diagnosis.json",
+  "proposedAt": "2026-10-10T23:07:35.388Z",
+  "strategy": [
+    "invalid-argument-value",
+    "wrong-tool-selected",
+    "external-service-failure"
+  ],
+  "repairs": [
+    {
+      "tool": "fetch_currency_price",
+      "original": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "repaired": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "notes": [
+        "tool 'fetch_currency_price' -> 'get_exchange_rate' (exact argument-shape match in the registry)"
+      ],
+      "actionable": true,
+      "remove": false,
+      "replaceToolWith": "get_exchange_rate"
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}

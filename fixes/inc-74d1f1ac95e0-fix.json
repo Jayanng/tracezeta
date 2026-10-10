@@ -1,0 +1,30 @@
+{
+  "incidentId": "inc-74d1f1ac95e0",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-74d1f1ac95e0-diagnosis.json",
+  "proposedAt": "2026-10-10T23:07:33.664Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "days": 7
+      },
+      "repaired": {
+        "days": 7,
+        "startDate": "2026-10-11"
+      },
+      "notes": [
+        "startDate 'undefined' -> '2026-10-11' (normalize to valid YYYY-MM-DD)"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "spawnSync entire ENOENT"
+  },
+  "applied": true
+}
