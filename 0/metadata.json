@@ -1,0 +1,71 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4MWB087Y3Y742RDQKAZKQYR",
+  "session_id": "242cde14-e49b-4aba-9ff0-b2bd2821aac4",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T07:02:52.078778222Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "1b8b2076e6f2",
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T07:02:52.074328209Z",
+    "agent_lines": 20,
+    "agent_removed": 7,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 20,
+    "total_lines_changed": 27,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 4124,
+      "user_lines_removed": 5,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-11149202cd8b-diagnosis.json": 126,
+        "diagnoses/inc-2dd29e2eabc6-diagnosis.json": 110,
+        "diagnoses/inc-6614797804c9-diagnosis.json": 108,
+        "fixes/inc-11149202cd8b-fix.json": 87,
+        "fixes/inc-2dd29e2eabc6-fix.json": 71,
+        "fixes/inc-6614797804c9-fix.json": 72,
+        "incidents/.sentinel-seen.json": 40,
+        "incidents/inc-11149202cd8b.json": 64,
+        "incidents/inc-2dd29e2eabc6.json": 56,
+        "incidents/inc-6614797804c9.json": 56,
+        "loop-runs/loop-2026-10-11T06-10-41-651Z.json": 58,
+        "runs/2026-10-11T06-10-12-317Z-b2b-healthy-run.json": 303,
+        "runs/2026-10-11T06-10-32-851Z-b2b-broken-run.json": 142,
+        "runs/2026-10-11T06-11-17-714Z-b2b-broken-run-after-fix.json": 152,
+        "runs/2026-10-11T06-12-09-629Z-b2b-broken-run-after-fix.json": 176,
+        "runs/2026-10-11T06-14-06-603Z-b2b-broken-run-after-fix.json": 310,
+        "runs/2026-10-11T06-15-40-022Z-b2b-broken-run-after-fix.json": 310,
+        "runs/2026-10-11T06-17-15-417Z-b2b-broken-run-after-fix.json": 310,
+        "runs/2026-10-11T06-17-51-832Z-b2b-broken-run-after-fix-after-fix.json": 272,
+        "runs/2026-10-11T06-18-48-221Z-b2b-broken-run-after-fix-after-fix.json": 272,
+        "runs/2026-10-11T06-19-29-401Z-b2b-broken-run-after-fix-after-fix.json": 272,
+        "runs/2026-10-11T06-20-00-785Z-b2b-broken-run-after-fix-after-fix.json": 272,
+        "scripts/crust-key-server.py": 86,
+        "src/agents/fixer.js": 50,
+        "src/crustdata.js": 225,
+        "src/target-errors.js": 5,
+        "src/target/index.js": 6,
+        "verifications/inc-11149202cd8b-verification.json": 37,
+        "verifications/inc-2dd29e2eabc6-verification.json": 38,
+        "verifications/inc-6614797804c9-verification.json": 38
+      },
+      "user_removed_per_file": {
+        "src/target/index.js": 5
+      }
+    }
+  ]
+}
