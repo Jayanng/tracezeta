@@ -1,0 +1,39 @@
+{
+  "name": "checkpoint-hook-test",
+  "at": "2026-10-11T05:45:34.678Z",
+  "ok": false,
+  "trace": {
+    "traceId": "2f53ff2c5c5137a6ae38c20efc8d3a8f",
+    "spans": 3
+  },
+  "task": {
+    "name": "checkpoint-hook-test",
+    "steps": [
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "bad*name",
+          "payload": {
+            "t": 1
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "bad*name",
+        "payload": {
+          "t": 1
+        }
+      },
+      "status": "ERROR",
+      "error": "save_record: name must be alphanumeric/underscore",
+      "duration_ms": 1
+    }
+  ]
+}

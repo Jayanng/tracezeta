@@ -1,0 +1,35 @@
+{
+  "id": "inc-2f53ff2c5c51",
+  "openedAt": "2026-10-11T05:45:37.169Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "2f53ff2c5c5137a6ae38c20efc8d3a8f",
+    "traceName": "checkpoint-hook-test",
+    "workflowName": "checkpoint-hook-test",
+    "ingestedAt": "2026-10-11T05:45:34.678Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:save_record",
+      "input": {
+        "name": "bad*name",
+        "payload": {
+          "t": 1
+        }
+      },
+      "error": "save_record: name must be alphanumeric/underscore",
+      "duration_ms": 1
+    }
+  ],
+  "status": "resolved",
+  "resolvedAt": "2026-10-11T05:46:29.894Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-2f53ff2c5c51-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-2f53ff2c5c51-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-2f53ff2c5c51-verification.json",
+    "afterTraceId": "934fa6207d63479a3301e3d2d3018523"
+  }
+}

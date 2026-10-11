@@ -1,0 +1,36 @@
+{
+  "incidentId": "inc-2f53ff2c5c51",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-2f53ff2c5c51-diagnosis.json",
+  "proposedAt": "2026-10-11T05:46:28.975Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "save_record",
+      "original": {
+        "name": "bad*name",
+        "payload": {
+          "t": 1
+        }
+      },
+      "repaired": {
+        "name": "bad_name",
+        "payload": {
+          "t": 1
+        }
+      },
+      "notes": [
+        "name 'bad*name' -> 'bad_name' (sanitize to allowed charset)"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4MQZ388YX5CFZZEPBBESQVP",
+    "raw": "  branch       main\n  checkpoints  3\n\n● 01M4MQZ388YX5CFZZEPBBESQVP  \"Create the file /home/ubuntu/tracezeta/fixes/inc-2f53ff2c...\"\n  10-11 13:46 (d5733bf) Entire pre-fix anchor: tracezeta-pre-fix-inc-2f53ff2c5c51 (inc-2f53ff2c5c51)\n\n● 9ff2fe8a-f5f  [temporary]  carry forward: uncommitted session fil"
+  },
+  "applied": true
+}

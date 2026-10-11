@@ -1,0 +1,62 @@
+{
+  "incidentId": "inc-2f53ff2c5c51",
+  "at": "2026-10-11T05:45:39.295Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:save_record' failed with a validation error on its input: save_record: name must be alphanumeric/underscore"
+      ],
+      "spans": [
+        "tool:save_record"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "tool:save_record",
+      "tool": "save_record",
+      "input": {
+        "name": "bad*name",
+        "payload": {
+          "t": 1
+        }
+      },
+      "error": "save_record: name must be alphanumeric/underscore",
+      "status": "ERROR",
+      "durationMs": 1,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T05-45-34-679Z-checkpoint-hook-test.json",
+    "traceMetadata": {
+      "traceId": "2f53ff2c5c5137a6ae38c20efc8d3a8f",
+      "traceName": "checkpoint-hook-test",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

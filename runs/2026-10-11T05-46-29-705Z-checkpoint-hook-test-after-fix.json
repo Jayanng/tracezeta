@@ -1,0 +1,42 @@
+{
+  "name": "checkpoint-hook-test-after-fix",
+  "at": "2026-10-11T05:46:29.704Z",
+  "ok": true,
+  "trace": {
+    "traceId": "934fa6207d63479a3301e3d2d3018523",
+    "spans": 3
+  },
+  "task": {
+    "name": "checkpoint-hook-test-after-fix",
+    "steps": [
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "bad_name",
+          "payload": {
+            "t": 1
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "bad_name",
+        "payload": {
+          "t": 1
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-bad_name.json",
+        "bytes": 7
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

@@ -36,20 +36,32 @@ function findRunRecordPath(traceId, runFileHint) {
 }
 
 // --- Entire checkpoint integration -----------------------------------------
-// Entire CLI captures a checkpoint of the repo state. If the CLI is absent
-// or fails, the fix records checkpoint: null with the reason — honest, never
-// faked.
-function entireCheckpoint(label) {
+// Entire checkpoints are captured by: (agent session makes a real change) +
+// (git commit). We proved this path works with the first checkpoint
+// (01M4MQF7PK22KAERTY8FMJGNSQ: agy session -> package.json change -> commit).
+// The Fixer's pre-fix anchor: run a real agy session that stages the repair
+// description into the repo (a real file, a real session), then commit it —
+// the checkpoint is the rollback anchor before the fix is applied.
+// If agy or git is unavailable, the fix records checkpoint: null with the
+// reason — honest, never faked.
+function entireCheckpoint(label, incidentId) {
   try {
-    const out = execFileSync('entire', ['checkpoint', 'create', '--label', label, '--json'], {
-      cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+    // 1. Real agent session: agy writes the repair plan file (its own reasoning, recorded)
+    const planFile = join(ROOT, 'fixes', `${incidentId}-repair-plan.md`);
+    const prompt = `Create the file ${planFile} with a one-line heading 'Repair plan for ${incidentId}: ${label}' and nothing else. Make only that change.`;
+    execFileSync('agy', ['-p', prompt], {
+      cwd: ROOT, timeout: 120000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
     });
-    try {
-      const d = JSON.parse(out);
-      return { ok: true, id: d.id || d.checkpointId || d.checkpoint_id || null, raw: out.slice(0, 400) };
-    } catch {
-      return { ok: true, id: null, raw: out.slice(0, 400) };
-    }
+    // 2. Commit it: the checkpoint anchor is born (session + commit)
+    execFileSync('git', ['add', planFile], { cwd: ROOT, encoding: 'utf8' });
+    execFileSync('git', ['commit', '-m', `Entire pre-fix anchor: ${label} (${incidentId})`], { cwd: ROOT, encoding: 'utf8' });
+    // 3. Read the checkpoint this just created
+    const out = execFileSync('entire', ['checkpoint', 'list'], {
+      cwd: ROOT, timeout: 30000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, ENTIRE_TOKEN_STORE: 'file', PATH: process.env.PATH },
+    });
+    const m = out.match(/●\s+([0-9A-Z]{20,})/);
+    return { ok: true, id: m ? m[1] : null, raw: out.slice(0, 300) };
   } catch (e) {
     return { ok: false, reason: String(e.message || e).slice(0, 200) };
   }
@@ -200,7 +212,7 @@ export function proposeFix(incident, diagnosis) {
   if (!repairs.length) return { proposed: false, reason: 'no repair strategy matched the failing steps' };
 
   // Entire checkpoint BEFORE the fix (rollback anchor)
-  const checkpoint = entireCheckpoint(`tracezeta-pre-fix-${incident.id}`);
+  const checkpoint = entireCheckpoint(`tracezeta-pre-fix-${incident.id}`, incident.id);
 
   const fix = {
     incidentId: incident.id,
