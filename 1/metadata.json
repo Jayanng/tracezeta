@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NACRF22KYN4MK9Y11BT1TS",
+  "session_id": "7f406c76-5993-4a23-8635-b92f23e43a70",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T11:08:29.763246798Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "runs/2026-10-11T10-21-42-519Z-b2b-healthy-run.json",
+    "src/agents/classifier.js",
+    "src/agents/gate.js",
+    "src/agents/sandbox.js",
+    "src/agents/source-flow.js"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "1fab49268a84",
+  "checkpoint_transcript_start": 3,
+  "transcript_lines_at_start": 3,
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T11:08:29.751966989Z",
+    "agent_lines": 942,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 942,
+    "total_lines_changed": 942,
+    "agent_percentage": 100,
+    "metric_version": 2
+  }
+}

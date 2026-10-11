@@ -3,7 +3,7 @@
   "checkpoint_id": "01M4NACRF22KYN4MK9Y11BT1TS",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "runs/2026-10-11T10-21-42-519Z-b2b-healthy-run.json",
     "src/agents/classifier.js",
@@ -16,6 +16,12 @@
       "metadata": "/0/metadata.json",
       "transcript": "/0/full.jsonl",
       "content_hash": "/0/content_hash.txt",
+      "prompt": ""
+    },
+    {
+      "metadata": "/1/metadata.json",
+      "transcript": "/1/full.jsonl",
+      "content_hash": "/1/content_hash.txt",
       "prompt": ""
     }
   ]
