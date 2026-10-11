@@ -6,7 +6,8 @@
   "description": "Agent team that finds why other agents failed, fixes them, and proves the fix",
   "scripts": {
     "start": "node src/target/index.js",
-    "demo": "bash scripts/demo-full-loop.sh"
+    "demo": "bash scripts/demo-full-loop.sh",
+    "test": "node --test test/smoke.test.js"
   },
   "engines": {
     "node": ">=22"

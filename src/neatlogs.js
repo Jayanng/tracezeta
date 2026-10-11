@@ -149,6 +149,13 @@ export function listRuns() {
     .sort()
     .map((f) => {
       const p = join(RUNS_DIR, f);
-      return { file: p, mtime: statSync(p).mtimeMs, run: JSON.parse(readFileSync(p, 'utf8')) };
-    });
+      try {
+        return { file: p, mtime: statSync(p).mtimeMs, run: JSON.parse(readFileSync(p, 'utf8')) };
+      } catch {
+        // one malformed/partially-written record must not crash the Sentinel
+        // or the Orchestrator; skip it and let the caller notice the gap
+        return null;
+      }
+    })
+    .filter(Boolean);
 }

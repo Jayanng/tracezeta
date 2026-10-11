@@ -92,7 +92,7 @@ export async function watch() {
   for (const t of candidates) {
     const runEntry = runByTrace.get(t.traceId) || null;
     const run = runEntry ? runEntry.run : null;
-    opened.push(await openIncident(t, run, run ? 'run-record-failure' : 'trace-status-error'));
+    opened.push(await openIncident(t, run, run ? 'run-record-failure' : 'trace-status-error', runEntry ? runEntry.file : null));
     seen[t.traceId] = { at: new Date().toISOString(), status: t.status };
   }
 
@@ -115,7 +115,7 @@ export async function watch() {
   return { opened, skipped, errors };
 }
 
-async function openIncident(traceMeta, run, reason) {
+async function openIncident(traceMeta, run, reason, runFilePath = null) {
   if (!existsSync(INCIDENTS_DIR)) mkdirSync(INCIDENTS_DIR, { recursive: true });
   const id = `inc-${traceMeta.traceId.slice(0, 12)}`;
   const failedSteps = run
@@ -140,20 +140,13 @@ async function openIncident(traceMeta, run, reason) {
       finalizationStatus: traceMeta.finalizationStatus,
       totalTokens: traceMeta.totalTokens,
     },
-    runFile: run ? null : null, // filled by caller with the run record path
+    runFile: runFilePath || (run ? run.runFile : null), // the run record path, for the diagnosis chain
     failedSteps,
     status: 'open',
   };
   const file = join(INCIDENTS_DIR, `${id}.json`);
   writeFileSync(file, JSON.stringify(incident, null, 2));
   return { id, file, failedSteps: failedSteps.length, traceId: traceMeta.traceId };
-}
-
-/** Attempt span-level read; returns null when the platform can't project. */
-export async function tryReadSpans(traceId) {
-  const r = await getTraceSpans(traceId);
-  if (r.ok) return r.spans;
-  return null; // DLQ / pending / error: run record is the evidence
 }
 
 // CLI: node src/agents/sentinel.js

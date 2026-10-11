@@ -13,8 +13,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { postTrace, recordRun } from '../neatlogs.js';
 import { CRUST_TOOLS, CRUST_SCHEMAS } from '../crustdata.js';
-export { ToolError } from '../target-errors.js';
 import { ToolError } from '../target-errors.js';
+export { ToolError };
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const RUNTIME = join(ROOT, 'runtime');
@@ -53,8 +53,10 @@ function saveRecord({ name, payload } = {}) {
 
 /** Reads back what save_record wrote — wrong names fail. */
 function readRecord({ name } = {}) {
-  if (!name || typeof name !== 'string') {
-    throw new ToolError('read_record requires a string name');
+  // same name guard as save_record: without it, '../..' in the name escapes
+  // RUNTIME and reads any .json on the box (e.g. credentials files)
+  if (!name || typeof name !== 'string' || /[^a-z0-9_-]/i.test(name)) {
+    throw new ToolError('read_record: name must be alphanumeric/underscore');
   }
   const file = join(RUNTIME, `record-${name}.json`);
   if (!existsSync(file)) throw new ToolError(`read_record: no record named '${name}'`);
@@ -70,7 +72,11 @@ function computeSchedule({ startDate, days } = {}) {
     throw new ToolError('compute_schedule: days must be an integer 1-365');
   }
   const d = new Date(`${startDate}T00:00:00Z`);
-  if (Number.isNaN(d.getTime())) throw new ToolError('compute_schedule: invalid date');
+  // round-trip check: Date rolls 2026-02-31 over to March silently; a real
+  // calendar date must parse back to itself
+  if (Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== startDate) {
+    throw new ToolError('compute_schedule: invalid date');
+  }
   d.setUTCDate(d.getUTCDate() + days);
   return { startDate, days, endDate: d.toISOString().slice(0, 10) };
 }

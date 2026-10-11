@@ -27,6 +27,9 @@ const HOME = '/home/ubuntu';
 const SANDBOX_USER = 'tracezeta-fix';
 
 // The judging apparatus: never readable, never writable by a repair session.
+// Also protected: the anti-reward-hacking gate and its classifiers (the repair
+// agent must not be able to read the checks its patch will face), the repair
+// flow's own orchestration, and the secrets (.env) and history (.git).
 export const PROTECTED_SET = [
   join(ROOT, 'src/agents/verifier.js'),
   join(ROOT, 'src/agents/investigator.js'),
@@ -34,8 +37,13 @@ export const PROTECTED_SET = [
   join(ROOT, 'src/agents/sentinel.js'),
   join(ROOT, 'src/agents/orchestrator.js'),
   join(ROOT, 'src/agents/fixer.js'),
+  join(ROOT, 'src/agents/gate.js'),
+  join(ROOT, 'src/agents/classifier.js'),
+  join(ROOT, 'src/agents/source-flow.js'),
   join(ROOT, 'src/agents/source-repair.js'),
   join(ROOT, 'src/agents/sandbox.js'),
+  join(ROOT, '.env'),
+  join(ROOT, '.git'),
 ];
 
 function sh(cmd, args) {
@@ -113,7 +121,21 @@ export function verifyBoundary(targetFile) {
     } catch { /* denied = correct */ }
     if (violated) results.protectedBlocked.push({ file: p, violation: true });
   }
-  const sound = results.grantedWritable === true && results.protectedBlocked.length === 0;
+  // READ probes too: the repair agent must not read the gate, the secrets,
+  // or the history (a write-only probe misses read leaks)
+  results.protectedReadable = [];
+  for (const p of PROTECTED_SET) {
+    if (!existsSync(p)) continue;
+    try {
+      execFileSync('sudo', ['-u', SANDBOX_USER, '--', 'head', '-c', '16', p], {
+        encoding: 'utf8', timeout: 10000, stdio: ['ignore', 'pipe', 'pipe'],
+      });
+      results.protectedReadable.push({ file: p, violation: true }); // read succeeded = leak
+    } catch { /* denied = correct */ }
+  }
+  const sound = results.grantedWritable === true
+    && results.protectedBlocked.length === 0
+    && results.protectedReadable.length === 0;
   return { sound, ...results };
 }
 
@@ -134,17 +156,23 @@ export function snapshot(filePath) {
   return existsSync(filePath) ? readFileSync(filePath, 'utf8') : null;
 }
 
-/** Line-level change count between snapshot and current content. */
+/** Line-level change count between snapshot and current content.
+ *  Multiset difference (position-independent): an insertion at the top of the
+ *  file counts as ONE change, not one per shifted line. */
 export function diffVsSnapshot(filePath, before) {
   const after = snapshot(filePath);
   if (before === null && after === null) return 0;
   if (before === null || after === null) return -1; // created/deleted (refuse)
-  const bl = before.split('\n');
-  const al = after.split('\n');
-  let changes = 0;
-  const max = Math.max(bl.length, al.length);
-  for (let i = 0; i < max; i++) {
-    if (bl[i] !== al[i]) changes++;
-  }
-  return changes;
+  const count = (lines) => {
+    const m = new Map();
+    for (const l of lines) m.set(l, (m.get(l) || 0) + 1);
+    return m;
+  };
+  const bm = count(before.split('\n'));
+  const am = count(after.split('\n'));
+  let removed = 0;
+  for (const [l, n] of bm) removed += Math.max(0, n - (am.get(l) || 0));
+  let added = 0;
+  for (const [l, n] of am) added += Math.max(0, n - (bm.get(l) || 0));
+  return added + removed;
 }

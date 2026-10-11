@@ -20,8 +20,9 @@ Breaker       engineers real failures into a traced target agent
 Sentinel      watches the traces, opens incidents
 Investigator  forms competing hypotheses, REJECTS any the spans don't support,
               consults memory: "have we seen this before? what fixed it?"
-Fixer         proposes the smallest possible repair — a task-spec edit,
-              or a sandboxed patch to the source code itself
+Fixer         proposes the smallest possible repair — a task-spec edit;
+              when the failure is a defect in our own source code, a separate
+              self-repair cycle (the Medic) takes over: sandbox, gate, review
 Verifier      re-runs the target, diffs before/after spans, red-teams the fix
 Gate          a source patch must prove it did NOT silence errors to pass
 Orchestrator  accepts, iterates, or escalates — honest exit codes
@@ -41,7 +42,10 @@ Every stage's output is a durable JSON artifact citing its evidence:
 
 ## The self-repair cycle (the part that matters)
 
-When a failing step's root cause is a defect in **our own code**, not the task:
+When a failing step's root cause is a defect in **our own code**, not the task,
+the loop refuses to paper over it and escalates. That escalation hands off to
+the Medic, the dedicated self-repair cycle run separately, with its own gate
+and its own review:
 
 1. **Classify** — three tests: schema-valid args, the tool never succeeded, and the
    error reproduces on a live re-probe. Flaky failures are correctly refused.
@@ -115,7 +119,9 @@ Built and stress-tested with cfo.ai's AI CFO on measured operating data —
 **https://app.cfo.ai/s/vjF416MqG4tyZXkN** (view-only, no account needed):
 
 - 86 agent runs, 335 live tool spans, 122 real failures, 143 incidents,
-  0.131 Crustdata credits per API call — measured, cited, verifiable in this repo
+  0.131 Crustdata credits per API call — measured at plan time from the linked
+  neatlogs project's trace history and this repo's artifacts (the repo keeps
+  the latest run records and incident files; neatlogs holds the full history)
 - COGS per fix-cycle: $0.08 base ($0.025–$0.20 range) from component costs,
   labeled "estimated actuals: measured credits, estimated dollars"
 - Runway survives doubled churn and 2.5× cycle cost, with the thin-margin
@@ -133,8 +139,9 @@ Built and stress-tested with cfo.ai's AI CFO on measured operating data —
    sentinel-watch, investigate, propose-fix, verify. Every run record in `runs/`
    carries its real ingest trace ID. The trace-level memory search runs against
    this project's history before every diagnosis.
-2. **Entire** — repo `Jayanng/tracezeta` connected; 35 checkpoints (one per fix
-   cycle, git-refs backend). First checkpoint:
+2. **Entire** — repo `Jayanng/tracezeta` connected; checkpoints throughout the
+   build (one per fix cycle, git-refs backend, count grows with every cycle).
+   First checkpoint:
    `01M4MQF7PK22KAERTY8FMJGNSQ` (session `9e3acb52-a6f2-4740-aeb1-0671ba7181c8`,
    commit `1fcefb4`, Antigravity session, 19.1k tokens, AI summary generated).
    Git ref on GitHub:

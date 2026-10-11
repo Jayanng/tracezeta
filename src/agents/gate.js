@@ -17,9 +17,10 @@
 // The gate runs OUTSIDE the sandbox, as the owner, against a live target.
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, writeFileSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { runStep as runProbe } from './probe-run.js';
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 
@@ -29,34 +30,10 @@ function sh(cmd, args, opts = {}) {
 
 /**
  * Run ONE tool step against the CURRENT code (no patch state changes).
- * Returns { status: 'OK' | 'ERROR', error }.
+ * Returns { status: 'OK' | 'ERROR', error }. Shared with the source flow
+ * (probe-run.js) so the probe contract has exactly one implementation.
  */
-async function runStep(step) {
-  // dynamic import busts the module cache only per process; we run a fresh
-  // node process so patched code is actually loaded
-  const probeFile = join(ROOT, 'runtime', 'gate-probe.mjs');
-  if (!existsSync(join(ROOT, 'runtime'))) mkdirSync(join(ROOT, 'runtime'), { recursive: true });
-  writeFileSync(probeFile, `
-import { CRUST_TOOLS } from '${join(ROOT, 'src/crustdata.js').replace(/\\/g, '/')}';
-import { TOOLS as T2 } from '${join(ROOT, 'src/target/index.js').replace(/\\/g, '/')}';
-const ALL = { ...CRUST_TOOLS, ...T2 };
-const step = ${JSON.stringify(step)};
-try {
-  const fn = ALL[step.tool];
-  if (!fn) { console.log(JSON.stringify({ status: 'ERROR', error: 'unknown tool ' + step.tool })); process.exit(0); }
-  const out = await fn(step.args);
-  console.log(JSON.stringify({ status: 'OK', output: out }));
-} catch (e) {
-  console.log(JSON.stringify({ status: 'ERROR', error: e.message }));
-}
-`);
-  try {
-    const out = sh('node', [probeFile], { timeout: 90000 });
-    return JSON.parse(out.trim().split('\n').pop());
-  } catch (e) {
-    return { status: 'ERROR', error: String(e.message || e).slice(0, 200) };
-  }
-}
+const runStep = (step) => runProbe(step, 'gate-probe.mjs');
 
 /**
  * The full gate. Parameters:
@@ -75,7 +52,13 @@ export async function runGate({ targetFile, failingStep, knownBadSteps = [], hea
   try {
     diffStat = sh('git', ['diff', '--numstat', targetFile]);
   } catch { /* no git diff available */ }
-  if (diffStat.trim()) {
+  if (!diffStat.trim()) {
+    // an empty diff is not a pass: a "fix" that changed nothing proves nothing
+    record.checks.boundedDiff = { changed: 0, max: maxChangedLines, pass: false };
+    record.rejection = 'no change made to the target file';
+    return record;
+  }
+  {
     const [add, del] = diffStat.trim().split('\t').map(Number);
     const changed = (add || 0) + (del || 0);
     record.checks.boundedDiff = { changed, max: maxChangedLines, pass: changed <= maxChangedLines };
@@ -119,7 +102,7 @@ export async function runGate({ targetFile, failingStep, knownBadSteps = [], hea
 
   const badResults = [];
   for (const s of knownBadSteps) {
-    const before = (await withStashedPatch(() => runStep(s)));
+    const before = (await withStashedPatch(targetFile, () => runStep(s)));
     const after = await runStep(s);
     badResults.push({ step: s, before: before.status, after: after.status });
   }
@@ -157,9 +140,11 @@ export async function runGate({ targetFile, failingStep, knownBadSteps = [], hea
   return record;
 }
 
-/** Run fn with the patch temporarily stashed (original code on disk). */
-async function withStashedPatch(fn) {
-  sh('git', ['stash', 'push']);
+/** Run fn with the patch temporarily stashed (original code on disk).
+ *  Scoped to the target file only: stashing the whole tree would also stash
+ *  unrelated work and pop it back in the wrong order. */
+async function withStashedPatch(targetFile, fn) {
+  sh('git', ['stash', 'push', '--', targetFile]);
   try {
     return await fn();
   } finally {

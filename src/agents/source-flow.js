@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { grantSingleFileWrite, verifyBoundary, snapshot, diffVsSnapshot, PROTECTED_SET } from './sandbox.js';
 import { runGate, recordProposal } from './gate.js';
 import { classifyCodeDefects, withReproduction } from './classifier.js';
+import { runStep as runProbe } from './probe-run.js';
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const RECORDS_DIR = join(ROOT, 'fixes', 'source-repairs');
@@ -35,30 +36,8 @@ function toolSourceFile(tool) {
   return null;
 }
 
-/** One live step probe (same contract the gate uses). */
-async function runStep(step) {
-  const probeFile = join(ROOT, 'runtime', 'flow-probe.mjs');
-  writeFileSync(probeFile, `
-import { CRUST_TOOLS } from '${join(ROOT, 'src/crustdata.js').replace(/\\/g, '/')}';
-import { TOOLS as T2 } from '${join(ROOT, 'src/target/index.js').replace(/\\/g, '/')}';
-const ALL = { ...CRUST_TOOLS, ...T2 };
-const step = ${JSON.stringify(step)};
-try {
-  const fn = ALL[step.tool];
-  if (!fn) { console.log(JSON.stringify({ status: 'ERROR', error: 'unknown tool ' + step.tool })); process.exit(0); }
-  const out = await fn(step.args);
-  console.log(JSON.stringify({ status: 'OK', output: out }));
-} catch (e) {
-  console.log(JSON.stringify({ status: 'ERROR', error: e.message }));
-}
-`);
-  try {
-    const out = execFileSync('node', [probeFile], { encoding: 'utf8', timeout: 90000 });
-    return JSON.parse(out.trim().split('\n').pop());
-  } catch (e) {
-    return { status: 'ERROR', error: String(e.message || e).slice(0, 200) };
-  }
-}
+/** One live step probe (shared contract with the gate: probe-run.js). */
+const runStep = (step) => runProbe(step, 'flow-probe.mjs');
 
 /** Known-bad probe inputs per tool (must ALWAYS fail — the error oracle). */
 function knownBadStepsFor(tool, failingArgs) {

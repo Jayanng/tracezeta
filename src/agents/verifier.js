@@ -16,22 +16,6 @@ const VERIFICATIONS_DIR = join(ROOT, 'verifications');
 
 function readJson(p) { return JSON.parse(readFileSync(p, 'utf8')); }
 
-/** Apply repairs to a copy of the failing task; returns the fixed task. */
-function applyFixes(task, repairs) {
-  const fixed = JSON.parse(JSON.stringify(task));
-  const byTool = new Map();
-  // Match repairs to steps in order (a tool may appear multiple times)
-  for (const step of fixed.steps) {
-    const repair = repairs.find((r, i) => r.tool === step.tool && !byTool.has(`${i}:${step.tool}`));
-    if (!repair) continue;
-    if (repair.actionable !== false && repair.repaired && Object.keys(repair.repaired).length) {
-      Object.assign(step.args, repair.repaired);
-      byTool.set(`used:${repair.tool}:${repair.original ? JSON.stringify(repair.original) : ''}`, true);
-    }
-  }
-  return fixed;
-}
-
 /**
  * Verify a fix end to end.
  * @param incident   the incident record
@@ -86,7 +70,13 @@ export async function verify(incident, diagnosis, fixRecord) {
 
   // 2. Re-run the target with the fixed task (real run, new trace, new record)
   const after = await runTask(fixedTask);
-  const afterSpans = after.spans || [];
+  // the after spans live in the after run RECORD (runTask returns no spans
+  // field) — read them the same way the before spans were read, otherwise
+  // every comparison below degenerates on an empty array
+  let afterSpans = [];
+  try {
+    if (after.runFile) afterSpans = readJson(after.runFile).spans || [];
+  } catch { afterSpans = []; }
   const failingAfter = afterSpans.filter((s) => s.status === 'ERROR').map((s) => s.name);
   const passingAfter = afterSpans.filter((s) => s.status === 'OK').map((s) => s.name);
 

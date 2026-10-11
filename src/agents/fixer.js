@@ -46,11 +46,19 @@ function findRunRecordPath(traceId, runFileHint) {
 // the checkpoint is the rollback anchor before the fix is applied.
 // If agy or git is unavailable, the fix records checkpoint: null with the
 // reason — honest, never faked.
-function entireCheckpoint(label, incidentId) {
+function entireCheckpoint(label, incidentId, planSummary = '') {
   try {
-    // 1. Real agent session: agy writes the repair plan file (its own reasoning, recorded)
+    // 1. Real agent session: agy writes the repair plan file into the repo
+    // (a real file, a real session). The plan content is the ACTUAL repair
+    // plan (root causes + strategies), not a marker line.
     const planFile = join(ROOT, 'fixes', `${incidentId}-repair-plan.md`);
-    const prompt = `Create the file ${planFile} with a one-line heading 'Repair plan for ${incidentId}: ${label}' and nothing else. Make only that change.`;
+    const content = [
+      `# Repair plan for ${incidentId}: ${label}`,
+      '',
+      planSummary || '(no repair strategy recorded)',
+      '',
+    ].join('\n');
+    const prompt = `Create the file ${planFile} with exactly this content and nothing else:\n${content}`;
     execFileSync('agy', ['-p', prompt], {
       cwd: ROOT, timeout: 120000, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
     });
@@ -82,6 +90,19 @@ function isValidDomain(v) {
 // --- Fix strategies, keyed by root cause -----------------------------------
 
 const STRATEGIES = {
+  'external-service-failure': {
+    // A network timeout / 5xx / rate limit is neither a code defect nor a
+    // task defect. The honest repair is RETRY: re-run the same call unchanged
+    // and resolve only if the re-run passes. Never rewrite the task around an
+    // outage, never invent a substitute result.
+    describe: 'Retry the call unchanged; external failures resolve by re-run, not by rewriting the task',
+    repairStep: (step) => ({
+      args: { ...(step.args || {}) },
+      fixes: ['external service failure (network/timeout/HTTP): task and code are correct; retried unchanged — resolves only if the re-run passes'],
+      actionable: true,
+      remove: false,
+    }),
+  },
   'entity-not-found': {
     describe: 'Remove steps referencing entities the data source has no record of',
     repairStep: (step) => {
@@ -137,24 +158,32 @@ const STRATEGIES = {
         const looksIso = typeof raw === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw);
         const parses = looksIso && !Number.isNaN(new Date(`${raw}T00:00:00Z`).getTime());
         if (!parses) {
-          let valid;
           if (looksIso) {
-            // clamp month to 1-12, day to the month's end
+            // clamp month to 1-12, day to the month's end (derivable)
             const [y, m, d] = raw.split('-').map(Number);
             const mm = Math.min(12, Math.max(1, m));
             const dim = new Date(Date.UTC(y, mm, 0)).getUTCDate();
             const dd = Math.min(dim, Math.max(1, d));
-            valid = `${String(y).padStart(4, '0')}-${String(mm).padStart(2, '0')}-${String(dd).padStart(2, '0')}`;
+            const valid = `${String(y).padStart(4, '0')}-${String(mm).padStart(2, '0')}-${String(dd).padStart(2, '0')}`;
+            fixes.push(`startDate '${raw}' -> '${valid}' (clamp to valid YYYY-MM-DD)`);
+            args.startDate = valid;
           } else {
-            valid = '2026-10-11';
+            // a non-ISO date is ambiguous ('11/10/2026' is day-first or
+            // month-first) — no date is derivable, so never invent one
+            fixes.push(`startDate ${JSON.stringify(raw)}: not derivable; step removed (no date invented)`);
+            removed = true;
           }
-          fixes.push(`startDate '${raw}' -> '${valid}' (normalize to valid YYYY-MM-DD)`);
-          args.startDate = valid;
         }
         if (!Number.isInteger(args.days) || args.days < 1 || args.days > 365) {
-          const valid = Math.min(365, Math.max(1, parseInt(args.days, 10) || 14));
-          fixes.push(`days '${args.days}' -> ${valid} (clamp to integer 1-365)`);
-          args.days = valid;
+          const parsed = Number.parseInt(args.days, 10);
+          if (Number.isInteger(parsed) && parsed >= 1) {
+            const valid = Math.min(365, parsed);
+            fixes.push(`days '${args.days}' -> ${valid} (clamp to integer 1-365)`);
+            args.days = valid;
+          } else {
+            fixes.push(`days ${JSON.stringify(args.days)}: not derivable; step removed (no duration invented)`);
+            removed = true;
+          }
         }
       }
       if (tool === 'save_record') {
@@ -164,8 +193,10 @@ const STRATEGIES = {
           args.name = valid;
         }
         if (!args.payload || typeof args.payload !== 'object') {
-          fixes.push('payload missing/not object -> {} placeholder flagged for review');
-          args.payload = args.payload || {};
+          // no payload content is derivable from evidence; a placeholder
+          // record would be invented data. Remove the step instead.
+          fixes.push('payload missing/not object: step removed (no placeholder invented)');
+          removed = true;
         }
       }
       // --- B2B (Crustdata) tools: query / domain / limit / text repair rules ---
@@ -210,9 +241,15 @@ const STRATEGIES = {
       // limit clamping applies to every B2B tool with a limit
       if (['company_search', 'person_search', 'job_search', 'social_post_search'].includes(tool)
           && args.limit !== undefined && (!Number.isInteger(args.limit) || args.limit < 1 || args.limit > 25)) {
-        const valid = Math.min(25, Math.max(1, parseInt(args.limit, 10) || 5));
-        fixes.push(`limit '${args.limit}' -> ${valid} (clamp to integer 1-25)`);
-        args.limit = valid;
+        const parsed = Number.parseInt(args.limit, 10);
+        if (Number.isInteger(parsed) && parsed >= 1) {
+          const valid = Math.min(25, parsed);
+          fixes.push(`limit '${args.limit}' -> ${valid} (clamp to integer 1-25)`);
+          args.limit = valid;
+        } else {
+          fixes.push(`limit ${JSON.stringify(args.limit)}: not derivable; step removed (no limit invented)`);
+          removed = true;
+        }
       }
       if (tool === 'read_record') {
         // record does not exist: the step references state that was never
@@ -227,21 +264,26 @@ const STRATEGIES = {
     },
   },
   'missing-required-argument': {
-    describe: 'Add the missing required parameters',
+    describe: 'Remove the step whose required parameters cannot be derived',
     repairStep: (step, spanError) => {
       const args = { ...(step.args || {}) };
       const fixes = [];
-      // Only add params we can derive from the error; never guess values.
-      if (typeof spanError === 'string') {
-        const m = spanError.match(/requires(?: string)? params? ([a-z]+)/i);
-        if (m && !args[m[1]]) {
-          fixes.push(`param '${m[1]}' missing — cannot be derived from evidence; flagged for review (no value invented)`);
-        }
-      }
-      return { args, fixes, actionable: false };
+      // Only ever add params we can derive from the evidence; never guess.
+      // A missing required param cannot be derived from an error message, so
+      // the honest repair is to remove the step (same class as an un-derivable
+      // query) — never a placeholder value, never an advisory that re-runs a
+      // task guaranteed to fail again.
+      const m = typeof spanError === 'string'
+        ? spanError.match(/requires(?: string)? params? ([a-z]+)/i) : null;
+      const missing = m ? m[1] : 'unknown';
+      fixes.push(`param '${missing}' missing — not derivable from evidence; step removed (no value invented)`);
+      return { args, fixes, actionable: true, remove: true };
     },
   },
 };
+
+// exported for the test suite: the no-invention contract is asserted directly
+export { STRATEGIES };
 
 /**
  * Propose a fix for an incident's diagnosis. Returns the fix record; nothing
@@ -297,7 +339,11 @@ export function proposeFix(incident, diagnosis) {
   if (!repairs.length) return { proposed: false, reason: 'no repair strategy matched the failing steps' };
 
   // Entire checkpoint BEFORE the fix (rollback anchor)
-  const checkpoint = entireCheckpoint(`tracezeta-pre-fix-${incident.id}`, incident.id);
+  const planSummary = [
+    `Root causes: ${diagnosis.rootCauses.map((r) => r.id).join(', ')}`,
+    ...repairs.map((r) => `- ${r.tool}: ${r.remove ? 'step removed' : (r.notes || []).join('; ') || 'args repaired'}`),
+  ].join('\n');
+  const checkpoint = entireCheckpoint(`tracezeta-pre-fix-${incident.id}`, incident.id, planSummary);
 
   const fix = {
     incidentId: incident.id,

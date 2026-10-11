@@ -64,7 +64,10 @@ const HYPOTHESIS_CLASSES = [
     // Supported when the error names the violated constraint of an input value
     supports: (c) => {
       const e = (c.error || '').toLowerCase();
-      const namesAValue = /must be|invalid|no record|no rate|unknown tool|not a|requires/.test(e);
+      // exclusive matchers: 'unknown tool' -> wrong-tool-selected, 'requires'
+      // -> missing-required-argument, 'no record named' -> entity-not-found.
+      // Overlaps here produced duplicate, contradictory root causes.
+      const namesAValue = /must be|invalid|no rate|not a/.test(e);
       return namesAValue;
     },
     explain: (c) => `span '${c.span}' failed with a validation error on its input: ${c.error}`,
@@ -138,7 +141,10 @@ export async function investigate(incident) {
           tool_name: null,
           error: rawErr || runSpanError || s.error || s.errorMessage || '(span marked ERROR; no error text available)',
           input: rawInput ?? s.input,
-        }, rawErr ? 'neatlogs-raw-spans' : 'neatlogs-span-projection'));
+        }, rawErr ? 'neatlogs-raw-spans'
+          : runSpanError ? 'run-record'
+          : (s.error || s.errorMessage) ? 'neatlogs-span-projection'
+          : 'none'));
       }
     }
   }
@@ -214,9 +220,6 @@ export async function investigate(incident) {
   for (const id of rcIds) {
     fixMemories[id] = await searchFixMemory(fixQueryMap[id] || queries[0] || 'fix');
   }
-  const fixMemory = fixMemories[rcIds[0]] || { ok: false, prior: [] };
-
-  const fixMemoryAll = fixMemories; // per-root-cause results
   for (const rc of surviving) {
     const myFixMemory = fixMemories[rc.id] || { prior: [] };
     const titles = (myFixMemory.prior || []).map((p) => String(p.title || '').toLowerCase());

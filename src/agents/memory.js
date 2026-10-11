@@ -14,8 +14,10 @@
 // past fix strategy as a prior. This is what makes the loop learn.
 
 import { execFile } from 'node:child_process';
+import { loadEnv } from '../neatlogs.js';
 
-const NL_ENV_BASE = ['--host', 'https://app.neatlogs.com', '--profile', 'setup-https---app-neatlogs-com', '--credential-source', 'profile', '--project', '95489ec6-1955-45c6-b8c4-60c60b207e42'];
+const ENV = loadEnv();
+const NL_ENV_BASE = ['--host', 'https://app.neatlogs.com', '--profile', 'setup-https---app-neatlogs-com', '--credential-source', 'profile', '--project', ENV.NEATLOGS_PROJECT_ID];
 
 function run(cmd, args, opts = {}) {
   return new Promise((resolve) => {

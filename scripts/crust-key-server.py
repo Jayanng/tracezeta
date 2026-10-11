@@ -65,6 +65,9 @@ class H(http.server.BaseHTTPRequestHandler):
         key = self.rfile.read(n).decode().strip()
         if not key or len(key) < 8:
             self.send_response(400); self.end_headers(); return
+        # single-line token only: newlines or '=' would inject extra .env vars
+        if any(c in key for c in ('\n', '\r', '=')) or not key.isprintable():
+            self.send_response(400); self.end_headers(); return
         # write into .env: replace existing line or append
         lines = []
         if os.path.exists(ENV_FILE):
@@ -78,7 +81,10 @@ class H(http.server.BaseHTTPRequestHandler):
         self.send_response(200); self.end_headers()
         threading.Thread(target=lambda: os._exit(0), daemon=True).start()
 
-httpd = http.server.HTTPServer(('0.0.0.0', PORT), H)
+# bind localhost by default; set CRUST_KEY_BIND=0.0.0.0 only for a one-time
+# external capture (with ufw opened for it), never as the resting state
+_bind = os.environ.get('CRUST_KEY_BIND', '127.0.0.1')
+httpd = http.server.HTTPServer((_bind, PORT), H)
 ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ctx.load_cert_chain('/etc/ssl/crust-key.pem', '/etc/ssl/crust-key.pem')
 httpd.socket = ctx.wrap_socket(httpd.socket, server_side=True)
