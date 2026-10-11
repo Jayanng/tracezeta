@@ -1,0 +1,22 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NACRF22KYN4MK9Y11BT1TS",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "runs/2026-10-11T10-21-42-519Z-b2b-healthy-run.json",
+    "src/agents/classifier.js",
+    "src/agents/gate.js",
+    "src/agents/sandbox.js",
+    "src/agents/source-flow.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": ""
+    }
+  ]
+}
