@@ -124,19 +124,56 @@ Built and stress-tested with cfo.ai's AI CFO on measured operating data —
 
 ## Evidence
 
-- **First checkpoint** — `01M4MQF7PK22KAERTY8FMJGNSQ`
-  (session `9e3acb52-a6f2-4740-aeb1-0671ba7181c8`, commit `1fcefb4`, Antigravity
-  session, 19.1k tokens, AI summary generated)
-  - Git ref on GitHub:
-    `https://github.com/Jayanng/tracezeta/tree/refs/entire/checkpoints/SQ/01M4MQF7PK22KAERTY8FMJGNSQ`
-  - Repo on Entire: `/et/gh:mirrors:01M4JNR3G2QJSYJ8EY3TAXAG4Z/tracezeta`
-    (cluster `aws-eu-central-1.entire.io`)
-  - Inspect locally: `entire checkpoint explain 01M4MQF7PK22KAERTY8FMJGNSQ`
-- **Self-repair record** — `fixes/source-repairs/` holds the full first cycle:
-  the gate verdict, the proposed diff, the human approval
-- **neatlogs project** — `tracezeta` (UUID `95489ec6-1955-45c6-b8c4-60c60b207e42`);
-  every run record in `runs/` carries its real ingest trace ID
-- **Loop audit trail** — `incidents/` → `diagnoses/` → `fixes/` →
-  `verifications/` → `loop-runs/`, each stage a JSON artifact citing its evidence
+### What the rules require, and where to verify each
+
+**"Your project must use neatlogs, Entire and cfo.ai" — all three, with links:**
+
+1. **neatlogs** — project `tracezeta` (UUID `95489ec6-1955-45c6-b8c4-60c60b207e42`).
+   Live traces for every target run AND every team operation (the `team:` prefix):
+   sentinel-watch, investigate, propose-fix, verify. Every run record in `runs/`
+   carries its real ingest trace ID. The trace-level memory search runs against
+   this project's history before every diagnosis.
+2. **Entire** — repo `Jayanng/tracezeta` connected; 23 checkpoints (one per fix
+   cycle, git-refs backend). First checkpoint:
+   `01M4MQF7PK22KAERTY8FMJGNSQ` (session `9e3acb52-a6f2-4740-aeb1-0671ba7181c8`,
+   commit `1fcefb4`, Antigravity session, 19.1k tokens, AI summary generated).
+   Git ref on GitHub:
+   `https://github.com/Jayanng/tracezeta/tree/refs/entire/checkpoints/SQ/01M4MQF7PK22KAERTY8FMJGNSQ`.
+   Repo on Entire: `/et/gh:mirrors:01M4JNR3G2QJSYJ8EY3TAXAG4Z/tracezeta`
+   (cluster `aws-eu-central-1.entire.io`).
+   Inspect locally: `entire checkpoint explain 01M4MQF7PK22KAERTY8FMJGNSQ`.
+   The fix-memory search (semantic, per root cause) runs over these checkpoints.
+3. **cfo.ai** — the business plan, built and stress-tested with its AI CFO:
+   **https://app.cfo.ai/s/vjF416MqG4tyZXkN** (view-only for judges, no account
+   needed). Measured telemetry in, honest ranges out (see The business).
+
+### Entire Trails
+
+**Trail #1 — "Medic: self-repair cycle — company_enrich domains defect"**:
+`https://entire.io/gh/Jayanng/tracezeta/trails/1`
+Open on branch `medic/self-repair-company-enrich` → `main`, with two agent
+findings: the full root-cause record (high severity, 97% confidence —
+detection, classification, sandboxed repair, gate verification, human
+approval) and the gate-verified patch attached as a suggested change.
+
+### Crustdata (sponsor)
+
+7 of the target's 11 tools run live B2B data on its API (sponsor credits;
+not required by the rules — chosen for real failure diversity). Measured
+burn: 0.131 credits per live API call.
+
+### The self-repair record
+
+`fixes/source-repairs/` holds the full first cycle: the gate verdict
+(SOURCE_FIX_VERIFIED, all five checks), the proposed diff, and the human
+approval (commit `f2dbd25` — including the reward-hacking patch the gate
+rejected on the way).
+
+### The loop audit trail
+
+`incidents/` → `diagnoses/` → `fixes/` → `verifications/` → `loop-runs/`,
+each stage a JSON artifact citing its evidence: which spans failed, which
+hypotheses were rejected and why, which memory was consulted, what the
+before/after diff proved.
 
 Built for neatHack 2026, team JAYANNG.
