@@ -2,7 +2,7 @@
 
 **A self-healing reliability layer for AI systems: a team of agents that monitors other agents in production, detects failures, diagnoses them from trace evidence, repairs them, and verifies every fix before a human reviews it.**
 
-And it holds itself to the same standard. The loop that fixes failing agents has found and repaired bugs in **its own source code** — sandboxed, gate-verified, and approved at a human review gate. It cannot lie to itself, and it cannot silently break itself to look good. That is the whole point.
+And it holds itself to the same standard. The loop that fixes failing agents has found and repaired bugs in **its own source code** — sandboxed, gate-verified, and approved at a human review gate. It cannot fabricate results, and it cannot silently break itself to appear correct. This is the project's core constraint.
 
 ## What it is
 
@@ -40,10 +40,10 @@ Every stage's output is a durable JSON artifact citing its evidence:
 - `verifications/` — before/after span comparison, regression check, verdict
 - `loop-runs/` — the whole cycle as one audit trail
 
-## The self-repair cycle (the part that matters)
+## The self-repair cycle (source-level repair)
 
 When a failing step's root cause is a defect in **our own code**, not the task,
-the loop refuses to paper over it and escalates. That escalation hands off to
+the loop refuses to conceal it and escalates. That escalation hands off to
 the Medic, the dedicated self-repair cycle run separately, with its own gate
 and its own review:
 
