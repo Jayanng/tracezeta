@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Agent team that finds why other agents failed, fixes them, and proves the fix",
   "scripts": {
-    "start": "node src/target/index.js"
+    "start": "node src/target/index.js",
+    "demo": "bash scripts/demo-full-loop.sh"
   },
   "engines": {
     "node": ">=22"
