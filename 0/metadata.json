@@ -23,6 +23,28 @@
   "session_metrics": {
     "turn_count": 1
   },
+  "summary": {
+    "intent": "Add a \"demo\" script entry executing \"bash scripts/demo-full-loop.sh\" immediately after the \"start\" script in package.json without any other modifications.",
+    "outcome": "Successfully added the \"demo\" script right after \"start\" in package.json and verified the changes.",
+    "learnings": {
+      "repo": [
+        "The repository contains a full-loop demo bash script at scripts/demo-full-loop.sh, and the start script runs node src/target/index.js."
+      ],
+      "code": [
+        {
+          "path": "/home/ubuntu/tracezeta/package.json",
+          "line": 7,
+          "end_line": 10,
+          "finding": "The scripts block defines \"start\": \"node src/target/index.js\" followed by \"demo\": \"bash scripts/demo-full-loop.sh\"."
+        }
+      ],
+      "workflow": [
+        "Inspecting file contents before editing and verifying with view_file and run_command ensures isolated, exact modifications without side effects."
+      ]
+    },
+    "friction": [],
+    "open_items": []
+  },
   "initial_attribution": {
     "calculated_at": "2026-10-11T05:37:47.871116091Z",
     "agent_lines": 2,
