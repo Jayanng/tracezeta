@@ -1,49 +1,97 @@
 # TraceZeta
 
-**The agent team that finds why other agents failed, fixes them, and proves the fix.**
+**The pit crew for AI systems: a team of agents that watches other agents run, finds out why they broke, fixes them, and proves the fix worked — before a human ever looks at it.**
 
-TraceZeta watches a live tool-calling agent through neatlogs, and when the agent fails, a
-team of specialist agents does what a human engineer does: opens an incident, diagnoses
-root cause from the trace evidence, proposes a minimal fix, re-runs the system, and
-compares before/after to prove the fix worked. Then it writes the whole story back to
-the traces.
+And it holds itself to the same standard. The loop that fixes failing agents has found and repaired bugs in **its own source code** — sandboxed, gate-verified, and approved at a human review gate. It cannot lie to itself, and it cannot silently break itself to look good. That is the whole point.
 
-## Why this is different
+## What it is
 
-Most agent frameworks generate failures and show them on a dashboard. TraceZeta closes
-the loop: detection, diagnosis, repair, verification, all driven by trace evidence, with
-hypotheses that are **rejected** when the evidence does not support them. Nothing is
-asserted without citation.
+TraceZeta is a team of specialist agents built on four real platforms:
 
-The loop, live and real:
+- **neatlogs** — every agent run is traced; incidents, detections, and the team's own operations all live there
+- **Entire** — every fix gets a checkpoint; the team searches its own past fixes by meaning before diagnosing
+- **Crustdata** — seven of the target's eleven tools run on live B2B data (companies, people, jobs, web, social posts)
+- **cfo.ai** — the business plan, built and stress-tested from measured telemetry, not guesses
+
+## The loop
 
 ```
-Breaker  engineers real failures into a traced target agent (wrong tool,
-         malformed arguments, missing parameters)
-Sentinel watches neatlogs + run records, opens incidents
-Investigator  forms competing hypotheses, rejects any the spans do not support,
-              cites the exact spans that survive
-Fixer    proposes minimal scoped repairs, an Entire checkpoint before each
-Verifier re-runs the target, diffs before/after spans, red-teams the fix
-         (healthy steps must not regress)
-Orchestrator  accepts, iterates, or escalates; the exit code is honest
+Breaker       engineers real failures into a traced target agent
+Sentinel      watches the traces, opens incidents
+Investigator  forms competing hypotheses, REJECTS any the spans don't support,
+              consults memory: "have we seen this before? what fixed it?"
+Fixer         proposes the smallest possible repair — a task-spec edit,
+              or a sandboxed patch to the source code itself
+Verifier      re-runs the target, diffs before/after spans, red-teams the fix
+Gate          a source patch must prove it did NOT silence errors to pass
+Orchestrator  accepts, iterates, or escalates — honest exit codes
+Human review  a verified source patch waits for a person to approve it
 ```
 
-## Verified behavior, not claims
+Every stage's output is a durable JSON artifact citing its evidence:
 
-Every run of the loop produces durable evidence artifacts:
-
-- `runs/` — full span-level run records, each linked to its neatlogs trace by traceId
+- `runs/` — span-level run records, each linked to its neatlogs trace by traceId
 - `incidents/` — what failed, where, when
-- `diagnoses/` — root causes with cited spans, plus rejected hypotheses and why
-- `fixes/` — the exact repairs proposed, minimal by construction
+- `diagnoses/` — root causes with cited spans, rejected hypotheses with reasons,
+  and a memory block showing the prior traces and prior fixes consulted
+- `fixes/` — the exact repairs, minimal by construction; source-repair proposals
+  with the full diff and gate verdict
 - `verifications/` — before/after span comparison, regression check, verdict
 - `loop-runs/` — the whole cycle as one audit trail
 
-During the build, the loop caught two of its own bugs the same way it catches the
-target's: the Verifier rejected an incomplete fix (a date that passed format validation
-but was semantically invalid), and a repair was silently skipped after an array splice
-shifted indexes. Both fixed, both documented in commit history.
+## The self-repair cycle (the part that matters)
+
+When a failing step's root cause is a defect in **our own code**, not the task:
+
+1. **Classify** — three tests: schema-valid args, the tool never succeeded, and the
+   error reproduces on a live re-probe. Flaky failures are correctly refused.
+2. **Sandbox** — a repair session runs as a dedicated OS user that can write
+   **exactly one file**. The Verifier, the diagnosis rules, and the gate itself
+   are unreadable and unwritable to it — enforced by ACLs, not prompts.
+3. **Repair** — an agy (Antigravity) session patches the code inside the sandbox.
+4. **The Gate** — the patch passes only if:
+   - the failure reproduces on the original code (no defect = no repair)
+   - the failing step recovers with the patch
+   - **known-bad inputs STILL fail** — a patch that swallows errors is rejected
+     as reward hacking. Proven by live test.
+   - healthy steps don't regress
+   - the diff is bounded (one file, ≤40 lines — a rewrite is not a fix)
+5. **Human review** — a verified patch is saved as `AWAITING_HUMAN_REVIEW`
+   with the full diff. The loop never applies a source patch itself. A person does.
+
+The first completed cycle (commit `f2dbd25`): a real defect in `company_enrich`,
+diagnosed from a live API error, patched by an agent in the sandbox, verified by
+all five gate checks, approved by the human gate, fixed. The commit history tells
+the whole story — including the reward-hacking patch the gate rejected on the way.
+
+## Why this is different
+
+Most agent frameworks generate failures and show them on a dashboard. TraceZeta
+closes the loop all the way down: detection → diagnosis → repair → adversarial
+verification → human review — for the target **and for itself**. Hypotheses
+without evidence are rejected. Values that can't be derived are never invented.
+The memory layer means the system gets faster at every failure it has already
+survived: neatlogs remembers the failure signatures, Entire remembers how they
+were fixed, and the next diagnosis arrives pre-corroborated.
+
+During the build, the loop caught **eight of its own bugs** the same way it
+catches the target's — each rejection exposed a real defect in the Fixer or
+Investigator source, each documented in the commit history.
+
+## The target
+
+A real tool-calling agent with **eleven genuine tools** across live data sources:
+
+- 4 core tools: live exchange rates (public API), validated JSON persistence,
+  real date arithmetic, record read-back
+- 7 B2B tools on live Crustdata endpoints: company search, company enrich
+  (firmographics, headcount, funding), person search, job search (212k+ live
+  listings), social post search, live web search, and a credits check — the
+  agent watches its own data budget
+
+Nothing mocked. Failures here are real failures against real external services:
+validation errors, API errors, rate limits, entities that do not exist —
+captured as real neatlogs traces.
 
 ## Running
 
@@ -57,59 +105,38 @@ node src/agents/orchestrator.js
 # Exit 0: all incidents resolved. Exit 1: incidents remain open.
 ```
 
-Requires `NEATLOGS_WRITE_KEY`, `NEATLOGS_PROJECT_ID` and `CRUSTDATA_API_KEY` in `.env`
-(never committed; the Crustdata key was captured through a one-time masked-entry page).
+Requires `NEATLOGS_WRITE_KEY`, `NEATLOGS_PROJECT_ID`, and `CRUSTDATA_API_KEY` in
+`.env` (never committed; the Crustdata key arrived through a one-time
+masked-entry page).
 
-## The target
+## The business
 
-A real tool-calling agent with **11 genuine tools** across live data sources:
+Built and stress-tested with cfo.ai's AI CFO on measured operating data —
+**https://app.cfo.ai/s/vjF416MqG4tyZXkN** (view-only, no account needed):
 
-- 4 core tools: live exchange rates (public API), validated JSON persistence,
-  real date arithmetic, record read-back
-- 7 B2B tools on live Crustdata endpoints: company search, company enrich
-  (firmographics/headcount/funding), person search, job search (212k+ live
-  listings), social post search, live web search, and a credits check (the
-  agent watches its own data budget)
-
-Nothing mocked: failures in this system are real failures against real
-external services — validation errors, API errors, rate limits, entities that
-do not exist — captured as real neatlogs traces.
-
-## Tooling
-
-- **neatlogs** — traces, incidents, detections, the read/write surface the whole team
-  runs on
-- **Entire** — a checkpoint before every fix; every verification names its checkpoint
-- **Crustdata** — 7 of the target's 11 tools run on its live company, people, jobs,
-  web, and social-post data (sponsor credits; not required by the rules, chosen for
-  real failure diversity)
-- **cfo.ai** — the business plan, built and stress-tested with its AI CFO:
-  https://app.cfo.ai/s/vjF416MqG4tyZXkN (view-only for judges)
-  - Grounded in MEASURED build data, not only assumptions: 86 agent runs, 335 live
-    tool spans, 122 real failures, 143 incidents, 0.131 Crustdata credits per API
-    call, 97.9% resolved-or-escalated coverage
-  - COGS per fix-cycle: $0.08 base ($0.025–$0.20 range) from component costs —
-    LLM inference, credits, checkpoint storage — labeled "estimated actuals:
-    measured credits, estimated dollars"
-  - Runway stress-tested: doubled churn AND doubled (2.5x worst) cycle cost still
-    survives 24 months, with the thin-margin case honestly flagged
-  - Every provisional input labeled as such; measured figures separated from
-    launch assumptions throughout
+- 86 agent runs, 335 live tool spans, 122 real failures, 143 incidents,
+  0.131 Crustdata credits per API call — measured, cited, verifiable in this repo
+- COGS per fix-cycle: $0.08 base ($0.025–$0.20 range) from component costs,
+  labeled "estimated actuals: measured credits, estimated dollars"
+- Runway survives doubled churn and 2.5× cycle cost, with the thin-margin
+  case flagged honestly
+- Every provisional input labeled as such
 
 ## Evidence
 
 - **First checkpoint** — `01M4MQF7PK22KAERTY8FMJGNSQ`
-  (session `9e3acb52-a6f2-4740-aeb1-0671ba7181c8`, commit `1fcefb4`, Antigravity session,
-  19.1k tokens, AI summary generated)
-  - Stored as the git ref `refs/entire/checkpoints/SQ/01M4MQF7PK22KAERTY8FMJGNSQ` —
-    visible on GitHub: `https://github.com/Jayanng/tracezeta/tree/refs/entire/checkpoints/SQ/01M4MQF7PK22KAERTY8FMJGNSQ`
-    (link renders when the repo is public; the ref is on the remote now)
-  - Repo on Entire: `/et/gh:mirrors:01M4JNR3G2QJSYJ8EY3TAXAG4Z/tracezeta` (cluster
-    `aws-eu-central-1.entire.io`), visibility follows the GitHub upstream
+  (session `9e3acb52-a6f2-4740-aeb1-0671ba7181c8`, commit `1fcefb4`, Antigravity
+  session, 19.1k tokens, AI summary generated)
+  - Git ref on GitHub:
+    `https://github.com/Jayanng/tracezeta/tree/refs/entire/checkpoints/SQ/01M4MQF7PK22KAERTY8FMJGNSQ`
+  - Repo on Entire: `/et/gh:mirrors:01M4JNR3G2QJSYJ8EY3TAXAG4Z/tracezeta`
+    (cluster `aws-eu-central-1.entire.io`)
   - Inspect locally: `entire checkpoint explain 01M4MQF7PK22KAERTY8FMJGNSQ`
+- **Self-repair record** — `fixes/source-repairs/` holds the full first cycle:
+  the gate verdict, the proposed diff, the human approval
 - **neatlogs project** — `tracezeta` (UUID `95489ec6-1955-45c6-b8c4-60c60b207e42`);
   every run record in `runs/` carries its real ingest trace ID
-- **Loop audit trail** — `incidents/` → `diagnoses/` → `fixes/` → `verifications/` →
-  `loop-runs/`, each stage a JSON artifact citing its evidence
+- **Loop audit trail** — `incidents/` → `diagnoses/` → `fixes/` →
+  `verifications/` → `loop-runs/`, each stage a JSON artifact citing its evidence
 
 Built for neatHack 2026, team JAYANNG.
