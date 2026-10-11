@@ -1,6 +1,6 @@
 {
   "incidentId": "inc-8cdafc668a0e",
-  "at": "2026-10-11T11:02:23.282Z",
+  "at": "2026-10-11T11:08:40.002Z",
   "stages": [
     {
       "classify": {
@@ -20,13 +20,13 @@
     },
     {
       "gate": {
-        "accepted": false,
-        "verdict": "patch touches other files: incidents/.sentinel-seen.json"
+        "accepted": true,
+        "verdict": "SOURCE_FIX_VERIFIED"
       }
     }
   ],
-  "outcome": "rejected-by-gate",
+  "outcome": "proposedForReview",
   "proposalFile": "/home/ubuntu/tracezeta/fixes/source-repairs/inc-8cdafc668a0e-source-proposal.json",
-  "rejection": "patch touches other files: incidents/.sentinel-seen.json",
-  "reverted": true
+  "summary": "In [`companyEnrich`](file:///home/ubuntu/tracezeta/src/crustdata.js#L88-L110) within [crustdata.js](file:///home/ubuntu/tracezeta/src/crustdata.js), the payload passed to the Crustdata API endpoint (`POST /company/enrich`) assigned `domain` directly as a bare string (`domains: domain`) rather than an array, causing the API to return HTTP 400 because it requires the field to be a list; this was fixed by wrapping `domain` into an array (`domains: [domain]`) in the request payload.\n",
+  "proposalStatus": "AWAITING_HUMAN_REVIEW"
 }
