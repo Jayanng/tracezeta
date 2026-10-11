@@ -45,12 +45,6 @@ target's: the Verifier rejected an incomplete fix (a date that passed format val
 but was semantically invalid), and a repair was silently skipped after an array splice
 shifted indexes. Both fixed, both documented in commit history.
 
-## The target
-
-A real tool-calling agent with four genuine tools: live exchange rates from a public
-API, validated JSON persistence, real date arithmetic, record read-back. Nothing mocked:
-failures in this system are real failures, captured as real neatlogs traces.
-
 ## Running
 
 ```bash
@@ -63,13 +57,32 @@ node src/agents/orchestrator.js
 # Exit 0: all incidents resolved. Exit 1: incidents remain open.
 ```
 
-Requires `NEATLOGS_WRITE_KEY` and `NEATLOGS_PROJECT_ID` in `.env` (never committed).
+Requires `NEATLOGS_WRITE_KEY`, `NEATLOGS_PROJECT_ID` and `CRUSTDATA_API_KEY` in `.env`
+(never committed; the Crustdata key was captured through a one-time masked-entry page).
+
+## The target
+
+A real tool-calling agent with **11 genuine tools** across live data sources:
+
+- 4 core tools: live exchange rates (public API), validated JSON persistence,
+  real date arithmetic, record read-back
+- 7 B2B tools on live Crustdata endpoints: company search, company enrich
+  (firmographics/headcount/funding), person search, job search (212k+ live
+  listings), social post search, live web search, and a credits check (the
+  agent watches its own data budget)
+
+Nothing mocked: failures in this system are real failures against real
+external services — validation errors, API errors, rate limits, entities that
+do not exist — captured as real neatlogs traces.
 
 ## Tooling
 
 - **neatlogs** — traces, incidents, detections, the read/write surface the whole team
   runs on
 - **Entire** — a checkpoint before every fix; every verification names its checkpoint
+- **Crustdata** — 7 of the target's 11 tools run on its live company, people, jobs,
+  web, and social-post data (sponsor credits; not required by the rules, chosen for
+  real failure diversity)
 - **cfo.ai** — the business plan runs on its numbers
 
 ## Evidence
