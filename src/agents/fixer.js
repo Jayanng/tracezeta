@@ -318,7 +318,6 @@ export function proposeFix(incident, diagnosis) {
       const cited = failingToolCounts.get(step.tool);
       const repairedSoFar = (failingToolCounts.get(`__done_${step.tool}`) || 0);
       if (repairedSoFar >= cited) continue;
-      failingToolCounts.set(`__done_${step.tool}`, repairedSoFar + 1);
       // find THIS step's own span error: match by tool AND (when multiple
       // instances exist) by argument identity so the right step gets the
       // right error text (e.g. 'not a domain!!' vs 'no match for domain')
@@ -326,9 +325,19 @@ export function proposeFix(incident, diagnosis) {
       const ownSpan = (run.spans || []).find((s) => (s.name === `tool:${step.tool}` || s.name === step.tool)
         && (JSON.stringify(s.input) === stepJson || (s.input && step.args && Object.keys(step.args).length === 0 && Object.keys(s.input || {}).length === 0)));
       const anySpan = (run.spans || []).find((s) => s.name === `tool:${step.tool}` || s.name === step.tool);
+      // only a FAILING instance may be repaired: either its own span errored
+      // (identity match) or the tool ran exactly once and that span errored.
+      // Without this gate a healthy instance can consume the repair budget or
+      // receive the failing instance's repair.
+      const instanceCount = (run.task?.steps || []).filter((s) => s.tool === step.tool).length;
+      const isFailingInstance = !!(ownSpan?.error) || (instanceCount === 1 && !!anySpan?.error);
+      if (!isFailingInstance) continue;
       const spanError = ownSpan?.error ?? anySpan?.error;
       const r = strategy.repairStep(step, spanError, TOOL_SCHEMAS);
       if (r.fixes.length) {
+        // the repair budget counts REPAIRS MADE, not steps visited — a healthy
+        // or unrepairable instance must never consume another instance's slot
+        failingToolCounts.set(`__done_${step.tool}`, repairedSoFar + 1);
         const repair = { tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable, remove: r.remove === true };
         if (r.tool && r.tool !== step.tool) repair.replaceToolWith = r.tool; // wrong-tool fix
         repairs.push(repair);

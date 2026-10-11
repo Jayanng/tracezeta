@@ -18,7 +18,7 @@
 //   - cleanup strips ALL extended ACLs (-b) so the repo returns to plain perms
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -112,10 +112,16 @@ export function verifyBoundary(targetFile) {
   // write probes on the protected set (must ALL be denied)
   for (const p of PROTECTED_SET) {
     if (!existsSync(p)) continue;
+    const isDir = statSync(p).isDirectory();
+    // a directory cannot be probed with redirect/head ('Is a directory' fails
+    // regardless of ACLs — a false pass); probe with touch/ls instead
+    const writeProbe = isDir
+      ? ['bash', '-c', `touch ${JSON.stringify(p + '/.sandbox-write-probe')} 2>/dev/null`]
+      : ['bash', '-c', `echo probe > ${JSON.stringify(p)}`];
     let violated = false;
     try {
-      execFileSync('sudo', ['-u', SANDBOX_USER, '--', 'bash', '-c', `echo probe > ${JSON.stringify(p)}`], {
-        encoding: 'utf8', timeout: 10000,
+      execFileSync('sudo', ['-u', SANDBOX_USER, '--', ...writeProbe], {
+        encoding: 'utf8', timeout: 10000, stdio: ['ignore', 'pipe', 'pipe'],
       });
       violated = true; // write succeeded = boundary broken
     } catch { /* denied = correct */ }
@@ -126,8 +132,9 @@ export function verifyBoundary(targetFile) {
   results.protectedReadable = [];
   for (const p of PROTECTED_SET) {
     if (!existsSync(p)) continue;
+    const readProbe = statSync(p).isDirectory() ? ['ls', p] : ['head', '-c', '16', p];
     try {
-      execFileSync('sudo', ['-u', SANDBOX_USER, '--', 'head', '-c', '16', p], {
+      execFileSync('sudo', ['-u', SANDBOX_USER, '--', ...readProbe], {
         encoding: 'utf8', timeout: 10000, stdio: ['ignore', 'pipe', 'pipe'],
       });
       results.protectedReadable.push({ file: p, violation: true }); // read succeeded = leak

@@ -1,0 +1,50 @@
+{
+  "incidentId": "inc-4e1b412daf5b",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-4e1b412daf5b-diagnosis.json",
+  "proposedAt": "2026-10-11T14:36:09.897Z",
+  "strategy": [
+    "wrong-tool-selected",
+    "external-service-failure"
+  ],
+  "repairs": [
+    {
+      "tool": "fetch_currency_price",
+      "original": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "repaired": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "notes": [
+        "tool 'fetch_currency_price' -> 'get_exchange_rate' (exact argument-shape match in the registry)"
+      ],
+      "actionable": true,
+      "remove": false,
+      "replaceToolWith": "get_exchange_rate"
+    },
+    {
+      "tool": "fetch_currency_price",
+      "original": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "repaired": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "notes": [
+        "external service failure (network/timeout/HTTP): task and code are correct; retried unchanged — resolves only if the re-run passes"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4NP8ZGP0VT6M2KQ0PB6824B",
+    "raw": "  branch       main\n  checkpoints  46\n\n● 01M4NP8ZGP0VT6M2KQ0PB6824B  \"Create the file /home/ubuntu/tracezeta/fixes/inc-4e1b412d...\"\n  10-11 22:36 (fa2688e) Entire pre-fix anchor: tracezeta-pre-fix-inc-4e1b412daf5b (inc-4e1b412daf5b)\n\n● aee35a17-4c2  [temporary]  carry forward: uncommitted session fi"
+  },
+  "applied": true
+}

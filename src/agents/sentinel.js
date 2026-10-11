@@ -57,6 +57,10 @@ export async function watch() {
   const seenIds = new Set(Object.keys(seen));
   for (const [traceId, entry] of runByTrace) {
     if (seenIds.has(traceId)) continue;
+    // VERIFICATION runs are the loop's own retries (name -after-fix): their
+    // failures are tracked by the incident under repair, never new incidents.
+    // Without this filter a persistent outage forks incidents exponentially.
+    if (entry.run.task?.verification === true) continue;
     if (entry.run.ok === false) {
       candidates.push({
         traceId,
@@ -71,6 +75,7 @@ export async function watch() {
   // Source A: platform traces (authoritative metadata when present)
   for (const t of platformTraces) {
     if (seenIds.has(t.traceId)) continue;
+    if (runByTrace.get(t.traceId)?.run?.task?.verification === true) continue; // loop's own retry run
     if (String(t.status).toUpperCase() === 'ERROR') {
       if (!candidates.some((c) => c.traceId === t.traceId)) {
         candidates.push({

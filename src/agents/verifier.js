@@ -43,17 +43,28 @@ export async function verify(incident, diagnosis, fixRecord) {
   const repairs = fixRecord.repairs || [];
   const fixedTask = JSON.parse(JSON.stringify(beforeTask));
   fixedTask.name = `${beforeTask.name}-after-fix`;
-  // apply in order: each repair consumes the first still-unconsumed step of
-  // its tool; remove: true DELETES the step. Matching is done by identity of
-  // the step OBJECT (a Set of consumed references), never by index — indexes
-  // go stale the moment a splice shifts the array.
+  // mark the re-run as a VERIFICATION run: the Sentinel must not open new
+  // incidents for the loop's own retries (outage fork protection)
+  fixedTask.verification = true;
+  // apply in order: each repair consumes the matching step of its tool
+  // (matched by argument identity, then tool order); remove: true DELETES the
+  // step. Indexes go stale the moment a splice shifts the array.
   const consumed = new Set();
+  const removedByRepair = [];
   for (const repair of repairs) {
-    const step = fixedTask.steps.find((s) => s.tool === repair.tool && !consumed.has(s));
+    // match by ARGUMENT IDENTITY when the repair carries its original args —
+    // matching by tool+order alone deletes/re-writes the WRONG instance when a
+    // tool is called more than once (a healthy call can precede the failing one)
+    const byArgs = repair.original && Object.keys(repair.original).length
+      ? (s) => s.tool === repair.tool && !consumed.has(s)
+          && JSON.stringify(s.args) === JSON.stringify(repair.original)
+      : (s) => s.tool === repair.tool && !consumed.has(s);
+    const step = fixedTask.steps.find(byArgs) || fixedTask.steps.find((s) => s.tool === repair.tool && !consumed.has(s));
     if (!step) continue;
     consumed.add(step);
     if (repair.remove === true) {
       fixedTask.steps.splice(fixedTask.steps.indexOf(step), 1);
+      removedByRepair.push(repair.tool);
     } else {
       if (repair.replaceToolWith) {
         // wrong-tool fix: swap the tool and use the ORIGINAL args (e.g.
@@ -71,22 +82,35 @@ export async function verify(incident, diagnosis, fixRecord) {
   // 2. Re-run the target with the fixed task (real run, new trace, new record)
   const after = await runTask(fixedTask);
   // the after spans live in the after run RECORD (runTask returns no spans
-  // field) — read them the same way the before spans were read, otherwise
-  // every comparison below degenerates on an empty array
-  let afterSpans = [];
+  // field). FAIL CLOSED: if the record cannot be read, the comparison cannot
+  // run and the fix is NOT verified (an empty array would silently accept).
+  let afterSpans = null;
   try {
     if (after.runFile) afterSpans = readJson(after.runFile).spans || [];
-  } catch { afterSpans = []; }
+  } catch { afterSpans = null; }
+  if (afterSpans === null) {
+    return {
+      incidentId: incident.id,
+      accepted: false,
+      verdict: 'FIX_REJECTED: after run record unreadable — the span comparison cannot run',
+      after: { traceId: after.traceId, runFile: after.runFile, failingSteps: [], passingSteps: [] },
+    };
+  }
   const failingAfter = afterSpans.filter((s) => s.status === 'ERROR').map((s) => s.name);
   const passingAfter = afterSpans.filter((s) => s.status === 'OK').map((s) => s.name);
 
-  // 3. Red-team the fix: exactly the intended changes
-  const nowPassing = failingBefore.filter((s) => passingAfter.includes(s));
-  const stillFailing = failingBefore.filter((s) => failingAfter.includes(s));
+  // 3. Red-team the fix: exactly the intended changes. Steps REMOVED by an
+  // approved remove:true repair are reported as removed (they neither pass nor
+  // fail — they are gone by design), never counted as "now passing".
+  const removedNames = new Set(removedByRepair.flatMap((t) => [`tool:${t}`, t]));
+  const failingAccounted = failingBefore.filter((s) => !removedNames.has(s));
+  const nowPassing = failingAccounted.filter((s) => passingAfter.includes(s));
+  const stillFailing = failingAccounted.filter((s) => failingAfter.includes(s));
   const regressed = passingBefore.filter((s) => failingAfter.includes(s)); // healthy steps broke
   const dropped = passingBefore.filter((s) => !afterSpans.some((a) => a.name === s));
 
-  const accepted = stillFailing.length === 0 && regressed.length === 0 && after.ok === true;
+  const accepted = stillFailing.length === 0 && regressed.length === 0
+    && dropped.length === 0 && after.ok === true;
 
   const verification = {
     incidentId: incident.id,
@@ -111,14 +135,17 @@ export async function verify(incident, diagnosis, fixRecord) {
       stillFailing,
       regressedHealthySteps: regressed,
       droppedSteps: dropped,
+      removedByRepair,
     },
     verdict: accepted
-      ? 'FIX_VERIFIED'
+      ? (removedByRepair.length ? `FIX_VERIFIED (step removed: ${removedByRepair.join(', ')})` : 'FIX_VERIFIED')
       : stillFailing.length
         ? 'FIX_INCOMPLETE: steps still failing'
         : regressed.length
           ? 'FIX_REJECTED: regressed previously-healthy steps'
-          : 'FIX_REJECTED',
+          : dropped.length
+            ? 'FIX_REJECTED: previously-healthy steps disappeared from the run'
+            : 'FIX_REJECTED',
   };
 
   if (!existsSync(VERIFICATIONS_DIR)) mkdirSync(VERIFICATIONS_DIR, { recursive: true });

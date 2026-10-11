@@ -1,0 +1,26 @@
+{
+  "id": "inc-8bd6632dc5c0",
+  "openedAt": "2026-10-11T14:35:39.502Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "8bd6632dc5c0d734c184b9feb0b180b2",
+    "traceName": "breaker-malformed-args",
+    "workflowName": "breaker-malformed-args",
+    "ingestedAt": "2026-10-11T14:35:36.576Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T14-35-36-576Z-breaker-malformed-args.json",
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

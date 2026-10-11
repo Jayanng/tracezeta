@@ -119,8 +119,12 @@ export async function runLoop({ maxRounds = 2 } = {}) {
         writeFileSync(incFile, JSON.stringify(incident, null, 2));
         unresolved++;
       }
-      // else: loop again — the next round re-diagnoses from the NEW run
-      // record (the partially-fixed run), converging on the remaining faults
+      // else: loop again — re-point the incident at the NEW run record (the
+      // partially-fixed run) so round 2 diagnoses what remains, not the
+      // original failure again
+      incident.trace = { ...(incident.trace || {}), traceId: verification.after.traceId || incident.trace?.traceId };
+      incident.runFile = verification.after.runFile || incident.runFile;
+      writeFileSync(incFile, JSON.stringify(incident, null, 2));
     }
   }
 

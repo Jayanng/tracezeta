@@ -1,0 +1,25 @@
+{
+  "id": "inc-b7b47614b71d",
+  "openedAt": "2026-10-11T14:35:39.502Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "b7b47614b71d4bc36fd5afc87fe49e1c",
+    "traceName": "breaker-missing-params",
+    "workflowName": "breaker-missing-params",
+    "ingestedAt": "2026-10-11T14:35:36.816Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T14-35-36-816Z-breaker-missing-params.json",
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "days": 7
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

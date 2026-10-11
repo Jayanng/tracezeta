@@ -1,0 +1,91 @@
+{
+  "name": "breaker-wrong-tool-after-fix",
+  "at": "2026-10-11T14:36:10.692Z",
+  "ok": true,
+  "trace": {
+    "traceId": "87a833494237aa6de3987cf451753f4c",
+    "spans": 5
+  },
+  "task": {
+    "name": "breaker-wrong-tool-after-fix",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "wrongtool",
+          "payload": {
+            "case": 1
+          }
+        }
+      }
+    ],
+    "verification": true
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892438,
+        "fetchedAt": "2026-10-11T14:36:10.485Z"
+      },
+      "status": "OK",
+      "duration_ms": 48
+    },
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892438,
+        "fetchedAt": "2026-10-11T14:36:10.505Z"
+      },
+      "status": "OK",
+      "duration_ms": 20
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "wrongtool",
+        "payload": {
+          "case": 1
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-wrongtool.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}
