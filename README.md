@@ -83,7 +83,9 @@ do not exist — captured as real neatlogs traces.
 - **Crustdata** — 7 of the target's 11 tools run on its live company, people, jobs,
   web, and social-post data (sponsor credits; not required by the rules, chosen for
   real failure diversity)
-- **cfo.ai** — the business plan runs on its numbers
+- **cfo.ai** — the business plan, built with its AI CFO: https://app.cfo.ai/s/vjF416MqG4tyZXkN
+  (assumptions, revenue model, team and costs, cash and scenarios — all inputs labeled
+  provisional, view-only for judges)
 
 ## Evidence
 
