@@ -1,0 +1,70 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4N4B85YPAST7Z0YERFNK8TF",
+  "session_id": "fae27837-0afc-4b55-bd36-4536c1f929df",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T09:22:48.840142487Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-3ad99a94d2ff-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "30f385546531",
+  "token_usage": {
+    "input_tokens": 23288,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 80498,
+    "output_tokens": 2393,
+    "api_call_count": 13
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T09:22:48.833888093Z",
+    "agent_lines": 1,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 1,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 2161,
+      "user_lines_removed": 10,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-3ad99a94d2ff-diagnosis.json": 314,
+        "diagnoses/inc-b78e24b3136b-diagnosis.json": 373,
+        "diagnoses/inc-c883a643ca4f-diagnosis.json": 200,
+        "diagnoses/inc-fa0d3a72c823-diagnosis.json": 200,
+        "fixes/inc-b78e24b3136b-fix.json": 100,
+        "incidents/.sentinel-seen.json": 156,
+        "incidents/inc-3ad99a94d2ff.json": 16,
+        "incidents/inc-b78e24b3136b.json": 71,
+        "incidents/inc-c883a643ca4f.json": 16,
+        "incidents/inc-fa0d3a72c823.json": 16,
+        "loop-runs/loop-2026-10-11T09-16-28-174Z.json": 76,
+        "runs/2026-10-11T09-05-20-560Z-b2b-broken-run.json": 142,
+        "runs/2026-10-11T09-17-37-012Z-b2b-broken-run-after-fix.json": 242,
+        "src/agents/fixer.js": 11,
+        "src/agents/investigator.js": 59,
+        "src/agents/memory.js": 132,
+        "verifications/inc-b78e24b3136b-verification.json": 37
+      },
+      "user_removed_per_file": {
+        "src/agents/fixer.js": 9,
+        "src/agents/investigator.js": 1
+      }
+    }
+  ]
+}
