@@ -1,0 +1,25 @@
+{
+  "id": "inc-8cdafc668a0e",
+  "openedAt": "2026-10-11T10:28:38.464Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "8cdafc668a0e819b5e98846cc300bfcb",
+    "traceName": "b2b-healthy-run",
+    "workflowName": "b2b-healthy-run",
+    "ingestedAt": "2026-10-11T10:21:42.518Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:company_enrich",
+      "input": {
+        "domain": "neatlogs.com"
+      },
+      "error": "crustdata HTTP 400: 'domains' must be a list — wrap the value in brackets: {\"domains\": [\"neatlogs.com\"]}",
+      "duration_ms": 146
+    }
+  ],
+  "status": "open"
+}

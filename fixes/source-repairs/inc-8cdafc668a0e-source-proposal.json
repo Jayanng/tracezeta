@@ -1,0 +1,24 @@
+{
+  "incidentId": "inc-8cdafc668a0e",
+  "at": "2026-10-11T11:03:05.321Z",
+  "gate": {
+    "checks": {
+      "boundedDiff": {
+        "changed": 2,
+        "max": 40,
+        "pass": true
+      },
+      "onlyTargetFile": {
+        "others": [
+          "incidents/.sentinel-seen.json"
+        ],
+        "pass": false
+      }
+    },
+    "accepted": false,
+    "rejection": "patch touches other files: incidents/.sentinel-seen.json"
+  },
+  "targetFile": "/home/ubuntu/tracezeta/src/crustdata.js",
+  "proposedDiff": "diff --git a/src/crustdata.js b/src/crustdata.js\nindex dfd3ef9..218e6d9 100644\n--- a/src/crustdata.js\n+++ b/src/crustdata.js\n@@ -90,7 +90,7 @@ export async function companyEnrich({ domain } = {}) {\n     throw new ToolError(`company_enrich: '${domain}' is not a valid domain`);\n   }\n   const d = await crustCall('/company/enrich', {\n-    domains: domain,\n+    domains: [domain],\n     fields: ['basic_info', 'headcount', 'funding'],\n   });\n   const entry = Array.isArray(d) ? d[0] : null;\n",
+  "status": "REJECTED_BY_GATE"
+}

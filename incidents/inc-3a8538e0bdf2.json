@@ -1,0 +1,25 @@
+{
+  "id": "inc-3a8538e0bdf2",
+  "openedAt": "2026-10-11T10:21:44.515Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "3a8538e0bdf227a5c43b61262c7aff1e",
+    "traceName": "b2b-broken-run-after-fix-after-fix",
+    "workflowName": "b2b-broken-run-after-fix-after-fix",
+    "ingestedAt": "2026-10-11T09:29:36.172Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:web_search",
+      "input": {
+        "query": "founders"
+      },
+      "error": "crustdata network error: The operation was aborted due to timeout",
+      "duration_ms": 30003
+    }
+  ],
+  "status": "open"
+}

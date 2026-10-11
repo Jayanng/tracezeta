@@ -1,0 +1,200 @@
+{
+  "incidentId": "inc-3a8538e0bdf2",
+  "at": "2026-10-11T10:21:52.267Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "evidence": [
+        "span 'web_search' failed against an external service: crustdata network error: The operation was aborted due to timeout"
+      ],
+      "spans": [
+        "web_search"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        },
+        {
+          "type": "commit",
+          "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+          "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "web_search"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [
+        {
+          "traceId": "51d383a868f6f8c86011169441e77844",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "web_search",
+            "job_search",
+            "web_search",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "6da984ed4795e3f36cfe37e836d3bba7",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "web_search",
+            "web_search",
+            "company_search",
+            "job_search"
+          ]
+        },
+        {
+          "traceId": "e366ef09ebf3a9074811b95db458dace",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_search",
+            "web_search",
+            "job_search",
+            "web_search"
+          ]
+        },
+        {
+          "traceId": "f93abd8cfd05241eb2a7b54ce0560660",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "job_search",
+            "web_search",
+            "web_search",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "6614797804c9c087e174b01c09ac41a6",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 0.8622749000510712,
+          "matchedSpans": [
+            "job_search",
+            "company_search",
+            "web_search",
+            "web_search"
+          ]
+        }
+      ],
+      "count": 5
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "external-service-failure": {
+          "priorFixes": [
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+              "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+              "match": null,
+              "date": "2026-10-11T07:01:48.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f1a31120-cd12-41ef-86bb-58f57bf595a5",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:31:59.222885798Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "83e0b558-4360-4419-9d48-67f3cfc305e1",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T06:25:02.318459811Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "fae27837-0afc-4b55-bd36-4536c1f929df",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:22:48.840142487Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "web_search",
+      "tool": "web_search",
+      "input": {
+        "query": "founders"
+      },
+      "error": "crustdata network error: The operation was aborted due to timeout",
+      "status": "ERROR",
+      "durationMs": 1015,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T09-29-36-172Z-b2b-broken-run-after-fix-after-fix.json",
+    "traceMetadata": {
+      "traceId": "3a8538e0bdf227a5c43b61262c7aff1e",
+      "traceName": "b2b-broken-run-after-fix-after-fix",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "incidentId": "inc-8cdafc668a0e",
+  "at": "2026-10-11T11:02:23.282Z",
+  "stages": [
+    {
+      "classify": {
+        "tool": "company_enrich",
+        "error": "crustdata HTTP 400: 'domains' must be a list — wrap the value in brackets: {\"domains\": [\"neatlogs.com\"]}",
+        "reproduced": true,
+        "targetFile": "/home/ubuntu/tracezeta/src/crustdata.js"
+      }
+    },
+    {
+      "sandbox": {
+        "boundarySound": true
+      }
+    },
+    {
+      "repairSession": "completed"
+    },
+    {
+      "gate": {
+        "accepted": false,
+        "verdict": "patch touches other files: incidents/.sentinel-seen.json"
+      }
+    }
+  ],
+  "outcome": "rejected-by-gate",
+  "proposalFile": "/home/ubuntu/tracezeta/fixes/source-repairs/inc-8cdafc668a0e-source-proposal.json",
+  "rejection": "patch touches other files: incidents/.sentinel-seen.json",
+  "reverted": true
+}
