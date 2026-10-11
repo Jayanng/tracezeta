@@ -1,0 +1,65 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NJ3KRMK4FEW21ESB627QM0",
+  "session_id": "513e28d3-97e7-49aa-8a8b-9e88b5a7579e",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T13:23:18.603524039Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-4745e9b3a030-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "ee71e572915e",
+  "token_usage": {
+    "input_tokens": 20237,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 1747,
+    "api_call_count": 8
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T13:23:18.59838569Z",
+    "agent_lines": 1,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 1,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 1101,
+      "user_lines_removed": 2,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-0af54d467c84-diagnosis.json": 352,
+        "diagnoses/inc-3a8538e0bdf2-diagnosis.json": 2,
+        "diagnoses/inc-4745e9b3a030-diagnosis.json": 217,
+        "fixes/inc-0af54d467c84-fix.json": 35,
+        "incidents/.sentinel-seen.json": 12,
+        "incidents/inc-0af54d467c84.json": 33,
+        "incidents/inc-4745e9b3a030.json": 25,
+        "incidents/inc-fc48d8662cd5.json": 26,
+        "runs/2026-10-11T13-21-46-752Z-breaker-wrong-tool.json": 85,
+        "runs/2026-10-11T13-21-46-977Z-breaker-malformed-args.json": 85,
+        "runs/2026-10-11T13-21-47-652Z-breaker-missing-params.json": 105,
+        "runs/2026-10-11T13-22-32-353Z-breaker-wrong-tool-after-fix.json": 90,
+        "verifications/inc-0af54d467c84-verification.json": 34
+      },
+      "user_removed_per_file": {
+        "diagnoses/inc-3a8538e0bdf2-diagnosis.json": 2
+      }
+    }
+  ]
+}
