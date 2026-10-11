@@ -1,6 +1,6 @@
 # TraceZeta
 
-**The pit crew for AI systems: a team of agents that watches other agents run, finds out why they broke, fixes them, and proves the fix worked — before a human ever looks at it.**
+**A self-healing reliability layer for AI systems: a team of agents that monitors other agents in production, detects failures, diagnoses them from trace evidence, repairs them, and verifies every fix before a human reviews it.**
 
 And it holds itself to the same standard. The loop that fixes failing agents has found and repaired bugs in **its own source code** — sandboxed, gate-verified, and approved at a human review gate. It cannot lie to itself, and it cannot silently break itself to look good. That is the whole point.
 
