@@ -1,0 +1,1 @@
+In package.json, add a script entry "demo": "bash scripts/demo-full-loop.sh" right after the "start" script. Make only that change, nothing else.
