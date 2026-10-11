@@ -1,0 +1,43 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NMR6M994J3V1ZRWHQXQF25",
+  "session_id": "07f55c83-9a60-4340-9434-cc71c1a5f155",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T14:09:30.426843366Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "README.md",
+    "package.json",
+    "scripts/crust-key-server.py",
+    "src/agents/fixer.js",
+    "src/agents/gate.js",
+    "src/agents/investigator.js",
+    "src/agents/memory.js",
+    "src/agents/sandbox.js",
+    "src/agents/sentinel.js",
+    "src/agents/source-flow.js",
+    "src/agents/verifier.js",
+    "src/neatlogs.js",
+    "src/target/index.js"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "f47317b8712f",
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T14:09:30.42213659Z",
+    "agent_lines": 195,
+    "agent_removed": 142,
+    "human_added": 296,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 491,
+    "total_lines_changed": 633,
+    "agent_percentage": 53.23854660347551,
+    "metric_version": 2
+  }
+}

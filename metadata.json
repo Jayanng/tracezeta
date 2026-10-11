@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NMR6M994J3V1ZRWHQXQF25",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.md",
+    "package.json",
+    "scripts/crust-key-server.py",
+    "src/agents/fixer.js",
+    "src/agents/gate.js",
+    "src/agents/investigator.js",
+    "src/agents/memory.js",
+    "src/agents/sandbox.js",
+    "src/agents/sentinel.js",
+    "src/agents/source-flow.js",
+    "src/agents/verifier.js",
+    "src/neatlogs.js",
+    "src/target/index.js"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ]
+}
