@@ -17,9 +17,17 @@
       "input": {
         "domain": "neatlogs.com"
       },
-      "error": "crustdata HTTP 400: 'domains' must be a list — wrap the value in brackets: {\"domains\": [\"neatlogs.com\"]}",
+      "error": "crustdata HTTP 400: 'domains' must be a list \u2014 wrap the value in brackets: {\"domains\": [\"neatlogs.com\"]}",
       "duration_ms": 146
     }
   ],
-  "status": "open"
+  "status": "resolved",
+  "resolvedAt": "2026-10-11T19:05:00Z",
+  "resolution": {
+    "method": "source-repair-flow",
+    "gateVerdict": "SOURCE_FIX_VERIFIED",
+    "humanReview": "approved",
+    "proposalFile": "fixes/source-repairs/inc-8cdafc668a0e-source-proposal.json",
+    "fixCommit": "f2dbd25"
+  }
 }
