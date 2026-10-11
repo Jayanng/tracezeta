@@ -1,0 +1,44 @@
+{
+  "incidentId": "inc-3ad99a94d2ff",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-3ad99a94d2ff-diagnosis.json",
+  "proposedAt": "2026-10-11T09:28:05.837Z",
+  "strategy": [
+    "invalid-argument-value",
+    "entity-not-found"
+  ],
+  "repairs": [
+    {
+      "tool": "web_search",
+      "original": {
+        "query": ""
+      },
+      "repaired": {
+        "query": ""
+      },
+      "notes": [
+        "query \"\": no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "repaired": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "notes": [
+        "step references an entity with no match in the data source; step removed (no entity invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "Command failed: git commit -m Entire pre-fix anchor: tracezeta-pre-fix-inc-3ad99a94d2ff (inc-3ad99a94d2ff)"
+  },
+  "applied": true
+}

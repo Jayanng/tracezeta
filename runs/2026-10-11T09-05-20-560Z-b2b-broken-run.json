@@ -1,0 +1,142 @@
+{
+  "name": "b2b-broken-run",
+  "at": "2026-10-11T09:05:20.560Z",
+  "ok": false,
+  "trace": {
+    "traceId": "b78e24b3136b4e533f206a36223ec4a0",
+    "spans": 9
+  },
+  "task": {
+    "name": "b2b-broken-run",
+    "steps": [
+      {
+        "tool": "credits_check",
+        "args": {}
+      },
+      {
+        "tool": "company_search",
+        "args": {
+          "query": 42
+        }
+      },
+      {
+        "tool": "company_enrich",
+        "args": {
+          "domain": "not a domain!!"
+        }
+      },
+      {
+        "tool": "job_search",
+        "args": {
+          "title": "AI Engineer",
+          "limit": 999
+        }
+      },
+      {
+        "tool": "company_enrich",
+        "args": {
+          "domain": "doesnotexist12345xyz.com"
+        }
+      },
+      {
+        "tool": "person_research",
+        "args": {
+          "query": "founders"
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {}
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:credits_check",
+      "kind": "TOOL",
+      "tool_name": "credits_check",
+      "input": {},
+      "output": {
+        "credits": 5156.07,
+        "recurring": 0,
+        "wallets": [
+          {
+            "type": "recurring",
+            "credits": 4956.07
+          },
+          {
+            "type": "topup",
+            "credits": 200
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 539
+    },
+    {
+      "name": "tool:company_search",
+      "kind": "TOOL",
+      "tool_name": "company_search",
+      "input": {
+        "query": 42
+      },
+      "status": "ERROR",
+      "error": "company_search: query must be a non-empty string",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:company_enrich",
+      "kind": "TOOL",
+      "tool_name": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "status": "ERROR",
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "duration_ms": 1
+    },
+    {
+      "name": "tool:job_search",
+      "kind": "TOOL",
+      "tool_name": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "status": "ERROR",
+      "error": "job_search: limit must be an integer 1-25",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:company_enrich",
+      "kind": "TOOL",
+      "tool_name": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "status": "ERROR",
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "duration_ms": 475
+    },
+    {
+      "name": "tool:person_research",
+      "kind": "TOOL",
+      "tool_name": "person_research",
+      "input": {
+        "query": "founders"
+      },
+      "status": "ERROR",
+      "error": "unknown tool 'person_research'",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {},
+      "status": "ERROR",
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 0
+    }
+  ]
+}

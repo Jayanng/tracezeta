@@ -1,0 +1,23 @@
+{
+  "id": "inc-c883a643ca4f",
+  "openedAt": "2026-10-11T09:05:22.279Z",
+  "reason": "trace-status-error",
+  "trace": {
+    "traceId": "c883a643ca4f7cfb0392a06b78e4ec33",
+    "traceName": "b2b-broken-run-after-fix",
+    "workflowName": "b2b-broken-run-after-fix",
+    "ingestedAt": "2026-10-11T07:07:16.131Z",
+    "status": "ERROR",
+    "finalizationStatus": "finalized"
+  },
+  "runFile": null,
+  "failedSteps": [],
+  "status": "resolved",
+  "resolvedAt": "2026-10-11T09:31:01.392Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-c883a643ca4f-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-c883a643ca4f-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-c883a643ca4f-verification.json",
+    "afterTraceId": "b3cf7efc604ab6f126cd84356a89a37e"
+  }
+}

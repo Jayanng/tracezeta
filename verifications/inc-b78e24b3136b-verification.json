@@ -1,0 +1,37 @@
+{
+  "incidentId": "inc-b78e24b3136b",
+  "fixFile": null,
+  "verifiedAt": "2026-10-11T09:17:37.012Z",
+  "accepted": true,
+  "before": {
+    "traceId": "b78e24b3136b4e533f206a36223ec4a0",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T09-05-20-560Z-b2b-broken-run.json",
+    "failingSteps": [
+      "tool:company_search",
+      "tool:company_enrich",
+      "tool:job_search",
+      "tool:company_enrich",
+      "tool:person_research",
+      "tool:web_search"
+    ],
+    "passingSteps": [
+      "tool:credits_check"
+    ]
+  },
+  "after": {
+    "traceId": "2baed8ca9f69d0bf678159c8fe70131f",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T09-17-37-012Z-b2b-broken-run-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": [
+      "tool:credits_check"
+    ]
+  },
+  "verdict": "FIX_VERIFIED"
+}

@@ -1,0 +1,242 @@
+{
+  "name": "b2b-broken-run-after-fix-after-fix",
+  "at": "2026-10-11T09:32:07.277Z",
+  "ok": true,
+  "trace": {
+    "traceId": "55aa5e43a48c569a3b72dd83dd810fd0",
+    "spans": 5
+  },
+  "task": {
+    "name": "b2b-broken-run-after-fix-after-fix",
+    "steps": [
+      {
+        "tool": "credits_check",
+        "args": {}
+      },
+      {
+        "tool": "job_search",
+        "args": {
+          "title": "AI Engineer",
+          "limit": 25
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {
+          "query": "founders"
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:credits_check",
+      "kind": "TOOL",
+      "tool_name": "credits_check",
+      "input": {},
+      "output": {
+        "credits": 5150.07,
+        "recurring": 0,
+        "wallets": [
+          {
+            "type": "recurring",
+            "credits": 4950.07
+          },
+          {
+            "type": "topup",
+            "credits": 200
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 468
+    },
+    {
+      "name": "tool:job_search",
+      "kind": "TOOL",
+      "tool_name": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "output": {
+        "title": "AI Engineer",
+        "total": 212920,
+        "jobs": [
+          {
+            "title": "AI Engineer, Voice and Realtime",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Jr AI/ML Engineer",
+            "company": "Tech Consulting",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Ai Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Forward Deployed Engineer (AI Engineer)",
+            "company": "Signify Technology",
+            "workplace": null
+          },
+          {
+            "title": "AI & Platform Engineer",
+            "company": "Signify Technology",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Sr. Software Engineer (Software Engineer, Backend/AI (Remote)",
+            "company": "Advantage Technical",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Gen AI Specialist/Engineer",
+            "company": "Primary Talent Partners",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Senior Forward Deployed AI Engineer",
+            "company": "TachyonShift",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Fullstack and AI Engineer",
+            "company": null,
+            "workplace": null
+          },
+          {
+            "title": "Senior AI/ML Engineer",
+            "company": "AgileGrid Solutions",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Junior AI/ML Engineer",
+            "company": null,
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer",
+            "company": "Inherent Technologies",
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer",
+            "company": "Shrive Technologies",
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer - Computer Vision",
+            "company": "CyberCoders",
+            "workplace": "Hybrid"
+          },
+          {
+            "title": "Senior Staff Engineer-Data and AI Platform",
+            "company": "H-E-B",
+            "workplace": null
+          },
+          {
+            "title": "Junior AI Engineer",
+            "company": "Atlas Search",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Gen AI Engineer",
+            "company": "MathCo",
+            "workplace": "Hybrid"
+          },
+          {
+            "title": "Senior Research Scientist/Software Engineer, LLM/Agent Platform (TikTok-Content Ecology AI Innovation & Platform)",
+            "company": "TikTok",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Applied AI Engineer",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Engineer",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Applied AI Engineer",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Engineer - Startups",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI-Native SEO / AEO Engineer",
+            "company": "Service Robot Co.",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Software Dev Engineer II, AWS Healthcare AI",
+            "company": "Amazon Web Services (AWS)",
+            "workplace": null
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 786
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {
+        "query": "founders"
+      },
+      "output": {
+        "query": "founders",
+        "results": [
+          {
+            "source": "web",
+            "title": "Founders | Podcast on Spotify",
+            "url": "https://open.spotify.com/show/7txiovdzPARhjm18NwMUYj",
+            "snippet": "Learn from history's greatest entrepreneurs. Every week I read a biography of an entrepreneur and find ideas you can use in your work.Read more"
+          },
+          {
+            "source": "web",
+            "title": "Founders Podcast | David Senra",
+            "url": "https://www.founderspodcast.com/",
+            "snippet": "David Senra studies history's greatest entrepreneurs and distills their lessons into the Founders podcast. 350+ episodes on the world's best company builders ..."
+          },
+          {
+            "source": "web",
+            "title": "Founders Group of Food Companies",
+            "url": "https://www.foundersfoodgroup.com/",
+            "snippet": "Founders is a family-owned company that invests its own capital and applies operating know-how to build a group of thriving food businesses and exceptional ..."
+          },
+          {
+            "source": "web",
+            "title": "Founders Media - Vancouver Creative Agency",
+            "url": "https://foundersmedia.ca/",
+            "snippet": "Founders Media is a leading content production and creative agency specializing in storytelling, experiences, videography, photography and social media ..."
+          },
+          {
+            "source": "web",
+            "title": "FOUNDER Definition & Meaning",
+            "url": "https://www.merriam-webster.com/dictionary/founder",
+            "snippet": "4 days ago — The meaning of FOUNDER is one that founds or establishes. How to use founder in a sentence. Did you know?"
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 4442
+    }
+  ]
+}

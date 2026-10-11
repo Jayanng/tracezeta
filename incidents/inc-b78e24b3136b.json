@@ -1,0 +1,71 @@
+{
+  "id": "inc-b78e24b3136b",
+  "openedAt": "2026-10-11T09:05:22.279Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "b78e24b3136b4e533f206a36223ec4a0",
+    "traceName": "b2b-broken-run",
+    "workflowName": "b2b-broken-run",
+    "ingestedAt": "2026-10-11T09:05:20.560Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:company_search",
+      "input": {
+        "query": 42
+      },
+      "error": "company_search: query must be a non-empty string",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "duration_ms": 1
+    },
+    {
+      "tool": "tool:job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "error": "job_search: limit must be an integer 1-25",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "duration_ms": 475
+    },
+    {
+      "tool": "tool:person_research",
+      "input": {
+        "query": "founders"
+      },
+      "error": "unknown tool 'person_research'",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:web_search",
+      "input": {},
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 0
+    }
+  ],
+  "status": "resolved",
+  "resolvedAt": "2026-10-11T09:17:37.566Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-b78e24b3136b-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-b78e24b3136b-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-b78e24b3136b-verification.json",
+    "afterTraceId": "2baed8ca9f69d0bf678159c8fe70131f"
+  }
+}

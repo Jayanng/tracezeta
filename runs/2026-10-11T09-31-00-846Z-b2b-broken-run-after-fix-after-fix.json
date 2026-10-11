@@ -1,0 +1,242 @@
+{
+  "name": "b2b-broken-run-after-fix-after-fix",
+  "at": "2026-10-11T09:31:00.846Z",
+  "ok": true,
+  "trace": {
+    "traceId": "b3cf7efc604ab6f126cd84356a89a37e",
+    "spans": 5
+  },
+  "task": {
+    "name": "b2b-broken-run-after-fix-after-fix",
+    "steps": [
+      {
+        "tool": "credits_check",
+        "args": {}
+      },
+      {
+        "tool": "job_search",
+        "args": {
+          "title": "AI Engineer",
+          "limit": 25
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {
+          "query": "founders"
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:credits_check",
+      "kind": "TOOL",
+      "tool_name": "credits_check",
+      "input": {},
+      "output": {
+        "credits": 5151.82,
+        "recurring": 0,
+        "wallets": [
+          {
+            "type": "recurring",
+            "credits": 4951.82
+          },
+          {
+            "type": "topup",
+            "credits": 200
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 364
+    },
+    {
+      "name": "tool:job_search",
+      "kind": "TOOL",
+      "tool_name": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "output": {
+        "title": "AI Engineer",
+        "total": 212920,
+        "jobs": [
+          {
+            "title": "AI Engineer, Voice and Realtime",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Jr AI/ML Engineer",
+            "company": "Tech Consulting",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Ai Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Forward Deployed Engineer (AI Engineer)",
+            "company": "Signify Technology",
+            "workplace": null
+          },
+          {
+            "title": "AI & Platform Engineer",
+            "company": "Signify Technology",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Sr. Software Engineer (Software Engineer, Backend/AI (Remote)",
+            "company": "Advantage Technical",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Gen AI Specialist/Engineer",
+            "company": "Primary Talent Partners",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Senior Forward Deployed AI Engineer",
+            "company": "TachyonShift",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Fullstack and AI Engineer",
+            "company": null,
+            "workplace": null
+          },
+          {
+            "title": "Senior AI/ML Engineer",
+            "company": "AgileGrid Solutions",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Junior AI/ML Engineer",
+            "company": null,
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer",
+            "company": "Inherent Technologies",
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer",
+            "company": "Shrive Technologies",
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer - Computer Vision",
+            "company": "CyberCoders",
+            "workplace": "Hybrid"
+          },
+          {
+            "title": "Senior Staff Engineer-Data and AI Platform",
+            "company": "H-E-B",
+            "workplace": null
+          },
+          {
+            "title": "Junior AI Engineer",
+            "company": "Atlas Search",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Gen AI Engineer",
+            "company": "MathCo",
+            "workplace": "Hybrid"
+          },
+          {
+            "title": "Senior Research Scientist/Software Engineer, LLM/Agent Platform (TikTok-Content Ecology AI Innovation & Platform)",
+            "company": "TikTok",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Applied AI Engineer",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Engineer",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Applied AI Engineer",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Engineer - Startups",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI-Native SEO / AEO Engineer",
+            "company": "Service Robot Co.",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Software Dev Engineer II, AWS Healthcare AI",
+            "company": "Amazon Web Services (AWS)",
+            "workplace": null
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 743
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {
+        "query": "founders"
+      },
+      "output": {
+        "query": "founders",
+        "results": [
+          {
+            "source": "web",
+            "title": "Founders Federal Credit Union: Home",
+            "url": "https://www.foundersfcu.com/",
+            "snippet": "Earn $200 statement credit. for a limited time, when you open a new Founders Credit Card. Learn More. Gas up? Rate down! Beat your auto rate by 2%!1 Plus, no ...Read more"
+          },
+          {
+            "source": "web",
+            "title": "Founders | Podcast on Spotify",
+            "url": "https://open.spotify.com/show/7txiovdzPARhjm18NwMUYj",
+            "snippet": "Learn from history's greatest entrepreneurs. Every week I read a biography of an entrepreneur and find ideas you can use in your work.Read more"
+          },
+          {
+            "source": "web",
+            "title": "Founders Brewing Company: Founders Brewery",
+            "url": "https://foundersbrewing.com/",
+            "snippet": "Welcome to Founders Brewery! We love beer and we love to make it. Home of the delicious All Day IPA and famous for our Barrel-Aged Series. Cheers!"
+          },
+          {
+            "source": "web",
+            "title": "Login · Founders Bank",
+            "url": "https://my.foundersbank.bank/",
+            "snippet": "FDIC-Insured - Backed by the full faith and credit of the U.S. Government. Username. Forgot? First time user? Enroll now. Continue. © 2026 Founders Bank ...Read more"
+          },
+          {
+            "source": "web",
+            "title": "Founders Podcast | David Senra",
+            "url": "https://www.founderspodcast.com/",
+            "snippet": "David Senra studies history's greatest entrepreneurs and distills their lessons into the Founders podcast. 350+ episodes on the world's best company builders ..."
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 7681
+    }
+  ]
+}

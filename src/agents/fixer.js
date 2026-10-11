@@ -9,7 +9,7 @@
 // step's arguments, never healthy ones. If the diagnosis is not actionable,
 // the Fixer refuses (no guessed fixes).
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -23,14 +23,16 @@ function readJson(p) { return JSON.parse(readFileSync(p, 'utf8')); }
 /** Find the run record for a trace. */
 function findRunRecordPath(traceId, runFileHint) {
   if (runFileHint && existsSync(runFileHint)) return runFileHint;
-  const runsDir = join(ROOT, 'runs');
-  if (!existsSync(runsDir)) return null;
-  const { readdirSync } = require('node:fs');
-  for (const f of readdirSync(runsDir)) {
-    if (!f.endsWith('.json')) continue;
-    try {
-      if (readJson(join(runsDir, f))?.trace?.traceId === traceId) return join(runsDir, f);
-    } catch { /* skip */ }
+  // search both live runs/ and the archive (historical incidents reference
+  // archived run records; their evidence is still valid)
+  for (const dir of [join(ROOT, 'runs'), join(ROOT, 'archive', 'pre-b2b-reset')]) {
+    if (!existsSync(dir)) continue;
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith('.json')) continue;
+      try {
+        if (readJson(join(dir, f))?.trace?.traceId === traceId) return join(dir, f);
+      } catch { /* skip */ }
+    }
   }
   return null;
 }

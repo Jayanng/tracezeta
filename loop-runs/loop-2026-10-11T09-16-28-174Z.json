@@ -1,0 +1,76 @@
+{
+  "startedAt": "2026-10-11T09:16:28.174Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-3ad99a94d2ff",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-b78e24b3136b",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-b78e24b3136b",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 6,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-c883a643ca4f",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-fa0d3a72c823",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "entity-not-found"
+      ]
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 4,
+    "resolved": 1,
+    "unresolved": 3,
+    "escalations": [
+      {
+        "incident": "inc-3ad99a94d2ff",
+        "reason": "fixer refused: run record not found for the failing trace"
+      },
+      {
+        "incident": "inc-c883a643ca4f",
+        "reason": "fixer refused: run record not found for the failing trace"
+      },
+      {
+        "incident": "inc-fa0d3a72c823",
+        "reason": "fixer refused: run record not found for the failing trace"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-11T09:17:57.754Z"
+}

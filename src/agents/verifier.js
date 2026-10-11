@@ -39,7 +39,17 @@ function applyFixes(task, repairs) {
  * @param fixRecord  the fix record (with repairs)
  */
 export async function verify(incident, diagnosis, fixRecord) {
-  const beforeRun = readJson(diagnosis.evidenceSources.runFile);
+  const runFile = diagnosis.evidenceSources.runFile;
+  if (!runFile) {
+    // no run record = no before-state to re-run against; honest refusal
+    return {
+      incidentId: incident.id,
+      verifiedAt: new Date().toISOString(),
+      accepted: false,
+      verdict: 'FIX_REJECTED: no run record for the failing trace (no before-state)',
+    };
+  }
+  const beforeRun = readJson(runFile);
   const beforeTask = beforeRun.task;
   const beforeSpans = beforeRun.spans || [];
   const failingBefore = beforeSpans.filter((s) => s.status === 'ERROR').map((s) => s.name);

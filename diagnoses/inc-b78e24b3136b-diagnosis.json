@@ -1,0 +1,373 @@
+{
+  "incidentId": "inc-b78e24b3136b",
+  "at": "2026-10-11T09:17:01.204Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'company_search' failed with a validation error on its input: company_search: query must be a non-empty string",
+        "span 'company_enrich' failed with a validation error on its input: company_enrich: 'not a domain!!' is not a valid domain",
+        "span 'web_search' failed with a validation error on its input: web_search: query must be a non-empty string",
+        "span 'job_search' failed with a validation error on its input: job_search: limit must be an integer 1-25",
+        "span 'company_enrich' failed with a validation error on its input: company_enrich: 'not a domain!!' is not a valid domain",
+        "span 'person_research' failed with a validation error on its input: unknown tool 'person_research'"
+      ],
+      "spans": [
+        "company_search",
+        "company_enrich",
+        "web_search",
+        "job_search",
+        "company_enrich",
+        "person_research"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        }
+      ]
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "evidence": [
+        "span 'person_research' called a tool that does not exist: unknown tool 'person_research'"
+      ],
+      "spans": [
+        "person_research"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "must be a non-empty string",
+      "company_search",
+      "not a valid domain",
+      "company_enrich"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [
+        {
+          "traceId": "51d383a868f6f8c86011169441e77844",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "web_search",
+            "job_search",
+            "web_search",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "6da984ed4795e3f36cfe37e836d3bba7",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "web_search",
+            "web_search",
+            "company_search",
+            "job_search"
+          ]
+        },
+        {
+          "traceId": "e366ef09ebf3a9074811b95db458dace",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_search",
+            "web_search",
+            "job_search",
+            "web_search"
+          ]
+        },
+        {
+          "traceId": "f93abd8cfd05241eb2a7b54ce0560660",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "job_search",
+            "web_search",
+            "web_search",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "11149202cd8bd62e150d8d343b7bc6df",
+          "traceName": "b2b-broken-run",
+          "status": "ERROR",
+          "score": 0.6701965010303081,
+          "matchedSpans": [
+            "company_search",
+            "web_search",
+            "job_search"
+          ]
+        },
+        {
+          "traceId": "b675c12fba503e405c19a347f6802a51",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "web_search",
+            "company_enrich",
+            "company_enrich",
+            "web_search",
+            "job_search",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "8254bc31a416554dd2772fa149e67dfc",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 0.9660482472348987,
+          "matchedSpans": [
+            "company_enrich",
+            "company_enrich",
+            "web_search",
+            "job_search",
+            "web_search",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "2282f34c9e8528f19fa22074ff4d33a1",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 0.9572699146361524,
+          "matchedSpans": [
+            "company_search",
+            "web_search",
+            "company_enrich",
+            "job_search",
+            "web_search",
+            "company_enrich"
+          ]
+        }
+      ],
+      "count": 8
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "invalid-argument-value": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "9ff2fe8a-f5f3-4f91-bd1c-f1db9f5afca2",
+              "title": "Create Repair Plan for inc-2f53ff2c5c51",
+              "match": null,
+              "date": "2026-10-11T05:46:39.428Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "83e0b558-4360-4419-9d48-67f3cfc305e1",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T06:25:02.318Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f41fb1d2-f1c9-4ba4-9c29-af03d6b047e5",
+              "title": "Create tracezeta Repair Plan for inc-2282f34c9e85",
+              "match": null,
+              "date": "2026-10-11T06:23:42.284Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        },
+        "wrong-tool-selected": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f62c0df5-2de3-4bcc-b7f9-18483817b0e1",
+              "title": "Create Repair Plan for inc-002bd71dd4c4",
+              "match": null,
+              "date": "2026-10-11T06:33:51.015448284Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "ec72fd31-cdb4-4aa1-9b32-2adb2f06119f",
+              "title": "Create Repair Plan for inc-b675c12fba50",
+              "match": null,
+              "date": "2026-10-11T06:30:26.502805651Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "bd64ee25-a85b-41be-b8d3-0f19bab1b707",
+              "title": "Create Repair Plan for inc-e366ef09ebf3",
+              "match": null,
+              "date": "2026-10-11T06:32:05.365003249Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "company_search",
+      "tool": "company_search",
+      "input": {
+        "query": 42
+      },
+      "error": "company_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "status": "ERROR",
+      "durationMs": 475,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "web_search",
+      "tool": "web_search",
+      "input": {},
+      "error": "web_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "job_search",
+      "tool": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "error": "job_search: limit must be an integer 1-25",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "status": "ERROR",
+      "durationMs": 1,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "person_research",
+      "tool": "person_research",
+      "input": {
+        "query": "founders"
+      },
+      "error": "unknown tool 'person_research'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T09-05-20-560Z-b2b-broken-run.json",
+    "traceMetadata": {
+      "traceId": "b78e24b3136b4e533f206a36223ec4a0",
+      "traceName": "b2b-broken-run",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

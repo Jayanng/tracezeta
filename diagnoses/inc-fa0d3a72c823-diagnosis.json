@@ -1,0 +1,200 @@
+{
+  "incidentId": "inc-fa0d3a72c823",
+  "at": "2026-10-11T09:31:12.222Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "evidence": [
+        "span 'company_enrich' asked for an entity the data source has no record of: company_enrich: no match for domain 'doesnotexist12345xyz.com'"
+      ],
+      "spans": [
+        "company_enrich"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        },
+        {
+          "type": "commit",
+          "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+          "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "no match for domain 'doesnotexist",
+      "company_enrich"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [
+        {
+          "traceId": "11149202cd8bd62e150d8d343b7bc6df",
+          "traceName": "b2b-broken-run",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_search",
+            "company_enrich",
+            "company_enrich"
+          ]
+        },
+        {
+          "traceId": "2282f34c9e8528f19fa22074ff4d33a1",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_search",
+            "web_search",
+            "company_enrich",
+            "job_search",
+            "company_enrich"
+          ]
+        },
+        {
+          "traceId": "2dd29e2eabc6cbf944c01c9365b93f01",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_enrich",
+            "web_search",
+            "company_search",
+            "company_enrich"
+          ]
+        },
+        {
+          "traceId": "51d383a868f6f8c86011169441e77844",
+          "traceName": "b2b-broken-run-after-fix-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_enrich",
+            "job_search",
+            "company_enrich",
+            "company_search"
+          ]
+        },
+        {
+          "traceId": "6614797804c9c087e174b01c09ac41a6",
+          "traceName": "b2b-broken-run-after-fix",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "company_search",
+            "company_enrich",
+            "company_enrich"
+          ]
+        }
+      ],
+      "count": 5
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "entity-not-found": {
+          "priorFixes": [
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+              "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+              "match": null,
+              "date": "2026-10-11T07:01:48.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "5ab6c657e0f516e3ef748f77caaa6ee0968c9988",
+              "title": "README: Crustdata integration documented (11 tools, 7 live B2B domains)",
+              "match": null,
+              "date": "2026-10-11T07:02:51.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "7f406c76-5993-4a23-8635-b92f23e43a70",
+              "title": "Create Repair Plan Documentation for Incident",
+              "match": null,
+              "date": "2026-10-11T07:02:52.102842834Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "242cde14-e49b-4aba-9ff0-b2bd2821aac4",
+              "title": "Document Repair Plan for Incident",
+              "match": null,
+              "date": "2026-10-11T07:02:52.078778222Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "status": "ERROR",
+      "durationMs": 202,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/archive/pre-b2b-reset/2026-10-11T06-35-20-608Z-b2b-broken-run-after-fix.json",
+    "traceMetadata": {
+      "traceId": "fa0d3a72c82366299f7f034794280575",
+      "traceName": "b2b-broken-run-after-fix",
+      "status": "ERROR",
+      "finalizationStatus": "finalized",
+      "source": "trace-metadata"
+    }
+  }
+}

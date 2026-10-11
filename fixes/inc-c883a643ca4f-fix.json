@@ -1,0 +1,29 @@
+{
+  "incidentId": "inc-c883a643ca4f",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-c883a643ca4f-diagnosis.json",
+  "proposedAt": "2026-10-11T09:30:51.011Z",
+  "strategy": [
+    "entity-not-found"
+  ],
+  "repairs": [
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "repaired": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "notes": [
+        "step references an entity with no match in the data source; step removed (no entity invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "Command failed: git commit -m Entire pre-fix anchor: tracezeta-pre-fix-inc-c883a643ca4f (inc-c883a643ca4f)"
+  },
+  "applied": true
+}

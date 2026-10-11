@@ -1,0 +1,30 @@
+{
+  "incidentId": "inc-fa0d3a72c823",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-fa0d3a72c823-diagnosis.json",
+  "proposedAt": "2026-10-11T09:32:00.524Z",
+  "strategy": [
+    "entity-not-found"
+  ],
+  "repairs": [
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "repaired": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "notes": [
+        "step references an entity with no match in the data source; step removed (no entity invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4N4W1NAQH40J6PMN8JDKRD4",
+    "raw": "  branch       main\n  checkpoints  28\n\n● f1a31120-cd1  [temporary]  carry forward: uncommitted session files\n  10-11 17:31 (f47c3ad) carry forward: uncommitted session files\n\n● 01M4N4W1NAQH40J6PMN8JDKRD4  \"Create the file /home/ubuntu/tracezeta/fixes/inc-fa0d3a72...\"\n  10-11 17:31 (54b5576) Entire p"
+  },
+  "applied": true
+}

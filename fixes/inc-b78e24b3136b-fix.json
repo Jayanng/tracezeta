@@ -1,0 +1,100 @@
+{
+  "incidentId": "inc-b78e24b3136b",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-b78e24b3136b-diagnosis.json",
+  "proposedAt": "2026-10-11T09:17:31.116Z",
+  "strategy": [
+    "invalid-argument-value",
+    "wrong-tool-selected"
+  ],
+  "repairs": [
+    {
+      "tool": "company_search",
+      "original": {
+        "query": 42
+      },
+      "repaired": {
+        "query": 42
+      },
+      "notes": [
+        "query 42: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "not a domain!!"
+      },
+      "repaired": {
+        "domain": "not a domain!!"
+      },
+      "notes": [
+        "domain \"not a domain!!\": no domain shape; step removed"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "job_search",
+      "original": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "repaired": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "notes": [
+        "limit '999' -> 25 (clamp to integer 1-25)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "repaired": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "notes": [
+        "domain 'doesnotexist12345xyz.com': shape-valid but no company exists for it; step removed (no domain invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "web_search",
+      "original": {},
+      "repaired": {},
+      "notes": [
+        "query undefined: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "person_research",
+      "original": {
+        "query": "founders"
+      },
+      "repaired": {
+        "query": "founders"
+      },
+      "notes": [
+        "tool 'person_research' -> 'web_search' (exact argument-shape match in the registry)"
+      ],
+      "actionable": true,
+      "remove": false,
+      "replaceToolWith": "web_search"
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4N41GM3D83NJTF1K8W3SYEW",
+    "raw": "  branch       main\n  checkpoints  25\n\n● 01M4N41GM3D83NJTF1K8W3SYEW  \"Create the file /home/ubuntu/tracezeta/fixes/inc-b78e24b3...\"\n  10-11 17:17 (fd66d4e) Entire pre-fix anchor: tracezeta-pre-fix-inc-b78e24b3136b (inc-b78e24b3136b)\n\n● b7210268-d09  [temporary]  carry forward: uncommitted session fi"
+  },
+  "applied": true
+}

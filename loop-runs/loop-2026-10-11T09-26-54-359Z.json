@@ -1,0 +1,86 @@
+{
+  "startedAt": "2026-10-11T09:26:54.359Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-3ad99a94d2ff",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-3ad99a94d2ff",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 2,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-c883a643ca4f",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-c883a643ca4f",
+      "round": 1,
+      "verdict": "FIX_REJECTED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-c883a643ca4f",
+      "round": 2,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-c883a643ca4f",
+      "round": 2,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-fa0d3a72c823",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-fa0d3a72c823",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 3,
+    "resolved": 3,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-11T09:32:07.802Z"
+}

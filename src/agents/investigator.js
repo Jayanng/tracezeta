@@ -14,18 +14,22 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getTraceSpans, getTraceRawSpans, RUNS_DIR } from '../neatlogs.js';
+import { searchTraceMemory, searchFixMemory, memoryQueries } from './memory.js';
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const DIAGNOSES_DIR = join(ROOT, 'diagnoses');
 
 function findRunRecord(traceId) {
-  if (!existsSync(RUNS_DIR)) return null;
-  for (const f of readdirSync(RUNS_DIR)) {
-    if (!f.endsWith('.json')) continue;
-    try {
-      const run = JSON.parse(readFileSync(join(RUNS_DIR, f), 'utf8'));
-      if (run?.trace?.traceId === traceId) return { file: join(RUNS_DIR, f), run };
-    } catch { /* skip corrupt */ }
+  // search live runs/ AND the archive (historical traces keep valid evidence)
+  for (const dir of [RUNS_DIR, join(ROOT, 'archive', 'pre-b2b-reset')]) {
+    if (!existsSync(dir)) continue;
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith('.json')) continue;
+      try {
+        const run = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+        if (run?.trace?.traceId === traceId) return { file: join(dir, f), run };
+      } catch { /* skip corrupt */ }
+    }
   }
   return null;
 }
@@ -187,12 +191,69 @@ export async function investigate(incident) {
   const surviving = hypotheses.filter((h) => h.supported);
   const rejected = hypotheses.filter((h) => !h.supported);
 
+  // MEMORY: consult both long-term memories before finalizing.
+  //   neatlogs trace search: have we seen this failure signature before?
+  //   Entire semantic search: what fixed it last time?
+  // A root cause supported by current spans AND prior fixes is 'corroborated';
+  // the loop demonstrably learns instead of re-deriving from scratch.
+  const queries = memoryQueries(incident, citations);
+  const traceMemory = await searchTraceMemory(queries, traceId);
+  // Fix-memory queries: root-cause-aware terms find the actual fix commits
+  // ("crustdata entity not found fix" finds the B2B repair commit; a raw error
+  // string finds nothing). Fall back to the first keyword.
+  const rcIds = surviving.map((h) => h.id);
+  const fixQueryMap = {
+    'invalid-argument-value': 'fix invalid argument repair strategy',
+    'wrong-tool-selected': 'wrong tool repair strategy',
+    'entity-not-found': 'crustdata entity not found fix',
+    'missing-required-argument': 'missing required parameters fix',
+    'external-service-failure': 'external api failure fix',
+  };
+  // search fix memory PER root cause so each gets its own corroborating evidence
+  const fixMemories = {};
+  for (const id of rcIds) {
+    fixMemories[id] = await searchFixMemory(fixQueryMap[id] || queries[0] || 'fix');
+  }
+  const fixMemory = fixMemories[rcIds[0]] || { ok: false, prior: [] };
+
+  const fixMemoryAll = fixMemories; // per-root-cause results
+  for (const rc of surviving) {
+    const myFixMemory = fixMemories[rc.id] || { prior: [] };
+    const titles = (myFixMemory.prior || []).map((p) => String(p.title || '').toLowerCase());
+    rc.corroborated = titles.some((t) => /fix|repair|verif|bug|strategy|crustdata|b2b|entity|enrich/.test(t));
+    // the corroborating prior must be a real fix artifact (code/commit), not docs
+    if (rc.corroborated) {
+      rc.priorEvidence = (myFixMemory.prior || [])
+        .filter((p) => {
+          const t = String(p.title || '').toLowerCase();
+          const isDoc = /^readme|docs|video script|submission/.test(t);
+          return !isDoc && t.length > 10;
+        })
+        .slice(0, 2)
+        .map((p) => ({ type: p.type, title: p.title, id: p.id, source: 'entire-search' }));
+      if (!rc.priorEvidence.length) rc.corroborated = false;
+    }
+  }
+
   const diagnosis = {
     incidentId: incident.id,
     at: new Date().toISOString(),
     verdict: surviving.length > 0 ? 'ROOT_CAUSE_IDENTIFIED' : 'INCONCLUSIVE',
-    rootCauses: surviving.map((h) => ({ id: h.id, label: h.label, evidence: h.citations, spans: h.evidenceSpans })),
+    rootCauses: surviving.map((h) => ({ id: h.id, label: h.label, evidence: h.citations, spans: h.evidenceSpans, corroborated: h.corroborated === true, priorEvidence: h.priorEvidence || [] })),
     rejectedHypotheses: rejected.map((h) => ({ id: h.id, label: h.label, rejectionReason: 'no span evidence supports this hypothesis' })),
+    memory: {
+      queries,
+      traceMemory: traceMemory.ok
+        ? { source: 'neatlogs-keyword-search', priorTraces: traceMemory.prior, count: traceMemory.prior.length }
+        : { source: 'neatlogs-keyword-search', error: traceMemory.error },
+      fixMemory: {
+        source: 'entire-semantic-search',
+        perRootCause: Object.fromEntries(Object.entries(fixMemories).map(([id, m]) => [
+          id,
+          m.ok ? { priorFixes: m.prior, count: m.prior.length } : { error: m.error },
+        ])),
+      },
+    },
     citations,
     evidenceSources: {
       spanProjectionUsed: projectionUsed,
