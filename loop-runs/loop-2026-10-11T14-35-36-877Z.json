@@ -1,0 +1,69 @@
+{
+  "startedAt": "2026-10-11T14:35:36.877Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 3,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-4e1b412daf5b",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "wrong-tool-selected",
+        "external-service-failure"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-4e1b412daf5b",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-8bd6632dc5c0",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-8bd6632dc5c0",
+      "round": 1,
+      "verdict": "FIX_VERIFIED (step removed: compute_schedule)",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-b7b47614b71d",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-b7b47614b71d",
+      "round": 1,
+      "verdict": "FIX_VERIFIED (step removed: compute_schedule)",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 3,
+    "resolved": 3,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-11T14:37:18.962Z"
+}

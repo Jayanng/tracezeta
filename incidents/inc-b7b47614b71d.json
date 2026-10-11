@@ -3,14 +3,14 @@
   "openedAt": "2026-10-11T14:35:39.502Z",
   "reason": "run-record-failure",
   "trace": {
-    "traceId": "b7b47614b71d4bc36fd5afc87fe49e1c",
+    "traceId": "12cb18ec2c045ec98a6144f6426f08a3",
     "traceName": "breaker-missing-params",
     "workflowName": "breaker-missing-params",
     "ingestedAt": "2026-10-11T14:35:36.816Z",
     "status": "ERROR",
     "finalizationStatus": "unknown (platform list not consulted for this trace)"
   },
-  "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T14-35-36-816Z-breaker-missing-params.json",
+  "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T14-37-18-776Z-breaker-missing-params-after-fix.json",
   "failedSteps": [
     {
       "tool": "tool:compute_schedule",
@@ -21,5 +21,12 @@
       "duration_ms": 0
     }
   ],
-  "status": "open"
+  "status": "resolved",
+  "resolvedAt": "2026-10-11T14:37:18.962Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-b7b47614b71d-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-b7b47614b71d-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-b7b47614b71d-verification.json",
+    "afterTraceId": "12cb18ec2c045ec98a6144f6426f08a3"
+  }
 }

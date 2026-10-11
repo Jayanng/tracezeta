@@ -1,0 +1,30 @@
+{
+  "incidentId": "inc-b7b47614b71d",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-b7b47614b71d-diagnosis.json",
+  "proposedAt": "2026-10-11T14:37:18.018Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "days": 7
+      },
+      "repaired": {
+        "days": 7
+      },
+      "notes": [
+        "startDate undefined: not derivable; step removed (no date invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4NPB29XCYBHCM5Q431W1D44",
+    "raw": "  branch       main\n  checkpoints  49\n\n● a1a27bcb-e37  [temporary]  carry forward: uncommitted session files\n  10-11 22:37 (e00956b) carry forward: uncommitted session files\n\n● 01M4NPB29XCYBHCM5Q431W1D44  \"Create the file /home/ubuntu/tracezeta/fixes/inc-b7b47614...\"\n  10-11 22:37 (f4bd564) Entire p"
+  },
+  "applied": true
+}

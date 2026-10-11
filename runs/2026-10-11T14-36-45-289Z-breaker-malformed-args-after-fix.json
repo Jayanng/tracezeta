@@ -1,0 +1,67 @@
+{
+  "name": "breaker-malformed-args-after-fix",
+  "at": "2026-10-11T14:36:45.289Z",
+  "ok": true,
+  "trace": {
+    "traceId": "b13e6fe0aca9ae58afd2bcf48fe4ccce",
+    "spans": 4
+  },
+  "task": {
+    "name": "breaker-malformed-args-after-fix",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "malformed",
+          "payload": {
+            "case": 2
+          }
+        }
+      }
+    ],
+    "verification": true
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892438,
+        "fetchedAt": "2026-10-11T14:36:45.095Z"
+      },
+      "status": "OK",
+      "duration_ms": 25
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "malformed",
+        "payload": {
+          "case": 2
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-malformed.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

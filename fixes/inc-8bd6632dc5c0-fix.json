@@ -1,0 +1,33 @@
+{
+  "incidentId": "inc-8bd6632dc5c0",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-8bd6632dc5c0-diagnosis.json",
+  "proposedAt": "2026-10-11T14:36:44.522Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "repaired": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "notes": [
+        "startDate \"11/10/2026\": not derivable; step removed (no date invented)",
+        "days \"fourteen\": not derivable; step removed (no duration invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4NPA1J5FGPFPB1GF8QZRDE5",
+    "raw": "  branch       main\n  checkpoints  47\n\n● 01M4NPA1J5FGPFPB1GF8QZRDE5  \"Create the file /home/ubuntu/tracezeta/fixes/inc-8bd6632d...\"\n  10-11 22:36 (54c119a) Entire pre-fix anchor: tracezeta-pre-fix-inc-8bd6632dc5c0 (inc-8bd6632dc5c0)\n\n● 01M4NP9E1BRPN5008EQPXTPM01  \"Create the file /home/ubuntu/tracez"
+  },
+  "applied": true
+}

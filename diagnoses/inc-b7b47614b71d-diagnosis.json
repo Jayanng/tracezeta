@@ -1,0 +1,216 @@
+{
+  "incidentId": "inc-b7b47614b71d",
+  "at": "2026-10-11T14:36:54.803Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'compute_schedule' failed with a validation error on its input: compute_schedule: startDate must be YYYY-MM-DD"
+      ],
+      "spans": [
+        "compute_schedule"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "session",
+          "title": "tracezeta Incident Repair Plan Documentation",
+          "id": "07f55c83-9a60-4340-9434-cc71c1a5f155",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "must be YYYY-MM-DD",
+      "compute_schedule"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [
+        {
+          "traceId": "186fddb1270c36894a293312b71782c3",
+          "traceName": "breaker-missing-params",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "compute_schedule"
+          ]
+        },
+        {
+          "traceId": "23f651386305aeaaacd1b3f873f47222",
+          "traceName": "breaker-missing-params",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "compute_schedule"
+          ]
+        },
+        {
+          "traceId": "2abbd9772876a8031b5534f36eda83c4",
+          "traceName": "breaker-missing-params",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "compute_schedule"
+          ]
+        },
+        {
+          "traceId": "4745e9b3a0302557405f19b8dcbeb85e",
+          "traceName": "breaker-missing-params",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "compute_schedule"
+          ]
+        },
+        {
+          "traceId": "74d1f1ac95e068e8f41cc410cf5c0867",
+          "traceName": "breaker-missing-params",
+          "status": "ERROR",
+          "score": 1,
+          "matchedSpans": [
+            "compute_schedule"
+          ]
+        },
+        {
+          "traceId": "0e58129ecdb8f552ca70d2050a79d040",
+          "traceName": "team:verify-inc-0baf62493f95",
+          "status": "OK",
+          "score": 1,
+          "matchedSpans": [
+            "compare",
+            "read_evidence"
+          ]
+        },
+        {
+          "traceId": "b23237cd0792ce461a3870390a148a41",
+          "traceName": "team:verify-inc-0baf62493f95",
+          "status": "OK",
+          "score": 1,
+          "matchedSpans": [
+            "read_evidence",
+            "compare"
+          ]
+        },
+        {
+          "traceId": "1181957df4d0bc64e5a01d96fd700f6c",
+          "traceName": "team:verify-inc-002bd71dd4c4",
+          "status": "OK",
+          "score": 0.9423705240906562,
+          "matchedSpans": [
+            "read_evidence",
+            "compare"
+          ]
+        }
+      ],
+      "count": 8
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "invalid-argument-value": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "07f55c83-9a60-4340-9434-cc71c1a5f155",
+              "title": "tracezeta Incident Repair Plan Documentation",
+              "match": null,
+              "date": "2026-10-11T14:14:34.648Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "d79943973d0d7cab70daed97e38f35cc057e5870",
+              "title": "Source repair: sandbox, anti-reward-hacking gate, classifier, flow",
+              "match": null,
+              "date": "2026-10-11T11:08:29.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f1a31120-cd12-41ef-86bb-58f57bf595a5",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:36:26.063Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "compute_schedule",
+      "tool": "compute_schedule",
+      "input": {
+        "days": 7
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T14-35-36-816Z-breaker-missing-params.json",
+    "traceMetadata": {
+      "traceId": "b7b47614b71d4bc36fd5afc87fe49e1c",
+      "traceName": "breaker-missing-params",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}
