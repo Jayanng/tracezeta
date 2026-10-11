@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4MW92Q8BP31VNDRJJS3SZJD",
+  "session_id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T07:01:49.124777749Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "incidents/.sentinel-seen.json",
+    "src/agents/fixer.js",
+    "src/agents/investigator.js",
+    "src/agents/verifier.js",
+    "src/target/index.js"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "dd281e02be74",
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T07:01:49.114304727Z",
+    "agent_lines": 533,
+    "agent_removed": 159,
+    "human_added": 20796,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 21329,
+    "total_lines_changed": 29887,
+    "agent_percentage": 2.3153879613209756,
+    "metric_version": 2
+  }
+}
