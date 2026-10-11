@@ -1,0 +1,40 @@
+{
+  "startedAt": "2026-10-11T06:45:50.778Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 2,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-17a38a5b506b",
+      "round": 1,
+      "verdict": "INCONCLUSIVE",
+      "rootCauses": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-cff26bfbe7d4",
+      "round": 1,
+      "verdict": "INCONCLUSIVE",
+      "rootCauses": []
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 2,
+    "resolved": 0,
+    "unresolved": 2,
+    "escalations": [
+      {
+        "incident": "inc-17a38a5b506b",
+        "reason": "investigation INCONCLUSIVE"
+      },
+      {
+        "incident": "inc-cff26bfbe7d4",
+        "reason": "investigation INCONCLUSIVE"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-11T06:45:56.809Z"
+}

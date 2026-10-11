@@ -1,0 +1,68 @@
+{
+  "incidentId": "inc-e366ef09ebf3",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-e366ef09ebf3-diagnosis.json",
+  "proposedAt": "2026-10-11T06:32:06.613Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "company_search",
+      "original": {
+        "query": 42
+      },
+      "repaired": {
+        "query": 42
+      },
+      "notes": [
+        "query 42: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "not a domain!!"
+      },
+      "repaired": {
+        "domain": "not a domain!!"
+      },
+      "notes": [
+        "domain \"not a domain!!\": no domain shape; step removed"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "web_search",
+      "original": {
+        "query": ""
+      },
+      "repaired": {
+        "query": ""
+      },
+      "notes": [
+        "query \"\": no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "web_search",
+      "original": {},
+      "repaired": {},
+      "notes": [
+        "query undefined: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4MTJMT03P8YBNQ3CV2XFC3E",
+    "raw": "  branch       main\n  checkpoints  13\n\n● bd64ee25-a85  [temporary]  carry forward: uncommitted session files\n  10-11 14:32 (9c4f0b9) carry forward: uncommitted session files\n\n● 01M4MTJMT03P8YBNQ3CV2XFC3E  \"Create the file /home/ubuntu/tracezeta/fixes/inc-e366ef09...\"\n  10-11 14:32 (d4d37e9) Entire p"
+  },
+  "applied": false
+}

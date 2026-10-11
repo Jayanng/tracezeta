@@ -1,0 +1,26 @@
+{
+  "id": "inc-e687aef12d0e",
+  "openedAt": "2026-10-11T06:33:05.685Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "e687aef12d0e41ce4390e127b5dc5191",
+    "traceName": "breaker-wrong-tool",
+    "workflowName": "breaker-wrong-tool",
+    "ingestedAt": "2026-10-10T23:01:12.700Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "error": "unknown tool 'fetch_currency_price'",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

@@ -86,6 +86,12 @@ const HYPOTHESIS_CLASSES = [
     supports: (c) => /http|timeout|network|fetch|api returned|connection/i.test(c.error || ''),
     explain: (c) => `span '${c.span}' failed against an external service: ${c.error}`,
   },
+  {
+    id: 'entity-not-found',
+    label: 'The step referenced an entity that does not exist (no match in the data source)',
+    supports: (c) => /no match for|no company|not found|no results? for|no record named/i.test(c.error || ''),
+    explain: (c) => `span '${c.span}' asked for an entity the data source has no record of: ${c.error}`,
+  },
 ];
 
 /**

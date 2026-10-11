@@ -1,0 +1,101 @@
+{
+  "incidentId": "inc-bf70cf2fb50b",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-bf70cf2fb50b-diagnosis.json",
+  "proposedAt": "2026-10-11T06:57:04.015Z",
+  "strategy": [
+    "invalid-argument-value",
+    "wrong-tool-selected",
+    "entity-not-found"
+  ],
+  "repairs": [
+    {
+      "tool": "company_search",
+      "original": {
+        "query": 42
+      },
+      "repaired": {
+        "query": 42
+      },
+      "notes": [
+        "query 42: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "job_search",
+      "original": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "repaired": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "notes": [
+        "limit '999' -> 25 (clamp to integer 1-25)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "web_search",
+      "original": {},
+      "repaired": {},
+      "notes": [
+        "query undefined: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "person_research",
+      "original": {
+        "query": "founders"
+      },
+      "repaired": {
+        "query": "founders"
+      },
+      "notes": [
+        "tool 'person_research' -> 'web_search' (exact argument-shape match in the registry)"
+      ],
+      "actionable": true,
+      "remove": false,
+      "replaceToolWith": "web_search"
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "not a domain!!"
+      },
+      "repaired": {
+        "domain": "not a domain!!"
+      },
+      "notes": [
+        "step references an entity with no match in the data source; step removed (no entity invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "repaired": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "notes": [
+        "step references an entity with no match in the data source; step removed (no entity invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4MW0B2H16WXFRPT05MCHGMW",
+    "raw": "  branch       main\n  checkpoints  19\n\n● 4c912558-e85  [temporary]  carry forward: uncommitted session files\n  10-11 14:57 (f181828) carry forward: uncommitted session files\n\n● 01M4MW0B2H16WXFRPT05MCHGMW  \"Create the file /home/ubuntu/tracezeta/fixes/inc-bf70cf2f...\"\n  10-11 14:57 (4054b24) Entire p"
+  },
+  "applied": true
+}

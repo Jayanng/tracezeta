@@ -1,0 +1,53 @@
+{
+  "incidentId": "inc-02c0f4032956",
+  "at": "2026-10-11T06:33:56.393Z",
+  "verdict": "INCONCLUSIVE",
+  "rootCauses": [],
+  "rejectedHypotheses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "status": "ERROR",
+      "durationMs": 199,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T06-22-31-555Z-b2b-broken-run-after-fix.json",
+    "traceMetadata": {
+      "traceId": "02c0f40329568d0047a40fc9500e748f",
+      "traceName": "b2b-broken-run-after-fix",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

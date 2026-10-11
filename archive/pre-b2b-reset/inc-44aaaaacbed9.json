@@ -1,0 +1,25 @@
+{
+  "id": "inc-44aaaaacbed9",
+  "openedAt": "2026-10-11T06:33:05.685Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "44aaaaacbed9e3688f64641c620df50e",
+    "traceName": "target-broken-run-1-after-fix",
+    "workflowName": "target-broken-run-1-after-fix",
+    "ingestedAt": "2026-10-10T22:58:12.013Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:read_record",
+      "input": {
+        "name": "doesnotexist"
+      },
+      "error": "read_record: no record named 'doesnotexist'",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

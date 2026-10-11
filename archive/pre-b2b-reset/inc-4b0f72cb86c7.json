@@ -1,0 +1,33 @@
+{
+  "id": "inc-4b0f72cb86c7",
+  "openedAt": "2026-10-11T06:33:05.689Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "4b0f72cb86c7f48300295565b76dd56d",
+    "traceName": "b2b-broken-run-after-fix-after-fix",
+    "workflowName": "b2b-broken-run-after-fix-after-fix",
+    "ingestedAt": "2026-10-11T06:23:45.627Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "duration_ms": 204
+    },
+    {
+      "tool": "tool:web_search",
+      "input": {
+        "query": ""
+      },
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

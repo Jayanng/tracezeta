@@ -1,0 +1,55 @@
+{
+  "id": "inc-f93abd8cfd05",
+  "openedAt": "2026-10-11T06:33:05.689Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "f93abd8cfd05241eb2a7b54ce0560660",
+    "traceName": "b2b-broken-run-after-fix-after-fix",
+    "workflowName": "b2b-broken-run-after-fix-after-fix",
+    "ingestedAt": "2026-10-11T06:18:48.221Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:company_search",
+      "input": {
+        "query": 42
+      },
+      "error": "company_search: query must be a non-empty string",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "duration_ms": 182
+    },
+    {
+      "tool": "tool:web_search",
+      "input": {
+        "query": ""
+      },
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:web_search",
+      "input": {},
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

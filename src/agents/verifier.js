@@ -61,8 +61,16 @@ export async function verify(incident, diagnosis, fixRecord) {
     if (repair.remove === true) {
       fixedTask.steps.splice(fixedTask.steps.indexOf(step), 1);
     } else {
-      if (repair.replaceToolWith) step.tool = repair.replaceToolWith; // wrong-tool fix
-      step.args = repair.repaired;
+      if (repair.replaceToolWith) {
+        // wrong-tool fix: swap the tool and use the ORIGINAL args (e.g.
+        // {query: 'founders'}) — the args were valid, the tool choice was wrong
+        step.tool = repair.replaceToolWith;
+        if (repair.original && Object.keys(repair.original).length) {
+          step.args = JSON.parse(JSON.stringify(repair.original));
+        }
+      } else {
+        step.args = repair.repaired;
+      }
     }
   }
 

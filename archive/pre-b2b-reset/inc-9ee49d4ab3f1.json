@@ -1,0 +1,28 @@
+{
+  "id": "inc-9ee49d4ab3f1",
+  "openedAt": "2026-10-11T06:33:05.685Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "9ee49d4ab3f109a2b28f6ca724f3180f",
+    "traceName": "target-broken-run-1-after-fix",
+    "workflowName": "target-broken-run-1-after-fix",
+    "ingestedAt": "2026-10-10T22:59:14.496Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:save_record",
+      "input": {
+        "name": "bad name!",
+        "payload": {
+          "x": 1
+        }
+      },
+      "error": "save_record: name must be alphanumeric/underscore",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

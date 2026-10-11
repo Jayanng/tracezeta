@@ -1,0 +1,45 @@
+{
+  "id": "inc-6b4262f73c42",
+  "openedAt": "2026-10-11T06:33:05.684Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "6b4262f73c421993ed4b28f12f29fcea",
+    "traceName": "target-broken-run-1",
+    "workflowName": "target-broken-run-1",
+    "ingestedAt": "2026-10-10T22:49:22.365Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "startDate": "2026-13-45",
+        "days": 14
+      },
+      "error": "compute_schedule: invalid date",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:read_record",
+      "input": {
+        "name": "doesnotexist"
+      },
+      "error": "read_record: no record named 'doesnotexist'",
+      "duration_ms": 0
+    },
+    {
+      "tool": "tool:save_record",
+      "input": {
+        "name": "bad name!",
+        "payload": {
+          "x": 1
+        }
+      },
+      "error": "save_record: name must be alphanumeric/underscore",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

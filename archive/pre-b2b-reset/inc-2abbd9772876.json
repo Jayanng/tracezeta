@@ -1,0 +1,25 @@
+{
+  "id": "inc-2abbd9772876",
+  "openedAt": "2026-10-11T06:33:05.688Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "2abbd9772876a8031b5534f36eda83c4",
+    "traceName": "breaker-missing-params",
+    "workflowName": "breaker-missing-params",
+    "ingestedAt": "2026-10-10T23:12:57.820Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "days": 7
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 0
+    }
+  ],
+  "status": "open"
+}

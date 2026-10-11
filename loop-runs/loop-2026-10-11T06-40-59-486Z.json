@@ -1,0 +1,69 @@
+{
+  "startedAt": "2026-10-11T06:40:59.486Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 2,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-60e145078938",
+      "round": 1,
+      "verdict": "INSUFFICIENT_EVIDENCE",
+      "rootCauses": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-f81a084d9155",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-f81a084d9155",
+      "round": 1,
+      "verdict": "FIX_REJECTED",
+      "beforeFailing": 6,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-f81a084d9155",
+      "round": 2,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-f81a084d9155",
+      "round": 2,
+      "verdict": "FIX_REJECTED",
+      "beforeFailing": 6,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 2,
+    "resolved": 0,
+    "unresolved": 2,
+    "escalations": [
+      {
+        "incident": "inc-60e145078938",
+        "reason": "investigation INSUFFICIENT_EVIDENCE"
+      },
+      {
+        "incident": "inc-f81a084d9155",
+        "reason": "verification FIX_REJECTED after 2 rounds"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-11T06:43:56.547Z"
+}

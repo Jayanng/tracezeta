@@ -1,0 +1,26 @@
+{
+  "id": "inc-81394ac57a41",
+  "openedAt": "2026-10-11T06:33:05.686Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "81394ac57a4167569e1ddd5bdefdfbcb",
+    "traceName": "breaker-malformed-args",
+    "workflowName": "breaker-malformed-args",
+    "ingestedAt": "2026-10-10T23:01:20.381Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": null,
+  "failedSteps": [
+    {
+      "tool": "tool:compute_schedule",
+      "input": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 1
+    }
+  ],
+  "status": "open"
+}

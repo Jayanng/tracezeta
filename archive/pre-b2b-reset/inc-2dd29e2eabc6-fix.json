@@ -1,0 +1,71 @@
+{
+  "incidentId": "inc-2dd29e2eabc6",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-2dd29e2eabc6-diagnosis.json",
+  "proposedAt": "2026-10-11T06:19:27.411Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "company_search",
+      "original": {
+        "query": 42
+      },
+      "repaired": {
+        "query": 42
+      },
+      "notes": [
+        "query 42 (number) -> cannot derive a search term; flagged for review"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "not a domain!!"
+      },
+      "repaired": {
+        "domain": "not a domain!!"
+      },
+      "notes": [
+        "domain \"not a domain!!\": no domain shape; flagged for review"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "job_search",
+      "original": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "repaired": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "notes": [
+        "limit '999' -> 25 (clamp to integer 1-25)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "web_search",
+      "original": {},
+      "repaired": {
+        "query": ""
+      },
+      "notes": [
+        "query missing/empty -> flagged for review (no term invented)"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "Command failed: git commit -m Entire pre-fix anchor: tracezeta-pre-fix-inc-2dd29e2eabc6 (inc-2dd29e2eabc6)"
+  },
+  "applied": false
+}

@@ -1,0 +1,225 @@
+{
+  "name": "b2b-broken-run-after-fix-after-fix",
+  "at": "2026-10-11T06:29:55.638Z",
+  "ok": false,
+  "trace": {
+    "traceId": "dcb6b00bf3499a5d8d8bb62b07212b55",
+    "spans": 6
+  },
+  "task": {
+    "name": "b2b-broken-run-after-fix-after-fix",
+    "steps": [
+      {
+        "tool": "credits_check",
+        "args": {}
+      },
+      {
+        "tool": "job_search",
+        "args": {
+          "title": "AI Engineer",
+          "limit": 25
+        }
+      },
+      {
+        "tool": "company_enrich",
+        "args": {
+          "domain": "doesnotexist12345xyz.com"
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {
+          "query": ""
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:credits_check",
+      "kind": "TOOL",
+      "tool_name": "credits_check",
+      "input": {},
+      "output": {
+        "credits": 5169.32,
+        "recurring": 0,
+        "wallets": [
+          {
+            "type": "recurring",
+            "credits": 4969.32
+          },
+          {
+            "type": "topup",
+            "credits": 200
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 383
+    },
+    {
+      "name": "tool:job_search",
+      "kind": "TOOL",
+      "tool_name": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "output": {
+        "title": "AI Engineer",
+        "total": 212712,
+        "jobs": [
+          {
+            "title": "AI Engineer, Voice and Realtime",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Jr AI/ML Engineer",
+            "company": "Tech Consulting",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Ai Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Forward Deployed Engineer (AI Engineer)",
+            "company": "Signify Technology",
+            "workplace": null
+          },
+          {
+            "title": "AI & Platform Engineer",
+            "company": "Signify Technology",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Sr. Software Engineer (Software Engineer, Backend/AI (Remote)",
+            "company": "Advantage Technical",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Gen AI Specialist/Engineer",
+            "company": "Primary Talent Partners",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Senior Forward Deployed AI Engineer",
+            "company": "TachyonShift",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Fullstack and AI Engineer",
+            "company": null,
+            "workplace": null
+          },
+          {
+            "title": "Senior AI/ML Engineer",
+            "company": "AgileGrid Solutions",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Junior AI/ML Engineer",
+            "company": null,
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer",
+            "company": "Inherent Technologies",
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer",
+            "company": "Shrive Technologies",
+            "workplace": null
+          },
+          {
+            "title": "AI/ML Engineer - Computer Vision",
+            "company": "CyberCoders",
+            "workplace": "Hybrid"
+          },
+          {
+            "title": "Senior Staff Engineer-Data and AI Platform",
+            "company": "H-E-B",
+            "workplace": null
+          },
+          {
+            "title": "Junior AI Engineer",
+            "company": "Atlas Search",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Gen AI Engineer",
+            "company": "MathCo",
+            "workplace": "Hybrid"
+          },
+          {
+            "title": "Senior Research Scientist/Software Engineer, LLM/Agent Platform (TikTok-Content Ecology AI Innovation & Platform)",
+            "company": "TikTok",
+            "workplace": "On-site"
+          },
+          {
+            "title": "Applied AI Engineer",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Engineer",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Applied AI Engineer",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Engineer - Startups",
+            "company": "Fonzi AI",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI-Native SEO / AEO Engineer",
+            "company": "Service Robot Co.",
+            "workplace": "Remote"
+          },
+          {
+            "title": "Software Dev Engineer II, AWS Healthcare AI",
+            "company": "Amazon Web Services (AWS)",
+            "workplace": null
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 708
+    },
+    {
+      "name": "tool:company_enrich",
+      "kind": "TOOL",
+      "tool_name": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "status": "ERROR",
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "duration_ms": 190
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {
+        "query": ""
+      },
+      "status": "ERROR",
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 1
+    }
+  ]
+}

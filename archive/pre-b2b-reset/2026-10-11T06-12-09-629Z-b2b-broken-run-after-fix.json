@@ -1,0 +1,176 @@
+{
+  "name": "b2b-broken-run-after-fix",
+  "at": "2026-10-11T06:12:09.629Z",
+  "ok": false,
+  "trace": {
+    "traceId": "2dd29e2eabc6cbf944c01c9365b93f01",
+    "spans": 9
+  },
+  "task": {
+    "name": "b2b-broken-run-after-fix",
+    "steps": [
+      {
+        "tool": "credits_check",
+        "args": {}
+      },
+      {
+        "tool": "company_search",
+        "args": {
+          "query": 42
+        }
+      },
+      {
+        "tool": "company_enrich",
+        "args": {
+          "domain": "not a domain!!"
+        }
+      },
+      {
+        "tool": "job_search",
+        "args": {
+          "title": "AI Engineer",
+          "limit": 999
+        }
+      },
+      {
+        "tool": "company_enrich",
+        "args": {
+          "domain": "doesnotexist12345xyz.com"
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {
+          "query": "founders"
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {}
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:credits_check",
+      "kind": "TOOL",
+      "tool_name": "credits_check",
+      "input": {},
+      "output": {
+        "credits": 5188.82,
+        "recurring": 0,
+        "wallets": [
+          {
+            "type": "recurring",
+            "credits": 4988.82
+          },
+          {
+            "type": "topup",
+            "credits": 200
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 385
+    },
+    {
+      "name": "tool:company_search",
+      "kind": "TOOL",
+      "tool_name": "company_search",
+      "input": {
+        "query": 42
+      },
+      "status": "ERROR",
+      "error": "company_search: query must be a non-empty string",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:company_enrich",
+      "kind": "TOOL",
+      "tool_name": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "status": "ERROR",
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:job_search",
+      "kind": "TOOL",
+      "tool_name": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "status": "ERROR",
+      "error": "job_search: limit must be an integer 1-25",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:company_enrich",
+      "kind": "TOOL",
+      "tool_name": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "status": "ERROR",
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "duration_ms": 438
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {
+        "query": "founders"
+      },
+      "output": {
+        "query": "founders",
+        "results": [
+          {
+            "source": "web",
+            "title": "Founders Federal Credit Union: Home",
+            "url": "https://www.foundersfcu.com/",
+            "snippet": "Earn $200 statement credit. for a limited time, when you open a new Founders Credit Card. Learn More. Gas up? Rate down! Beat your auto rate by 2%!1 Plus, no ..."
+          },
+          {
+            "source": "web",
+            "title": "Founders Brewing Company: Founders Brewery",
+            "url": "https://foundersbrewing.com/",
+            "snippet": "Welcome to Founders Brewery! We love beer and we love to make it. Home of the delicious All Day IPA and famous for our Barrel-Aged Series. Fri-Sat: 11am-10pm"
+          },
+          {
+            "source": "web",
+            "title": "Founders | Podcast on Spotify",
+            "url": "https://open.spotify.com/show/7txiovdzPARhjm18NwMUYj",
+            "snippet": "Learn from history's greatest entrepreneurs. Every week I read a biography of an entrepreneur and find ideas you can use in your work.Read more"
+          },
+          {
+            "source": "web",
+            "title": "Founders Podcast | David Senra",
+            "url": "https://www.founderspodcast.com/",
+            "snippet": "David Senra studies history's greatest entrepreneurs and distills their lessons into the Founders podcast. 350+ episodes on the world's best company builders ..."
+          },
+          {
+            "source": "web",
+            "title": "Founders Online: Home",
+            "url": "https://founders.archives.gov/",
+            "snippet": "George Washington, Benjamin Franklin, John Adams (and family), Thomas Jefferson, Alexander Hamilton, John Jay, and James Madison. Over 184,000 searchable ...Read more"
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 5866
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {},
+      "status": "ERROR",
+      "error": "web_search: query must be a non-empty string",
+      "duration_ms": 0
+    }
+  ]
+}

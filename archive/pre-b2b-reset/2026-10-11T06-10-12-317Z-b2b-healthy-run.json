@@ -1,0 +1,303 @@
+{
+  "name": "b2b-healthy-run",
+  "at": "2026-10-11T06:10:12.316Z",
+  "ok": true,
+  "trace": {
+    "traceId": "391b4b32a23834e87b596fc3acc7e3f2",
+    "spans": 10
+  },
+  "task": {
+    "name": "b2b-healthy-run",
+    "steps": [
+      {
+        "tool": "credits_check",
+        "args": {}
+      },
+      {
+        "tool": "company_search",
+        "args": {
+          "query": "AI observability companies",
+          "limit": 3
+        }
+      },
+      {
+        "tool": "company_enrich",
+        "args": {
+          "domain": "neatlogs.com"
+        }
+      },
+      {
+        "tool": "job_search",
+        "args": {
+          "title": "AI Engineer",
+          "limit": 3
+        }
+      },
+      {
+        "tool": "person_search",
+        "args": {
+          "query": "founder observability",
+          "limit": 3
+        }
+      },
+      {
+        "tool": "social_post_search",
+        "args": {
+          "text": "AI agents",
+          "limit": 3
+        }
+      },
+      {
+        "tool": "web_search",
+        "args": {
+          "query": "neatlogs neatHack 2026"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "b2breport",
+          "payload": {
+            "kind": "market-intel"
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:credits_check",
+      "kind": "TOOL",
+      "tool_name": "credits_check",
+      "input": {},
+      "output": {
+        "credits": 5195.19,
+        "recurring": 0,
+        "wallets": [
+          {
+            "type": "recurring",
+            "credits": 4995.19
+          },
+          {
+            "type": "topup",
+            "credits": 200
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 439
+    },
+    {
+      "name": "tool:company_search",
+      "kind": "TOOL",
+      "tool_name": "company_search",
+      "input": {
+        "query": "AI observability companies",
+        "limit": 3
+      },
+      "output": {
+        "query": "AI observability companies",
+        "total": null,
+        "companies": [
+          {
+            "name": "Elixir",
+            "domain": "tryelixir.ai",
+            "headcount": 1
+          },
+          {
+            "name": "CloudGrip AI",
+            "domain": "cloudgrip.ai",
+            "headcount": 1
+          },
+          {
+            "name": "Primeshare Inc.",
+            "domain": "primeshare.net",
+            "headcount": 15
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 3336
+    },
+    {
+      "name": "tool:company_enrich",
+      "kind": "TOOL",
+      "tool_name": "company_enrich",
+      "input": {
+        "domain": "neatlogs.com"
+      },
+      "output": {
+        "domain": "neatlogs.com",
+        "name": "neatlogs",
+        "id": 12467174,
+        "confidence": 1,
+        "headcount": 11,
+        "fundingRounds": null,
+        "totalFundingUsd": null
+      },
+      "status": "OK",
+      "duration_ms": 385
+    },
+    {
+      "name": "tool:job_search",
+      "kind": "TOOL",
+      "tool_name": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 3
+      },
+      "output": {
+        "title": "AI Engineer",
+        "total": 212712,
+        "jobs": [
+          {
+            "title": "AI Engineer, Voice and Realtime",
+            "company": null,
+            "workplace": "Remote"
+          },
+          {
+            "title": "Jr AI/ML Engineer",
+            "company": "Tech Consulting",
+            "workplace": "On-site"
+          },
+          {
+            "title": "AI Software Engineer",
+            "company": "Boardy",
+            "workplace": "On-site"
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 251
+    },
+    {
+      "name": "tool:person_search",
+      "kind": "TOOL",
+      "tool_name": "person_search",
+      "input": {
+        "query": "founder observability",
+        "limit": 3
+      },
+      "output": {
+        "query": "founder observability",
+        "total": 576082605,
+        "people": [
+          {
+            "name": "Manorath Khanna",
+            "title": null,
+            "company": null
+          },
+          {
+            "name": "Ruchir Jha",
+            "title": null,
+            "company": null
+          },
+          {
+            "name": "Eric Futoran",
+            "title": null,
+            "company": null
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 4271
+    },
+    {
+      "name": "tool:social_post_search",
+      "kind": "TOOL",
+      "tool_name": "social_post_search",
+      "input": {
+        "text": "AI agents",
+        "limit": 3
+      },
+      "output": {
+        "text": "AI agents",
+        "total": 2492841,
+        "posts": [
+          {
+            "actor": "Product | Ex- Shopify, Uber, Microsoft | AI-powered consumer products",
+            "text": "Musings on Muse.AI.\n\nMeta’s Muse is the first general purpose AI agent I’ve used that feels designed for consumers, not just people who understand AI.\n\nI spent about two hours with it this week, givin",
+            "likes": null,
+            "date": "2026-09-18T00:57:11Z"
+          },
+          {
+            "actor": "CTO, Human-first technologist, full-stack software engineer, coach, writer. Follow for original critical thinking and leadership perspectives in the AI era.",
+            "text": "Problem: Github is struggling to cope with an exponential increase in super verbose code commits pushed by AI agents. And human software developers are exhausted by the task of reviewing all that slop",
+            "likes": null,
+            "date": "2026-09-17T23:58:29Z"
+          },
+          {
+            "actor": "2,602 followers",
+            "text": "Claude Code's revamped Projects feature simplifies managing multiple AI agents in the cloud, promoting better collaboration and streamlined workflows. Embrace this tool to enhance your team’s producti",
+            "likes": null,
+            "date": "2026-09-17T23:31:25Z"
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 490
+    },
+    {
+      "name": "tool:web_search",
+      "kind": "TOOL",
+      "tool_name": "web_search",
+      "input": {
+        "query": "neatlogs neatHack 2026"
+      },
+      "output": {
+        "query": "neatlogs neatHack 2026",
+        "results": [
+          {
+            "source": "web",
+            "title": "neatHack — AI agent hackathon",
+            "url": "https://neatlogs.com/hackathon",
+            "snippet": "in 1 day — neatHack is a 48-hour online hackathon on October 10–12, 2026, starting Saturday at 12:30 PM IST. The kickoff call is at 9:00 AM IST on October ...Read more"
+          },
+          {
+            "source": "web",
+            "title": "Events",
+            "url": "https://neatlogs.com/events",
+            "snippet": "Hackathons and gatherings from neatlogs. Coming up. October 10–11, 2026Online. neatHack #1. Build and ship an AI agent in one weekend. Past events. Past event ...Read more"
+          },
+          {
+            "source": "web",
+            "title": "Post",
+            "url": "https://x.com/neatlogs/status/2105295042726219808",
+            "snippet": "we're hosting a 48-hour. October 10 and 11 prize pool is up to $10,000. winners get interviews with @neatlogs for full time roles and internships. Sep 30, 2026·"
+          },
+          {
+            "source": "web",
+            "title": "neatlogs' Post - neathack",
+            "url": "https://www.linkedin.com/posts/neatlogs_neathack-activity-7512002243378757632-pyL1",
+            "snippet": "Entire is joining #neatHack as a sponsor! Entire is a fast, distributed, Git-compatible network for mirroring GitHub repositories … 2026 About ..."
+          },
+          {
+            "source": "web",
+            "title": "neatlogs",
+            "url": "https://x.com/neatlogs/status/2106051501059948847/photo/1",
+            "snippet": "#neatHack as a sponsor! an AI CFO that works like a proactive coworker, noticing what matters, answering business questions, and building. Oct 2, 2026·"
+          }
+        ]
+      },
+      "status": "OK",
+      "duration_ms": 3818
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "b2breport",
+        "payload": {
+          "kind": "market-intel"
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-b2breport.json",
+        "bytes": 23
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

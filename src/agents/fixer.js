@@ -67,9 +67,28 @@ function entireCheckpoint(label, incidentId) {
   }
 }
 
+// --- helpers ---------------------------------------------------------------
+
+function isNonEmptyString(v) {
+  return typeof v === 'string' && v.trim().length > 0;
+}
+
+function isValidDomain(v) {
+  return typeof v === 'string' && /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(v);
+}
+
 // --- Fix strategies, keyed by root cause -----------------------------------
 
 const STRATEGIES = {
+  'entity-not-found': {
+    describe: 'Remove steps referencing entities the data source has no record of',
+    repairStep: (step) => {
+      // The entity genuinely does not exist in the external data. Inventing a
+      // name would be fabrication. The honest repair: remove the step.
+      const fixes = [`step references an entity with no match in the data source; step removed (no entity invented)`];
+      return { args: { ...(step.args || {}) }, fixes, actionable: true, remove: true };
+    },
+  },
   'wrong-tool-selected': {
     describe: 'Replace the unknown tool with the registered tool matching the input shape',
     repairStep: (step, spanError, tools) => {
@@ -147,6 +166,52 @@ const STRATEGIES = {
           args.payload = args.payload || {};
         }
       }
+      // --- B2B (Crustdata) tools: query / domain / limit / text repair rules ---
+      // A missing/invalid search term cannot be derived from evidence; the
+      // honest repair is REMOVAL (a step the agent cannot justify), never an
+      // invented term or an empty retry.
+      if (['company_search', 'person_search', 'web_search'].includes(tool) && !isNonEmptyString(args.query)) {
+        fixes.push(`query ${JSON.stringify(args.query)}: no valid search term derivable; step removed (no term invented)`);
+        removed = true;
+      }
+      if (tool === 'job_search' && !isNonEmptyString(args.title)) {
+        fixes.push('title: no valid search term derivable; step removed (no term invented)');
+        removed = true;
+      }
+      if (tool === 'social_post_search' && !isNonEmptyString(args.text)) {
+        fixes.push('text: no valid search term derivable; step removed (no term invented)');
+        removed = true;
+      }
+      if (tool === 'company_enrich' && !isValidDomain(args.domain)) {
+        if (typeof args.domain === 'string' && args.domain.includes('.')) {
+          // sanitize spaces/punctuation, keep the domain shape
+          const valid = args.domain.toLowerCase().replace(/[^a-z0-9.-]/g, '').replace(/\.+/g, '.');
+          if (isValidDomain(valid)) {
+            fixes.push(`domain '${args.domain}' -> '${valid}' (sanitize to domain charset)`);
+            args.domain = valid;
+          } else {
+            fixes.push(`domain '${args.domain}': not recoverable; step removed`);
+            removed = true;
+          }
+        } else {
+          fixes.push(`domain ${JSON.stringify(args.domain)}: no domain shape; step removed`);
+          removed = true;
+        }
+      }
+      // company_enrich 'no match for domain' (shape-valid domain, zero matches):
+      // the domain resolves to no real company. Not repairable from evidence —
+      // the step references an entity that does not exist. Remove it.
+      if (tool === 'company_enrich' && isValidDomain(args.domain) && typeof spanError === 'string' && spanError.includes('no match for domain')) {
+        fixes.push(`domain '${args.domain}': shape-valid but no company exists for it; step removed (no domain invented)`);
+        removed = true;
+      }
+      // limit clamping applies to every B2B tool with a limit
+      if (['company_search', 'person_search', 'job_search', 'social_post_search'].includes(tool)
+          && args.limit !== undefined && (!Number.isInteger(args.limit) || args.limit < 1 || args.limit > 25)) {
+        const valid = Math.min(25, Math.max(1, parseInt(args.limit, 10) || 5));
+        fixes.push(`limit '${args.limit}' -> ${valid} (clamp to integer 1-25)`);
+        args.limit = valid;
+      }
       if (tool === 'read_record') {
         // record does not exist: the step references state that was never
         // created. The evidence cannot determine a correct name — inventing
@@ -195,11 +260,29 @@ export function proposeFix(incident, diagnosis) {
     const strategy = STRATEGIES[rc.id];
     if (!strategy) continue;
     // Span names arrive bare (projection) or 'tool:'-prefixed (run records);
-    // normalize to the step's tool name for matching.
-    const failingTools = new Set((rc.spans || []).map((s) => s.replace(/^tool:/, '')));
+    // normalize to the step's tool name. A tool can appear MULTIPLE times in
+    // a task (e.g. two company_enrich steps) and each failing INSTANCE gets
+    // its own repair — track counts, not just presence.
+    const failingToolCounts = new Map();
+    for (const s of rc.spans || []) {
+      const t = s.replace(/^tool:/, '');
+      failingToolCounts.set(t, (failingToolCounts.get(t) || 0) + 1);
+    }
     for (const step of run.task?.steps || []) {
-      if (!failingTools.has(step.tool)) continue;
-      const spanError = (run.spans || []).find((s) => s.name === `tool:${step.tool}` || s.name === step.tool)?.error;
+      if (!failingToolCounts.has(step.tool)) continue;
+      // only repair as many instances of this tool as the diagnosis cited
+      const cited = failingToolCounts.get(step.tool);
+      const repairedSoFar = (failingToolCounts.get(`__done_${step.tool}`) || 0);
+      if (repairedSoFar >= cited) continue;
+      failingToolCounts.set(`__done_${step.tool}`, repairedSoFar + 1);
+      // find THIS step's own span error: match by tool AND (when multiple
+      // instances exist) by argument identity so the right step gets the
+      // right error text (e.g. 'not a domain!!' vs 'no match for domain')
+      const stepJson = JSON.stringify(step.args);
+      const ownSpan = (run.spans || []).find((s) => (s.name === `tool:${step.tool}` || s.name === step.tool)
+        && (JSON.stringify(s.input) === stepJson || (s.input && step.args && Object.keys(step.args).length === 0 && Object.keys(s.input || {}).length === 0)));
+      const anySpan = (run.spans || []).find((s) => s.name === `tool:${step.tool}` || s.name === step.tool);
+      const spanError = ownSpan?.error ?? anySpan?.error;
       const r = strategy.repairStep(step, spanError, TOOL_SCHEMAS);
       if (r.fixes.length) {
         const repair = { tool: step.tool, original: step.args, repaired: r.args, notes: r.fixes, actionable: r.actionable, remove: r.remove === true };

@@ -1,0 +1,69 @@
+{
+  "incidentId": "inc-6614797804c9",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-6614797804c9-diagnosis.json",
+  "proposedAt": "2026-10-11T06:27:18.593Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "company_search",
+      "original": {
+        "query": 42
+      },
+      "repaired": {
+        "query": 42
+      },
+      "notes": [
+        "query 42: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "not a domain!!"
+      },
+      "repaired": {
+        "domain": "not a domain!!"
+      },
+      "notes": [
+        "domain \"not a domain!!\": no domain shape; step removed"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "job_search",
+      "original": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "repaired": {
+        "title": "AI Engineer",
+        "limit": 25
+      },
+      "notes": [
+        "limit '999' -> 25 (clamp to integer 1-25)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "web_search",
+      "original": {},
+      "repaired": {},
+      "notes": [
+        "query undefined: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "Command failed: git commit -m Entire pre-fix anchor: tracezeta-pre-fix-inc-6614797804c9 (inc-6614797804c9)"
+  },
+  "applied": false
+}

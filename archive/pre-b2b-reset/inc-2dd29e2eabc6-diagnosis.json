@@ -1,0 +1,110 @@
+{
+  "incidentId": "inc-2dd29e2eabc6",
+  "at": "2026-10-11T06:18:51.513Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'company_enrich' failed with a validation error on its input: company_enrich: 'not a domain!!' is not a valid domain",
+        "span 'company_search' failed with a validation error on its input: company_search: query must be a non-empty string",
+        "span 'job_search' failed with a validation error on its input: job_search: limit must be an integer 1-25",
+        "span 'web_search' failed with a validation error on its input: web_search: query must be a non-empty string",
+        "span 'company_enrich' failed with a validation error on its input: company_enrich: 'not a domain!!' is not a valid domain"
+      ],
+      "spans": [
+        "company_enrich",
+        "company_search",
+        "job_search",
+        "web_search",
+        "company_enrich"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "status": "ERROR",
+      "durationMs": 438,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "company_search",
+      "tool": "company_search",
+      "input": {
+        "query": 42
+      },
+      "error": "company_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "job_search",
+      "tool": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "error": "job_search: limit must be an integer 1-25",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "web_search",
+      "tool": "web_search",
+      "input": {},
+      "error": "web_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T06-12-09-629Z-b2b-broken-run-after-fix.json",
+    "traceMetadata": {
+      "traceId": "2dd29e2eabc6cbf944c01c9365b93f01",
+      "traceName": "b2b-broken-run-after-fix",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

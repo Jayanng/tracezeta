@@ -1,0 +1,46 @@
+{
+  "incidentId": "inc-14b7860250ef",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-14b7860250ef-diagnosis.json",
+  "proposedAt": "2026-10-11T06:36:50.391Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "startDate": "2026-13-45",
+        "days": 14
+      },
+      "repaired": {
+        "startDate": "2026-12-31",
+        "days": 14
+      },
+      "notes": [
+        "startDate '2026-13-45' -> '2026-12-31' (normalize to valid YYYY-MM-DD)"
+      ],
+      "actionable": true,
+      "remove": false
+    },
+    {
+      "tool": "read_record",
+      "original": {
+        "name": "doesnotexist"
+      },
+      "repaired": {
+        "name": "doesnotexist"
+      },
+      "notes": [
+        "no record named 'doesnotexist': step removed from the task (referenced state does not exist; no name invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4MTV9SHYWD578XNPAH66A7B",
+    "raw": "  branch       main\n  checkpoints  16\n\n● 76f8bbad-372  [temporary]  carry forward: uncommitted session files\n  10-11 14:36 (185b59e) carry forward: uncommitted session files\n\n● 01M4MTV9SHYWD578XNPAH66A7B  \"Create the file /home/ubuntu/tracezeta/fixes/inc-14b78602...\"\n  10-11 14:36 (614dbfd) Entire p"
+  },
+  "applied": true
+}

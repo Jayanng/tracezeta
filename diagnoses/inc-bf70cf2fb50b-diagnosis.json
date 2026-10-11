@@ -1,0 +1,136 @@
+{
+  "incidentId": "inc-bf70cf2fb50b",
+  "at": "2026-10-11T06:56:36.752Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'web_search' failed with a validation error on its input: web_search: query must be a non-empty string",
+        "span 'company_search' failed with a validation error on its input: company_search: query must be a non-empty string",
+        "span 'person_research' failed with a validation error on its input: unknown tool 'person_research'",
+        "span 'job_search' failed with a validation error on its input: job_search: limit must be an integer 1-25"
+      ],
+      "spans": [
+        "web_search",
+        "company_search",
+        "person_research",
+        "job_search"
+      ]
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "evidence": [
+        "span 'person_research' called a tool that does not exist: unknown tool 'person_research'"
+      ],
+      "spans": [
+        "person_research"
+      ]
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "evidence": [
+        "span 'company_enrich' asked for an entity the data source has no record of: company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+        "span 'company_enrich' asked for an entity the data source has no record of: company_enrich: no match for domain 'doesnotexist12345xyz.com'"
+      ],
+      "spans": [
+        "company_enrich",
+        "company_enrich"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "web_search",
+      "tool": "web_search",
+      "input": {},
+      "error": "web_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "status": "ERROR",
+      "durationMs": 454,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "company_search",
+      "tool": "company_search",
+      "input": {
+        "query": 42
+      },
+      "error": "company_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 1,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "person_research",
+      "tool": "person_research",
+      "input": {
+        "query": "founders"
+      },
+      "error": "unknown tool 'person_research'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    },
+    {
+      "span": "job_search",
+      "tool": "job_search",
+      "input": {
+        "title": "AI Engineer",
+        "limit": 999
+      },
+      "error": "job_search: limit must be an integer 1-25",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "neatlogs-raw-spans"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": true,
+    "runRecordUsed": false,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T06-56-24-112Z-b2b-broken-run.json",
+    "traceMetadata": {
+      "traceId": "bf70cf2fb50b90e18fe3f8dd96f605b2",
+      "traceName": "b2b-broken-run",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

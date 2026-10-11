@@ -1,0 +1,57 @@
+{
+  "incidentId": "inc-8254bc31a416",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-8254bc31a416-diagnosis.json",
+  "proposedAt": "2026-10-11T06:29:53.625Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "company_search",
+      "original": {
+        "query": 42
+      },
+      "repaired": {
+        "query": 42
+      },
+      "notes": [
+        "query 42: no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "company_enrich",
+      "original": {
+        "domain": "not a domain!!"
+      },
+      "repaired": {
+        "domain": "not a domain!!"
+      },
+      "notes": [
+        "domain \"not a domain!!\": no domain shape; step removed"
+      ],
+      "actionable": true,
+      "remove": true
+    },
+    {
+      "tool": "web_search",
+      "original": {
+        "query": ""
+      },
+      "repaired": {
+        "query": ""
+      },
+      "notes": [
+        "query \"\": no valid search term derivable; step removed (no term invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": false,
+    "reason": "Command failed: git commit -m Entire pre-fix anchor: tracezeta-pre-fix-inc-8254bc31a416 (inc-8254bc31a416)"
+  },
+  "applied": false
+}

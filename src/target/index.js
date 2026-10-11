@@ -12,6 +12,9 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { postTrace, recordRun } from '../neatlogs.js';
+import { CRUST_TOOLS, CRUST_SCHEMAS } from '../crustdata.js';
+export { ToolError } from '../target-errors.js';
+import { ToolError } from '../target-errors.js';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const RUNTIME = join(ROOT, 'runtime');
@@ -72,10 +75,6 @@ function computeSchedule({ startDate, days } = {}) {
   return { startDate, days, endDate: d.toISOString().slice(0, 10) };
 }
 
-class ToolError extends Error {
-  constructor(msg) { super(msg); this.name = 'ToolError'; this.isToolError = true; }
-}
-
 // The agent's real tool registry. The Breaker's job is to make the agent
 // MISUSE these: wrong tool, malformed arguments, missing params.
 const TOOLS = {
@@ -83,6 +82,7 @@ const TOOLS = {
   save_record: saveRecord,
   read_record: readRecord,
   compute_schedule: computeSchedule,
+  ...CRUST_TOOLS,
 };
 
 const TOOL_SCHEMAS = {
@@ -91,6 +91,7 @@ const TOOL_SCHEMAS = {
     params: { base: 'string currency code', quote: 'string currency code' },
     required: ['base', 'quote'],
   },
+  ...CRUST_SCHEMAS,
   save_record: {
     description: 'Persist a JSON record to the runtime directory',
     params: { name: 'alphanumeric record name', payload: 'object' },
@@ -179,7 +180,7 @@ async function runTask(task) {
   };
 }
 
-export { runTask, TOOLS, TOOL_SCHEMAS, ToolError };
+export { runTask, TOOLS, TOOL_SCHEMAS };
 
 // Direct execution: node src/target/index.js <taskfile.json>
 if (process.argv[1] && process.argv[1].endsWith('index.js')) {

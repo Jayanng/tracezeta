@@ -1,0 +1,96 @@
+{
+  "incidentId": "inc-2282f34c9e85",
+  "at": "2026-10-11T06:38:54.755Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:company_search' failed with a validation error on its input: company_search: query must be a non-empty string",
+        "span 'tool:company_enrich' failed with a validation error on its input: company_enrich: 'not a domain!!' is not a valid domain",
+        "span 'tool:web_search' failed with a validation error on its input: web_search: query must be a non-empty string"
+      ],
+      "spans": [
+        "tool:company_search",
+        "tool:company_enrich",
+        "tool:web_search"
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "citations": [
+    {
+      "span": "tool:company_search",
+      "tool": "company_search",
+      "input": {
+        "query": 42
+      },
+      "error": "company_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    },
+    {
+      "span": "tool:company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "not a domain!!"
+      },
+      "error": "company_enrich: 'not a domain!!' is not a valid domain",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    },
+    {
+      "span": "tool:company_enrich",
+      "tool": "company_enrich",
+      "input": {
+        "domain": "doesnotexist12345xyz.com"
+      },
+      "error": "company_enrich: no match for domain 'doesnotexist12345xyz.com'",
+      "status": "ERROR",
+      "durationMs": 201,
+      "source": "run-record"
+    },
+    {
+      "span": "tool:web_search",
+      "tool": "web_search",
+      "input": {
+        "query": ""
+      },
+      "error": "web_search: query must be a non-empty string",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T06-17-15-417Z-b2b-broken-run-after-fix.json",
+    "traceMetadata": {
+      "traceId": "2282f34c9e8528f19fa22074ff4d33a1",
+      "traceName": "b2b-broken-run-after-fix",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

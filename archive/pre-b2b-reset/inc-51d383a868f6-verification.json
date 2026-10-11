@@ -1,0 +1,38 @@
+{
+  "incidentId": "inc-51d383a868f6",
+  "fixFile": null,
+  "verifiedAt": "2026-10-11T06:25:52.735Z",
+  "accepted": false,
+  "before": {
+    "traceId": "51d383a868f6f8c86011169441e77844",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T06-17-51-832Z-b2b-broken-run-after-fix-after-fix.json",
+    "failingSteps": [
+      "tool:company_search",
+      "tool:company_enrich",
+      "tool:company_enrich",
+      "tool:web_search",
+      "tool:web_search"
+    ],
+    "passingSteps": [
+      "tool:credits_check",
+      "tool:job_search"
+    ]
+  },
+  "after": {
+    "traceId": "c0f9d9401c68578938faa25290200d41",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T06-25-52-734Z-b2b-broken-run-after-fix-after-fix-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": [
+      "tool:credits_check",
+      "tool:job_search"
+    ]
+  },
+  "verdict": "FIX_REJECTED"
+}

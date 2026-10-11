@@ -1,0 +1,36 @@
+{
+  "startedAt": "2026-10-11T06:56:30.682Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 1,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-bf70cf2fb50b",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected",
+        "entity-not-found"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-bf70cf2fb50b",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 6,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 1,
+    "resolved": 1,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-11T06:57:10.574Z"
+}
