@@ -90,7 +90,7 @@ export async function companyEnrich({ domain } = {}) {
     throw new ToolError(`company_enrich: '${domain}' is not a valid domain`);
   }
   const d = await crustCall('/company/enrich', {
-    domains: [domain],
+    domains: domain,
     fields: ['basic_info', 'headcount', 'funding'],
   });
   const entry = Array.isArray(d) ? d[0] : null;
