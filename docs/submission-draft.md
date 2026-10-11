@@ -15,6 +15,8 @@ TraceZeta — the agent team that finds why other agents failed, fixes them, and
   (https://github.com/Jayanng/tracezeta/tree/refs/entire/checkpoints/SQ/01M4MQF7PK22KAERTY8FMJGNSQ
   once public; every fix carries its own checkpoint)
 - cfo.ai business plan: https://app.cfo.ai/s/vjF416MqG4tyZXkN (view-only, no account needed)
+  — grounded in measured build telemetry (credits per call, cost per fix-cycle,
+  stress-tested runway)
 - Crustdata: 7 of the target's 11 tools run live B2B data (sponsor credits)
 
 ## One-paragraph pitch

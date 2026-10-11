@@ -83,9 +83,18 @@ do not exist — captured as real neatlogs traces.
 - **Crustdata** — 7 of the target's 11 tools run on its live company, people, jobs,
   web, and social-post data (sponsor credits; not required by the rules, chosen for
   real failure diversity)
-- **cfo.ai** — the business plan, built with its AI CFO: https://app.cfo.ai/s/vjF416MqG4tyZXkN
-  (assumptions, revenue model, team and costs, cash and scenarios — all inputs labeled
-  provisional, view-only for judges)
+- **cfo.ai** — the business plan, built and stress-tested with its AI CFO:
+  https://app.cfo.ai/s/vjF416MqG4tyZXkN (view-only for judges)
+  - Grounded in MEASURED build data, not only assumptions: 86 agent runs, 335 live
+    tool spans, 122 real failures, 143 incidents, 0.131 Crustdata credits per API
+    call, 97.9% resolved-or-escalated coverage
+  - COGS per fix-cycle: $0.08 base ($0.025–$0.20 range) from component costs —
+    LLM inference, credits, checkpoint storage — labeled "estimated actuals:
+    measured credits, estimated dollars"
+  - Runway stress-tested: doubled churn AND doubled (2.5x worst) cycle cost still
+    survives 24 months, with the thin-margin case honestly flagged
+  - Every provisional input labeled as such; measured figures separated from
+    launch assumptions throughout
 
 ## Evidence
 
