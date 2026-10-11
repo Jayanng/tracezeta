@@ -133,7 +133,7 @@ Built and stress-tested with cfo.ai's AI CFO on measured operating data —
    sentinel-watch, investigate, propose-fix, verify. Every run record in `runs/`
    carries its real ingest trace ID. The trace-level memory search runs against
    this project's history before every diagnosis.
-2. **Entire** — repo `Jayanng/tracezeta` connected; 23 checkpoints (one per fix
+2. **Entire** — repo `Jayanng/tracezeta` connected; 35 checkpoints (one per fix
    cycle, git-refs backend). First checkpoint:
    `01M4MQF7PK22KAERTY8FMJGNSQ` (session `9e3acb52-a6f2-4740-aeb1-0671ba7181c8`,
    commit `1fcefb4`, Antigravity session, 19.1k tokens, AI summary generated).
