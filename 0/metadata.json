@@ -1,0 +1,61 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4MSCBQAQ4EKNKBY3AYD33GW",
+  "session_id": "62e07d56-d42a-474f-b87f-96b1b8bee8c7",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T06:11:10.848165878Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-11149202cd8b-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "bbacdb1e71bc",
+  "token_usage": {
+    "input_tokens": 19784,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 1539,
+    "api_call_count": 7
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T06:11:10.843161968Z",
+    "agent_lines": 1,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 1,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 973,
+      "user_lines_removed": 5,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-11149202cd8b-diagnosis.json": 126,
+        "incidents/.sentinel-seen.json": 16,
+        "incidents/inc-11149202cd8b.json": 64,
+        "runs/2026-10-11T06-10-12-317Z-b2b-healthy-run.json": 303,
+        "runs/2026-10-11T06-10-32-851Z-b2b-broken-run.json": 142,
+        "scripts/crust-key-server.py": 86,
+        "src/crustdata.js": 225,
+        "src/target-errors.js": 5,
+        "src/target/index.js": 6
+      },
+      "user_removed_per_file": {
+        "src/target/index.js": 5
+      }
+    }
+  ]
+}
