@@ -1,0 +1,68 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NP8ZGP0VT6M2KQ0PB6824B",
+  "session_id": "aee35a17-4c22-4387-9713-60831d1c7767",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T14:36:08.850958814Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-4e1b412daf5b-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "c941a76df554",
+  "token_usage": {
+    "input_tokens": 17939,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 858,
+    "api_call_count": 3
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T14:36:08.843757352Z",
+    "agent_lines": 5,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 5,
+    "total_lines_changed": 5,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 764,
+      "user_lines_removed": 22,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-4e1b412daf5b-diagnosis.json": 278,
+        "incidents/.sentinel-seen.json": 60,
+        "incidents/inc-4e1b412daf5b.json": 26,
+        "incidents/inc-8bd6632dc5c0.json": 26,
+        "incidents/inc-b7b47614b71d.json": 25,
+        "runs/2026-10-11T14-35-36-353Z-breaker-wrong-tool.json": 85,
+        "runs/2026-10-11T14-35-36-576Z-breaker-malformed-args.json": 85,
+        "runs/2026-10-11T14-35-36-816Z-breaker-missing-params.json": 105,
+        "src/agents/fixer.js": 10,
+        "src/agents/orchestrator.js": 6,
+        "src/agents/sandbox.js": 11,
+        "src/agents/sentinel.js": 5,
+        "src/agents/verifier.js": 42
+      },
+      "user_removed_per_file": {
+        "src/agents/fixer.js": 1,
+        "src/agents/orchestrator.js": 2,
+        "src/agents/sandbox.js": 4,
+        "src/agents/verifier.js": 15
+      }
+    }
+  ]
+}
