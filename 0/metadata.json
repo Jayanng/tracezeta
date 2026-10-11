@@ -1,0 +1,57 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4NPB29XCYBHCM5Q431W1D44",
+  "session_id": "a1a27bcb-e37c-4c12-b5ee-0acd35bbf1aa",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T14:37:17.182834306Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-b7b47614b71d-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "f6bde5cb4474",
+  "token_usage": {
+    "input_tokens": 17703,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 714,
+    "api_call_count": 3
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T14:37:17.176983482Z",
+    "agent_lines": 4,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 4,
+    "total_lines_changed": 4,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 363,
+      "user_lines_removed": 3,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-b7b47614b71d-diagnosis.json": 216,
+        "fixes/inc-8bd6632dc5c0-fix.json": 33,
+        "incidents/inc-8bd6632dc5c0.json": 10,
+        "runs/2026-10-11T14-36-45-289Z-breaker-malformed-args-after-fix.json": 67,
+        "verifications/inc-8bd6632dc5c0-verification.json": 37
+      },
+      "user_removed_per_file": {
+        "incidents/inc-8bd6632dc5c0.json": 3
+      }
+    }
+  ]
+}
