@@ -1,0 +1,104 @@
+{
+  "name": "breaker-missing-params",
+  "at": "2026-10-11T14:08:40.041Z",
+  "ok": false,
+  "trace": {
+    "error": "ingest HTTP 503: {}"
+  },
+  "task": {
+    "name": "breaker-missing-params",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD"
+        }
+      },
+      {
+        "tool": "compute_schedule",
+        "args": {
+          "days": 7
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "missingparams",
+          "payload": {
+            "case": 3
+          }
+        }
+      }
+    ]
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892438,
+        "fetchedAt": "2026-10-11T14:08:39.858Z"
+      },
+      "status": "OK",
+      "duration_ms": 19
+    },
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892438,
+        "fetchedAt": "2026-10-11T14:08:39.874Z"
+      },
+      "status": "OK",
+      "duration_ms": 16
+    },
+    {
+      "name": "tool:compute_schedule",
+      "kind": "TOOL",
+      "tool_name": "compute_schedule",
+      "input": {
+        "days": 7
+      },
+      "status": "ERROR",
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "duration_ms": 0
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "missingparams",
+        "payload": {
+          "case": 3
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-missingparams.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

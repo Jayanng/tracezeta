@@ -1,0 +1,352 @@
+{
+  "incidentId": "inc-0af54d467c84",
+  "at": "2026-10-11T13:22:02.507Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:fetch_currency_price' failed with a validation error on its input: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "tool:fetch_currency_price"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "commit",
+          "title": "Source repair: sandbox, anti-reward-hacking gate, classifier, flow",
+          "id": "d79943973d0d7cab70daed97e38f35cc057e5870",
+          "source": "entire-search"
+        }
+      ]
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "evidence": [
+        "span 'tool:fetch_currency_price' called a tool that does not exist: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "tool:fetch_currency_price"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        }
+      ]
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "evidence": [
+        "span 'tool:fetch_currency_price' failed against an external service: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "tool:fetch_currency_price"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        },
+        {
+          "type": "commit",
+          "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+          "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "unknown tool 'fetch_currency_price'",
+      "fetch_currency_price"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [
+        {
+          "traceId": "b1d2bcf9754f47e30767b152dd2bfe13",
+          "traceName": "team:investigate-inc-97975eb5e89d",
+          "status": "OK",
+          "score": 1,
+          "matchedSpans": [
+            "evaluate_hypothesis",
+            "evaluate_hypothesis",
+            "evaluate_hypothesis",
+            "evaluate_hypothesis"
+          ]
+        },
+        {
+          "traceId": "30ae5e810dd41de473f7c849a75023fd",
+          "traceName": "team:investigate-inc-9060af755ff9",
+          "status": "OK",
+          "score": 0.9969981175486062,
+          "matchedSpans": [
+            "evaluate_hypothesis",
+            "evaluate_hypothesis",
+            "evaluate_hypothesis",
+            "evaluate_hypothesis"
+          ]
+        },
+        {
+          "traceId": "d01d68c67a2af5b94f7c0adda8a4efa6",
+          "traceName": "team:investigate-inc-9060af755ff9",
+          "status": "OK",
+          "score": 0.9969981175486062,
+          "matchedSpans": [
+            "evaluate_hypothesis",
+            "evaluate_hypothesis",
+            "evaluate_hypothesis",
+            "evaluate_hypothesis"
+          ]
+        },
+        {
+          "traceId": "9060af755ff9ee8c55179b069305771f",
+          "traceName": "breaker-wrong-tool",
+          "status": "ERROR",
+          "score": 0.3922424720639509,
+          "matchedSpans": [
+            "breaker-wrong-tool",
+            "save_record",
+            "fetch_currency_price",
+            "get_exchange_rate"
+          ]
+        },
+        {
+          "traceId": "92f99c6363abb662e7b53476299eaafc",
+          "traceName": "breaker-wrong-tool",
+          "status": "ERROR",
+          "score": 0.3922424720639509,
+          "matchedSpans": [
+            "get_exchange_rate",
+            "fetch_currency_price",
+            "breaker-wrong-tool",
+            "save_record"
+          ]
+        },
+        {
+          "traceId": "6d19c0db975fdd82faba88c031d75dbb",
+          "traceName": "team:propose-fix-inc-9060af755ff9",
+          "status": "OK",
+          "score": 0.5807423630464845,
+          "matchedSpans": [
+            "propose_repair",
+            "team:propose-fix-inc-9060af755ff9"
+          ]
+        },
+        {
+          "traceId": "af7af02ac9738c3a9f642fa762311562",
+          "traceName": "team:propose-fix-inc-97975eb5e89d",
+          "status": "OK",
+          "score": 0.5807423630464845,
+          "matchedSpans": [
+            "team:propose-fix-inc-97975eb5e89d",
+            "propose_repair"
+          ]
+        }
+      ],
+      "count": 7
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "invalid-argument-value": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "d79943973d0d7cab70daed97e38f35cc057e5870",
+              "title": "Source repair: sandbox, anti-reward-hacking gate, classifier, flow",
+              "match": null,
+              "date": "2026-10-11T11:08:29.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f1a31120-cd12-41ef-86bb-58f57bf595a5",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:36:26.063Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "242cde14-e49b-4aba-9ff0-b2bd2821aac4",
+              "title": "TraceZeta Repair Plan and Self-Repair Flow",
+              "match": null,
+              "date": "2026-10-11T11:08:14.486Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        },
+        "wrong-tool-selected": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f62c0df5-2de3-4bcc-b7f9-18483817b0e1",
+              "title": "Create Repair Plan for inc-002bd71dd4c4",
+              "match": null,
+              "date": "2026-10-11T06:33:51.015448284Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "ec72fd31-cdb4-4aa1-9b32-2adb2f06119f",
+              "title": "Create Repair Plan for inc-b675c12fba50",
+              "match": null,
+              "date": "2026-10-11T06:30:26.502805651Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "9ad57ce3-e277-4919-8258-e6e29a42db38",
+              "title": "Create Repair Plan for inc-c883a643ca4f",
+              "match": null,
+              "date": "2026-10-11T09:29:02.660109943Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        },
+        "external-service-failure": {
+          "priorFixes": [
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+              "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+              "match": null,
+              "date": "2026-10-11T07:01:48.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f1a31120-cd12-41ef-86bb-58f57bf595a5",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:31:59.222885798Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "83e0b558-4360-4419-9d48-67f3cfc305e1",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T06:25:02.318459811Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "fae27837-0afc-4b55-bd36-4536c1f929df",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:22:48.840142487Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "tool:fetch_currency_price",
+      "tool": "fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "error": "unknown tool 'fetch_currency_price'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T13-21-46-752Z-breaker-wrong-tool.json",
+    "traceMetadata": {
+      "traceId": "0af54d467c843f35b0edddb76fac35ba",
+      "traceName": "breaker-wrong-tool",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

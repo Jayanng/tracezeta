@@ -1,0 +1,35 @@
+{
+  "incidentId": "inc-0af54d467c84",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-0af54d467c84-diagnosis.json",
+  "proposedAt": "2026-10-11T13:22:31.555Z",
+  "strategy": [
+    "invalid-argument-value",
+    "wrong-tool-selected",
+    "external-service-failure"
+  ],
+  "repairs": [
+    {
+      "tool": "fetch_currency_price",
+      "original": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "repaired": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "notes": [
+        "tool 'fetch_currency_price' -> 'get_exchange_rate' (exact argument-shape match in the registry)"
+      ],
+      "actionable": true,
+      "remove": false,
+      "replaceToolWith": "get_exchange_rate"
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4NJ24ZTSF4442TGX04J36FQ",
+    "raw": "  branch       main\n  checkpoints  40\n\n● 01M4NJ24ZTSF4442TGX04J36FQ  \"Create the file /home/ubuntu/tracezeta/fixes/inc-0af54d46...\"\n  10-11 21:22 (434390b) Entire pre-fix anchor: tracezeta-pre-fix-inc-0af54d467c84 (inc-0af54d467c84)\n\n● fb96f681-4ad  [temporary]  carry forward: uncommitted session fi"
+  },
+  "applied": true
+}

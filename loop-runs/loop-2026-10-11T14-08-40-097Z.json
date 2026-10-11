@@ -1,0 +1,36 @@
+{
+  "startedAt": "2026-10-11T14:08:40.097Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 0,
+      "errors": [
+        "traces list failed: Error: Command failed: neatlogs --host https://app.neatlogs.com --profile setup-https---app-neatlogs-com --credential-source profile --project 95489ec6-1955-45c6-b8c4-60c60b207e42 traces list --limit "
+      ]
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-3a8538e0bdf2",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "external-service-failure"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-3a8538e0bdf2",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 1,
+    "resolved": 1,
+    "unresolved": 0,
+    "escalations": []
+  },
+  "finishedAt": "2026-10-11T14:09:14.798Z"
+}

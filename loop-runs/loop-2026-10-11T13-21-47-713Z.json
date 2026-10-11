@@ -1,0 +1,84 @@
+{
+  "startedAt": "2026-10-11T13:21:47.713Z",
+  "stages": [
+    {
+      "agent": "sentinel",
+      "opened": 3,
+      "errors": []
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-0af54d467c84",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value",
+        "wrong-tool-selected",
+        "external-service-failure"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-0af54d467c84",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-3a8538e0bdf2",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "external-service-failure"
+      ]
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-4745e9b3a030",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-4745e9b3a030",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    },
+    {
+      "agent": "investigator",
+      "incident": "inc-fc48d8662cd5",
+      "round": 1,
+      "verdict": "ROOT_CAUSE_IDENTIFIED",
+      "rootCauses": [
+        "invalid-argument-value"
+      ]
+    },
+    {
+      "agent": "verifier",
+      "incident": "inc-fc48d8662cd5",
+      "round": 1,
+      "verdict": "FIX_VERIFIED",
+      "beforeFailing": 1,
+      "afterFailing": 0
+    }
+  ],
+  "outcome": {
+    "incidentsOpenAtStart": 4,
+    "resolved": 3,
+    "unresolved": 1,
+    "escalations": [
+      {
+        "incident": "inc-3a8538e0bdf2",
+        "reason": "fixer refused: no repair strategy matched the failing steps"
+      }
+    ]
+  },
+  "finishedAt": "2026-10-11T13:24:15.516Z"
+}

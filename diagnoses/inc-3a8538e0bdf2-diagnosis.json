@@ -1,16 +1,16 @@
 {
   "incidentId": "inc-3a8538e0bdf2",
-  "at": "2026-10-11T10:21:52.267Z",
+  "at": "2026-10-11T14:08:47.488Z",
   "verdict": "ROOT_CAUSE_IDENTIFIED",
   "rootCauses": [
     {
       "id": "external-service-failure",
       "label": "An external dependency failed (network/API error)",
       "evidence": [
-        "span 'web_search' failed against an external service: crustdata network error: The operation was aborted due to timeout"
+        "span 'tool:web_search' failed against an external service: crustdata network error: The operation was aborted due to timeout"
       ],
       "spans": [
-        "web_search"
+        "tool:web_search"
       ],
       "corroborated": true,
       "priorEvidence": [
@@ -57,69 +57,8 @@
     ],
     "traceMemory": {
       "source": "neatlogs-keyword-search",
-      "priorTraces": [
-        {
-          "traceId": "51d383a868f6f8c86011169441e77844",
-          "traceName": "b2b-broken-run-after-fix-after-fix",
-          "status": "ERROR",
-          "score": 1,
-          "matchedSpans": [
-            "web_search",
-            "job_search",
-            "web_search",
-            "company_search"
-          ]
-        },
-        {
-          "traceId": "6da984ed4795e3f36cfe37e836d3bba7",
-          "traceName": "b2b-broken-run-after-fix-after-fix",
-          "status": "ERROR",
-          "score": 1,
-          "matchedSpans": [
-            "web_search",
-            "web_search",
-            "company_search",
-            "job_search"
-          ]
-        },
-        {
-          "traceId": "e366ef09ebf3a9074811b95db458dace",
-          "traceName": "b2b-broken-run-after-fix-after-fix",
-          "status": "ERROR",
-          "score": 1,
-          "matchedSpans": [
-            "company_search",
-            "web_search",
-            "job_search",
-            "web_search"
-          ]
-        },
-        {
-          "traceId": "f93abd8cfd05241eb2a7b54ce0560660",
-          "traceName": "b2b-broken-run-after-fix-after-fix",
-          "status": "ERROR",
-          "score": 1,
-          "matchedSpans": [
-            "job_search",
-            "web_search",
-            "web_search",
-            "company_search"
-          ]
-        },
-        {
-          "traceId": "6614797804c9c087e174b01c09ac41a6",
-          "traceName": "b2b-broken-run-after-fix",
-          "status": "ERROR",
-          "score": 0.8622749000510712,
-          "matchedSpans": [
-            "job_search",
-            "company_search",
-            "web_search",
-            "web_search"
-          ]
-        }
-      ],
-      "count": 5
+      "priorTraces": [],
+      "count": 0
     },
     "fixMemory": {
       "source": "entire-semantic-search",
@@ -174,20 +113,20 @@
   },
   "citations": [
     {
-      "span": "web_search",
+      "span": "tool:web_search",
       "tool": "web_search",
       "input": {
         "query": "founders"
       },
       "error": "crustdata network error: The operation was aborted due to timeout",
       "status": "ERROR",
-      "durationMs": 1015,
-      "source": "neatlogs-raw-spans"
+      "durationMs": 30003,
+      "source": "run-record"
     }
   ],
   "evidenceSources": {
-    "spanProjectionUsed": true,
-    "runRecordUsed": false,
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
     "runFile": "/home/ubuntu/tracezeta/runs/2026-10-11T09-29-36-172Z-b2b-broken-run-after-fix-after-fix.json",
     "traceMetadata": {
       "traceId": "3a8538e0bdf227a5c43b61262c7aff1e",
