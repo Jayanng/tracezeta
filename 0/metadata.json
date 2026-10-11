@@ -1,0 +1,75 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4N4PN7W3TWTADGBAR5882X9",
+  "session_id": "9ad57ce3-e277-4919-8258-e6e29a42db38",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T09:29:02.660109943Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-c883a643ca4f-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "3c80c93d1da4",
+  "token_usage": {
+    "input_tokens": 19811,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 1541,
+    "api_call_count": 9
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T09:29:02.654872107Z",
+    "agent_lines": 1,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "total_lines_changed": 1,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 2471,
+      "user_lines_removed": 18,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-3ad99a94d2ff-diagnosis.json": 314,
+        "diagnoses/inc-b78e24b3136b-diagnosis.json": 373,
+        "diagnoses/inc-c883a643ca4f-diagnosis.json": 200,
+        "diagnoses/inc-fa0d3a72c823-diagnosis.json": 200,
+        "fixes/inc-3ad99a94d2ff-fix.json": 44,
+        "fixes/inc-b78e24b3136b-fix.json": 100,
+        "incidents/.sentinel-seen.json": 168,
+        "incidents/inc-3ad99a94d2ff.json": 23,
+        "incidents/inc-b78e24b3136b.json": 71,
+        "incidents/inc-c883a643ca4f.json": 16,
+        "incidents/inc-fa0d3a72c823.json": 16,
+        "loop-runs/loop-2026-10-11T09-16-28-174Z.json": 76,
+        "runs/2026-10-11T09-05-20-560Z-b2b-broken-run.json": 142,
+        "runs/2026-10-11T09-17-37-012Z-b2b-broken-run-after-fix.json": 242,
+        "runs/2026-10-11T09-28-07-700Z-b2b-broken-run-after-fix-after-fix-after-fix.json": 191,
+        "src/agents/fixer.js": 11,
+        "src/agents/investigator.js": 69,
+        "src/agents/memory.js": 132,
+        "src/agents/verifier.js": 11,
+        "verifications/inc-3ad99a94d2ff-verification.json": 35,
+        "verifications/inc-b78e24b3136b-verification.json": 37
+      },
+      "user_removed_per_file": {
+        "src/agents/fixer.js": 9,
+        "src/agents/investigator.js": 8,
+        "src/agents/verifier.js": 1
+      }
+    }
+  ]
+}
