@@ -1,0 +1,37 @@
+{
+  "incidentId": "inc-3143193d326e",
+  "fixFile": null,
+  "verifiedAt": "2026-10-12T13:18:23.217Z",
+  "accepted": true,
+  "before": {
+    "traceId": "3143193d326e287f0b2034c123c5dfff",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-12T13-17-48-475Z-breaker-malformed-args.json",
+    "failingSteps": [
+      "tool:compute_schedule"
+    ],
+    "passingSteps": [
+      "tool:get_exchange_rate",
+      "tool:save_record"
+    ]
+  },
+  "after": {
+    "traceId": "fe850863523cdea7c58ad653c6d40668",
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-12T13-18-23-216Z-breaker-malformed-args-after-fix.json",
+    "failingSteps": [],
+    "passingSteps": [
+      "tool:get_exchange_rate",
+      "tool:save_record"
+    ],
+    "traceError": null
+  },
+  "comparison": {
+    "nowPassing": [],
+    "stillFailing": [],
+    "regressedHealthySteps": [],
+    "droppedSteps": [],
+    "removedByRepair": [
+      "compute_schedule"
+    ]
+  },
+  "verdict": "FIX_VERIFIED (step removed: compute_schedule)"
+}

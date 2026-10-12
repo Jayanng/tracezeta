@@ -1,0 +1,89 @@
+{
+  "name": "breaker-missing-params-after-fix",
+  "at": "2026-10-12T13:19:34.338Z",
+  "ok": true,
+  "trace": {
+    "traceId": "857a23333f2b19da9ce41f3f2a3f4331",
+    "spans": 5
+  },
+  "task": {
+    "name": "breaker-missing-params-after-fix",
+    "steps": [
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD",
+          "quote": "EUR"
+        }
+      },
+      {
+        "tool": "get_exchange_rate",
+        "args": {
+          "base": "USD"
+        }
+      },
+      {
+        "tool": "save_record",
+        "args": {
+          "name": "missingparams",
+          "payload": {
+            "case": 3
+          }
+        }
+      }
+    ],
+    "verification": true
+  },
+  "spans": [
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892629,
+        "fetchedAt": "2026-10-12T13:19:34.126Z"
+      },
+      "status": "OK",
+      "duration_ms": 50
+    },
+    {
+      "name": "tool:get_exchange_rate",
+      "kind": "TOOL",
+      "tool_name": "get_exchange_rate",
+      "input": {
+        "base": "USD"
+      },
+      "output": {
+        "base": "USD",
+        "quote": "EUR",
+        "rate": 0.892629,
+        "fetchedAt": "2026-10-12T13:19:34.153Z"
+      },
+      "status": "OK",
+      "duration_ms": 27
+    },
+    {
+      "name": "tool:save_record",
+      "kind": "TOOL",
+      "tool_name": "save_record",
+      "input": {
+        "name": "missingparams",
+        "payload": {
+          "case": 3
+        }
+      },
+      "output": {
+        "saved": "/home/ubuntu/tracezeta/src/runtime/record-missingparams.json",
+        "bytes": 10
+      },
+      "status": "OK",
+      "duration_ms": 0
+    }
+  ]
+}

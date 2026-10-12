@@ -1,0 +1,50 @@
+{
+  "incidentId": "inc-9c28823a4d40",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-9c28823a4d40-diagnosis.json",
+  "proposedAt": "2026-10-12T13:19:06.014Z",
+  "strategy": [
+    "wrong-tool-selected",
+    "external-service-failure"
+  ],
+  "repairs": [
+    {
+      "tool": "fetch_currency_price",
+      "original": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "repaired": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "notes": [
+        "tool 'fetch_currency_price' -> 'get_exchange_rate' (exact argument-shape match in the registry)"
+      ],
+      "actionable": true,
+      "remove": false,
+      "replaceToolWith": "get_exchange_rate"
+    },
+    {
+      "tool": "fetch_currency_price",
+      "original": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "repaired": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "notes": [
+        "external service failure (network/timeout/HTTP): task and code are correct; retried unchanged — resolves only if the re-run passes"
+      ],
+      "actionable": true,
+      "remove": false
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4R48K7GCJ5ZBQ13HYTK1002",
+    "raw": "  branch       main\n  checkpoints  54\n\n● 78d35b2c-e3f  [temporary]  carry forward: uncommitted session files\n  10-12 21:19 (931a2f9) carry forward: uncommitted session files\n\n● 01M4R48K7GCJ5ZBQ13HYTK1002  \"Create the file /home/ubuntu/tracezeta/fixes/inc-9c28823a...\"\n  10-12 21:19 (c7b56ab) Entire p"
+  },
+  "applied": true
+}

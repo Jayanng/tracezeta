@@ -1,0 +1,140 @@
+{
+  "incidentId": "inc-d8f2bea503d9",
+  "at": "2026-10-12T13:19:09.446Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "evidence": [
+        "span 'tool:compute_schedule' failed with a validation error on its input: compute_schedule: startDate must be YYYY-MM-DD"
+      ],
+      "spans": [
+        "tool:compute_schedule"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "session",
+          "title": "Repair Plan for tracezeta Currency Price Tool",
+          "id": "aee35a17-4c22-4387-9713-60831d1c7767",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "must be YYYY-MM-DD",
+      "compute_schedule"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [],
+      "count": 0
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "invalid-argument-value": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "aee35a17-4c22-4387-9713-60831d1c7767",
+              "title": "Repair Plan for tracezeta Currency Price Tool",
+              "match": null,
+              "date": "2026-10-11T14:36:23.671Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "07f55c83-9a60-4340-9434-cc71c1a5f155",
+              "title": "tracezeta Incident Repair Plan Documentation",
+              "match": null,
+              "date": "2026-10-11T14:14:34.648Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "d79943973d0d7cab70daed97e38f35cc057e5870",
+              "title": "Source repair: sandbox, anti-reward-hacking gate, classifier, flow",
+              "match": null,
+              "date": "2026-10-11T11:08:29.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "tool:compute_schedule",
+      "tool": "compute_schedule",
+      "input": {
+        "days": 7
+      },
+      "error": "compute_schedule: startDate must be YYYY-MM-DD",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-12T13-17-48-731Z-breaker-missing-params.json",
+    "traceMetadata": {
+      "traceId": "d8f2bea503d96d3dabac6c9fc5a2c0e4",
+      "traceName": "breaker-missing-params",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

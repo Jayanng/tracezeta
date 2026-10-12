@@ -1,0 +1,33 @@
+{
+  "id": "inc-9c28823a4d40",
+  "openedAt": "2026-10-12T13:17:49.917Z",
+  "reason": "run-record-failure",
+  "trace": {
+    "traceId": "ab733b5cecddb05e573d148b978f7dea",
+    "traceName": "breaker-wrong-tool",
+    "workflowName": "breaker-wrong-tool",
+    "ingestedAt": "2026-10-12T13:17:48.237Z",
+    "status": "ERROR",
+    "finalizationStatus": "unknown (platform list not consulted for this trace)"
+  },
+  "runFile": "/home/ubuntu/tracezeta/runs/2026-10-12T13-19-06-845Z-breaker-wrong-tool-after-fix.json",
+  "failedSteps": [
+    {
+      "tool": "tool:fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "error": "unknown tool 'fetch_currency_price'",
+      "duration_ms": 0
+    }
+  ],
+  "status": "resolved",
+  "resolvedAt": "2026-10-12T13:19:07.044Z",
+  "resolution": {
+    "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-9c28823a4d40-diagnosis.json",
+    "fixFile": "/home/ubuntu/tracezeta/fixes/inc-9c28823a4d40-fix.json",
+    "verificationFile": "/home/ubuntu/tracezeta/verifications/inc-9c28823a4d40-verification.json",
+    "afterTraceId": "ab733b5cecddb05e573d148b978f7dea"
+  }
+}

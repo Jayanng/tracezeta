@@ -4,6 +4,16 @@
 
 And it holds itself to the same standard. The loop that fixes failing agents has found and repaired bugs in **its own source code** — sandboxed, gate-verified, and approved at a human review gate. It cannot fabricate results, and it cannot silently break itself to appear correct. This is the project's core constraint.
 
+## For judges: the 5-minute path
+
+1. **Watch the demo video** — attached to our submission quote-tweet on X (team JAYANNG). It shows the gate rejecting a real patch for reward hacking, then both neatlogs incidents being identified and resolved.
+2. **Run the tests**: `npm test` — 11 smoke tests, no API keys needed.
+3. **Run the whole loop live**: `npm run demo` — Breaker engineers three failure classes into real runs, then the autonomous team (sentinel → investigator → fixer → verifier → gate → orchestrator) closes every incident. Exit 0 = all resolved.
+4. **Verify the evidence yourself**:
+   - neatlogs project: `95489ec6-1955-45c6-b8c4-60c60b207e42` (traces for every run and every team operation)
+   - Entire trail: https://entire.io/gh/Jayanng/tracezeta/trails/1 (the full self-repair cycle)
+   - cfo.ai plan: https://app.cfo.ai/s/vjF416MqG4tyZXkN (view-only, no account needed)
+
 ## What it is
 
 TraceZeta is a team of specialist agents built on four real platforms:
@@ -40,6 +50,36 @@ Every stage's output is a durable JSON artifact citing its evidence:
 - `verifications/` — before/after span comparison, regression check, verdict
 - `loop-runs/` — the whole cycle as one audit trail
 
+## Running it
+
+Prerequisites: Node.js 20+ (tested on Node 22) and an internet connection.
+The target runs against **live** services (exchange rates, Crustdata B2B APIs) —
+failures are real failures, so a live network is part of the demo.
+
+```bash
+git clone https://github.com/Jayanng/tracezeta.git
+cd tracezeta
+npm ci                      # one dependency: the neatlogs SDK
+cp .env.example .env        # then fill in the three keys (see comments in the file)
+
+# 1. Smoke tests — no keys, no network needed
+npm test                    # 11 tests
+
+# 2. Run a task through the target (traced + recorded)
+node src/target/index.js tasks/breaker-classes.json   # or any task file in tasks/
+
+# 3. Run the full autonomous loop over whatever incidents exist
+node src/agents/orchestrator.js
+# Exit 0: all incidents resolved. Exit 1: incidents remain open (honest).
+
+# 4. Or run everything in one shot (Breaker -> loop -> verdict)
+npm run demo
+```
+
+What each run writes: `runs/` (traced run records), `incidents/`, `diagnoses/`,
+`fixes/`, `verifications/`, `loop-runs/` (the whole cycle as one audit trail).
+Everything is plain JSON, every claim inside cites the span or file it came from.
+
 ## The self-repair cycle (source-level repair)
 
 When a failing step's root cause is a defect in **our own code**, not the task,
@@ -67,6 +107,14 @@ The first completed cycle (commit `f2dbd25`): a real defect in `company_enrich`,
 diagnosed from a live API error, patched by an agent in the sandbox, verified by
 all five gate checks, approved by the human gate, fixed. The commit history tells
 the whole story — including the reward-hacking patch the gate rejected on the way.
+
+To inspect the full record of that cycle without running anything:
+
+```
+fixes/source-repairs/inc-8cdafc668a0e-source-proposal.json   # diff + all five gate verdicts
+fixes/inc-8cdafc668a0e-repair-plan.md                        # the plan
+git show f2dbd25                                             # the applied fix
+```
 
 ## Why this is different
 
@@ -97,22 +145,6 @@ Nothing mocked. Failures here are real failures against real external services:
 validation errors, API errors, rate limits, entities that do not exist —
 captured as real neatlogs traces.
 
-## Running
-
-```bash
-# 1. Run a task through the target (traced + recorded)
-node src/target/index.js tasks/breaker-classes.json   # or any task file
-
-# 2. Run the full autonomous loop
-node src/agents/orchestrator.js
-
-# Exit 0: all incidents resolved. Exit 1: incidents remain open.
-```
-
-Requires `NEATLOGS_WRITE_KEY`, `NEATLOGS_PROJECT_ID`, and `CRUSTDATA_API_KEY` in
-`.env` (never committed; the Crustdata key arrived through a one-time
-masked-entry page).
-
 ## The business
 
 Built and stress-tested with cfo.ai's AI CFO on measured operating data —
@@ -139,6 +171,11 @@ Built and stress-tested with cfo.ai's AI CFO on measured operating data —
    sentinel-watch, investigate, propose-fix, verify. Every run record in `runs/`
    carries its real ingest trace ID. The trace-level memory search runs against
    this project's history before every diagnosis.
+   Its **critical incidents** feature identified two real incidents in our own
+   builds (8 traces each, pattern: tool contract misuse), wrote the investigation
+   at 65% confidence with a recommended fix, and both were resolved on the board —
+   one of them by **refusing** the suggested fix (it asked us to soften errors into
+   not-found responses; the typed errors stay). The video shows the whole flow.
 2. **Entire** — repo `Jayanng/tracezeta` connected; checkpoints throughout the
    build (one per fix cycle, git-refs backend, count grows with every cycle).
    First checkpoint:
@@ -150,6 +187,8 @@ Built and stress-tested with cfo.ai's AI CFO on measured operating data —
    (cluster `aws-eu-central-1.entire.io`).
    Inspect locally: `entire checkpoint explain 01M4MQF7PK22KAERTY8FMJGNSQ`.
    The fix-memory search (semantic, per root cause) runs over these checkpoints.
+   Trail #1 documents the complete self-repair cycle:
+   https://entire.io/gh/Jayanng/tracezeta/trails/1
 3. **cfo.ai** — the business plan, built and stress-tested with its AI CFO:
    **https://app.cfo.ai/s/vjF416MqG4tyZXkN** (view-only for judges, no account
    needed). Measured telemetry in, honest ranges out (see The business).
@@ -182,5 +221,19 @@ rejected on the way).
 each stage a JSON artifact citing its evidence: which spans failed, which
 hypotheses were rejected and why, which memory was consulted, what the
 before/after diff proved.
+
+## Honest notes
+
+- **Solo builder.** One human, agent team on the loop. The Entire trail's
+  "1 required approval" review is left honestly unsatisfied and documented —
+  there is no second person, and we did not fabricate one. Every "human
+  approval" in this repo is the builder's own review click, and it is labeled.
+- **The loop never applies source patches itself.** Verified patches wait as
+  `AWAITING_HUMAN_REVIEW`. This is deliberate: the human gate is the product.
+- **Evaluator gauges are advisory.** The adversarial evaluation runners are
+  nondeterministic; the written rationale in each diagnosis is the source of
+  truth, and the gate verdicts are deterministic tests, not LLM judgments.
+- **Nothing here is mocked.** Live APIs, real ingest, real re-runs. Where a
+  number could not be measured, the artifact says so instead of estimating.
 
 Built for neatHack 2026, team JAYANNG.

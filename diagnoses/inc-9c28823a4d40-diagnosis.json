@@ -1,0 +1,206 @@
+{
+  "incidentId": "inc-9c28823a4d40",
+  "at": "2026-10-12T13:18:28.376Z",
+  "verdict": "ROOT_CAUSE_IDENTIFIED",
+  "rootCauses": [
+    {
+      "id": "wrong-tool-selected",
+      "label": "The wrong tool was selected for the step (unknown tool name)",
+      "evidence": [
+        "span 'tool:fetch_currency_price' called a tool that does not exist: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "tool:fetch_currency_price"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "commit",
+          "title": "Breaker fault suite + wrong-tool repair strategy",
+          "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+          "source": "entire-search"
+        },
+        {
+          "type": "session",
+          "title": "Repair Plan for tracezeta Currency Price Tool",
+          "id": "aee35a17-4c22-4387-9713-60831d1c7767",
+          "source": "entire-search"
+        }
+      ]
+    },
+    {
+      "id": "external-service-failure",
+      "label": "An external dependency failed (network/API error)",
+      "evidence": [
+        "span 'tool:fetch_currency_price' failed against an external service: unknown tool 'fetch_currency_price'"
+      ],
+      "spans": [
+        "tool:fetch_currency_price"
+      ],
+      "corroborated": true,
+      "priorEvidence": [
+        {
+          "type": "session",
+          "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+          "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+          "source": "entire-search"
+        },
+        {
+          "type": "commit",
+          "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+          "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+          "source": "entire-search"
+        }
+      ]
+    }
+  ],
+  "rejectedHypotheses": [
+    {
+      "id": "invalid-argument-value",
+      "label": "A tool argument had an invalid value (malformed or out of domain)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "missing-required-argument",
+      "label": "A required parameter was missing from the tool call",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    },
+    {
+      "id": "entity-not-found",
+      "label": "The step referenced an entity that does not exist (no match in the data source)",
+      "rejectionReason": "no span evidence supports this hypothesis"
+    }
+  ],
+  "memory": {
+    "queries": [
+      "unknown tool 'fetch_currency_price'",
+      "fetch_currency_price"
+    ],
+    "traceMemory": {
+      "source": "neatlogs-keyword-search",
+      "priorTraces": [],
+      "count": 0
+    },
+    "fixMemory": {
+      "source": "entire-semantic-search",
+      "perRootCause": {
+        "wrong-tool-selected": {
+          "priorFixes": [
+            {
+              "type": "commit",
+              "id": "c498448c16eed618d70a3ff471e818b8741903a6",
+              "title": "Breaker fault suite + wrong-tool repair strategy",
+              "match": null,
+              "date": "2026-10-10T23:03:03.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "aee35a17-4c22-4387-9713-60831d1c7767",
+              "title": "Repair Plan for tracezeta Currency Price Tool",
+              "match": null,
+              "date": "2026-10-11T14:36:08.850958814Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f62c0df5-2de3-4bcc-b7f9-18483817b0e1",
+              "title": "Create Repair Plan for inc-002bd71dd4c4",
+              "match": null,
+              "date": "2026-10-11T06:33:51.015448284Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "ec72fd31-cdb4-4aa1-9b32-2adb2f06119f",
+              "title": "Create Repair Plan for inc-b675c12fba50",
+              "match": null,
+              "date": "2026-10-11T06:30:26.502805651Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        },
+        "external-service-failure": {
+          "priorFixes": [
+            {
+              "type": "session",
+              "id": "4c912558-e853-4cc0-88b2-21cc120b14ff",
+              "title": "Create Repair Plan for tracezeta-pre-fix-inc-bf70cf2fb50b",
+              "match": null,
+              "date": "2026-10-11T07:01:49.124Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "commit",
+              "id": "c49dcf1cdb306cd4ffc26ae74b6a1716c8c753be",
+              "title": "Crustdata: 7 live B2B tools in the target + full loop on real API failures",
+              "match": null,
+              "date": "2026-10-11T07:01:48.000Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "aee35a17-4c22-4387-9713-60831d1c7767",
+              "title": "Repair Plan for tracezeta Currency Price Tool",
+              "match": null,
+              "date": "2026-10-11T14:36:23.671Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "07f55c83-9a60-4340-9434-cc71c1a5f155",
+              "title": "tracezeta Incident Repair Plan Documentation",
+              "match": null,
+              "date": "2026-10-11T14:09:06.730248925Z",
+              "repo": "Jayanng/tracezeta"
+            },
+            {
+              "type": "session",
+              "id": "f1a31120-cd12-41ef-86bb-58f57bf595a5",
+              "title": "Create Repair Plan for tracezeta Incident",
+              "match": null,
+              "date": "2026-10-11T09:31:59.222885798Z",
+              "repo": "Jayanng/tracezeta"
+            }
+          ],
+          "count": 5
+        }
+      }
+    }
+  },
+  "citations": [
+    {
+      "span": "tool:fetch_currency_price",
+      "tool": "fetch_currency_price",
+      "input": {
+        "base": "USD",
+        "quote": "EUR"
+      },
+      "error": "unknown tool 'fetch_currency_price'",
+      "status": "ERROR",
+      "durationMs": 0,
+      "source": "run-record"
+    }
+  ],
+  "evidenceSources": {
+    "spanProjectionUsed": false,
+    "runRecordUsed": true,
+    "runFile": "/home/ubuntu/tracezeta/runs/2026-10-12T13-17-48-238Z-breaker-wrong-tool.json",
+    "traceMetadata": {
+      "traceId": "9c28823a4d40a310754b893d0c348ba2",
+      "traceName": "breaker-wrong-tool",
+      "status": "ERROR",
+      "finalizationStatus": "unknown (platform list not consulted for this trace)",
+      "source": "trace-metadata"
+    }
+  }
+}

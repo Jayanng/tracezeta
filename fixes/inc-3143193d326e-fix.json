@@ -1,0 +1,33 @@
+{
+  "incidentId": "inc-3143193d326e",
+  "diagnosisFile": "/home/ubuntu/tracezeta/diagnoses/inc-3143193d326e-diagnosis.json",
+  "proposedAt": "2026-10-12T13:18:22.433Z",
+  "strategy": [
+    "invalid-argument-value"
+  ],
+  "repairs": [
+    {
+      "tool": "compute_schedule",
+      "original": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "repaired": {
+        "startDate": "11/10/2026",
+        "days": "fourteen"
+      },
+      "notes": [
+        "startDate \"11/10/2026\": not derivable; step removed (no date invented)",
+        "days \"fourteen\": not derivable; step removed (no duration invented)"
+      ],
+      "actionable": true,
+      "remove": true
+    }
+  ],
+  "checkpoint": {
+    "ok": true,
+    "id": "01M4R477Z11NMKK1R7B875FEC9",
+    "raw": "  branch       main\n  checkpoints  53\n\n● 01M4R477Z11NMKK1R7B875FEC9  \"Create the file /home/ubuntu/tracezeta/fixes/inc-3143193d...\"\n  10-12 21:18 (e7d2a08) Entire pre-fix anchor: tracezeta-pre-fix-inc-3143193d326e (inc-3143193d326e)\n\n● 549c0718-54b  [temporary]  carry forward: uncommitted session fi"
+  },
+  "applied": true
+}
