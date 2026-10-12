@@ -1,0 +1,57 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4R477Z11NMKK1R7B875FEC9",
+  "session_id": "549c0718-54bd-4b79-acaa-bf87f3ce949f",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-12T13:18:20.864626599Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "fixes/inc-3143193d326e-repair-plan.md"
+  ],
+  "agent": "Antigravity",
+  "model": "",
+  "turn_id": "760423ef6a2b",
+  "token_usage": {
+    "input_tokens": 17747,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 762,
+    "api_call_count": 3
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-12T13:18:20.857980705Z",
+    "agent_lines": 4,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 4,
+    "total_lines_changed": 4,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 517,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "diagnoses/inc-3143193d326e-diagnosis.json": 141,
+        "incidents/.sentinel-seen.json": 24,
+        "incidents/inc-3143193d326e.json": 26,
+        "incidents/inc-9c28823a4d40.json": 26,
+        "incidents/inc-d8f2bea503d9.json": 25,
+        "runs/2026-10-12T13-17-48-238Z-breaker-wrong-tool.json": 85,
+        "runs/2026-10-12T13-17-48-475Z-breaker-malformed-args.json": 85,
+        "runs/2026-10-12T13-17-48-731Z-breaker-missing-params.json": 105
+      }
+    }
+  ]
+}

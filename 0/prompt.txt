@@ -1,0 +1,5 @@
+Create the file /home/ubuntu/tracezeta/fixes/inc-3143193d326e-repair-plan.md with exactly this content and nothing else:
+# Repair plan for inc-3143193d326e: tracezeta-pre-fix-inc-3143193d326e
+
+Root causes: invalid-argument-value
+- compute_schedule: step removed
